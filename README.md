@@ -1,54 +1,60 @@
-# Delilah v3.0
+# Delilah V3.0
 
 ## Overview
-Delilah is an Occupational Therapy Assessment and Report Generation System that combines structured assessment data collection with intelligent narrative generation.
+Delilah V3.0 is a comprehensive medical assessment tool designed to streamline patient care documentation and analysis. The system provides structured assessment modules for various aspects of patient care, from demographics to specialized medical evaluations.
 
 ## Project Structure
+```
+delilah_V3.0/
+├── docs/                  # Project documentation
+├── src/
+│   ├── app/              # Core application components
+│   ├── components/       # Shared UI components
+│   ├── contexts/         # React contexts
+│   ├── hooks/           # Custom React hooks
+│   ├── lib/             # Core libraries
+│   ├── narrative/       # Narrative generation
+│   ├── sections/        # Assessment sections
+│   ├── services/        # External services
+│   ├── test/           # Test utilities
+│   └── utils/          # Utility functions
+└── config files         # Configuration files
 
-```
-src/
-├── sections/                      # Assessment sections
-│   ├── 1-DemographicsAndHeader
-│   ├── 2-PurposeAndMethodology
-│   ├── 3-MedicalHistory
-│   ├── 4-SubjectiveInformation
-│   ├── 5-FunctionalAssessment
-│   ├── 6-TypicalDay
-│   ├── 7-EnvironmentalAssessment
-│   ├── 8-ActivitiesOfDailyLiving
-│   ├── 9-AttendantCare
-│   └── 10-AMAGuidesAssessment
-├── narrative/                    # Narrative generation system
-│   ├── PromptLab/
-│   ├── ReportGeneration/
-│   └── NarrativeEngine/
-├── components/                   # Shared components
-├── utils/                       # Utility functions
-└── hooks/                       # Custom React hooks
-```
+## Assessment Sections
+1. Demographics and Header
+2. Initial Assessment
+3. Medical History
+4. Functional Status
+5. Specialized Assessments
+6. Housekeeping Calculator
+7. Environmental Assessment
+8. Activities of Daily Living
+9. Attendant Care
+10. AMA Guides Assessment
 
 ## Getting Started
+1. Clone the repository
+```bash
+git clone https://github.com/sferland75/delilah_V3.0.git
+```
 
-1. Install dependencies:
+2. Install dependencies
 ```bash
 npm install
 ```
 
-2. Run development server:
+3. Start development server
 ```bash
 npm run dev
 ```
 
-3. Run tests:
+## Development Guide
+For detailed development instructions and patterns, see the [Development Guide](docs/DEVELOPMENT_GUIDE.md).
+
+## Testing
 ```bash
-npm test
+npm run test
 ```
 
-## Features
-
-- Structured OT assessment form with 10 comprehensive sections
-- Intelligent narrative generation
-- Professional report formatting
-- Client data management
-- Assessment validation
-- AMA Guides integration
+## Contributing
+Please follow the development patterns outlined in the Development Guide when contributing to this project.
