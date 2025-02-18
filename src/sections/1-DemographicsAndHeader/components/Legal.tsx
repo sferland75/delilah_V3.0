@@ -23,9 +23,9 @@ export function Legal() {
             name="legalRep.name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Legal Representative Name</FormLabel>
+                <FormLabel htmlFor="legalRep-name">Legal Representative Name</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Representative name" />
+                  <Input {...field} id="legalRep-name" placeholder="Representative name" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -37,9 +37,9 @@ export function Legal() {
             name="legalRep.firm"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Law Firm</FormLabel>
+                <FormLabel htmlFor="legalRep-firm">Law Firm</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Law firm name" />
+                  <Input {...field} id="legalRep-firm" placeholder="Law firm name" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -51,9 +51,9 @@ export function Legal() {
             name="legalRep.phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone Number</FormLabel>
+                <FormLabel htmlFor="legalRep-phone">Phone Number</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Legal contact phone" />
+                  <Input {...field} id="legalRep-phone" placeholder="Legal contact phone" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -65,9 +65,9 @@ export function Legal() {
             name="legalRep.email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel htmlFor="legalRep-email">Email</FormLabel>
                 <FormControl>
-                  <Input {...field} type="email" placeholder="Legal contact email" />
+                  <Input {...field} id="legalRep-email" type="email" placeholder="Legal contact email" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -79,9 +79,9 @@ export function Legal() {
             name="legalRep.address"
             render={({ field }) => (
               <FormItem className="col-span-2">
-                <FormLabel>Office Address</FormLabel>
+                <FormLabel htmlFor="legalRep-address">Office Address</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Legal office address" />
+                  <Input {...field} id="legalRep-address" placeholder="Legal office address" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -93,9 +93,9 @@ export function Legal() {
             name="legalRep.fileNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>File Number</FormLabel>
+                <FormLabel htmlFor="legalRep-fileNumber">File Number</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Legal file number" />
+                  <Input {...field} id="legalRep-fileNumber" placeholder="Legal file number" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

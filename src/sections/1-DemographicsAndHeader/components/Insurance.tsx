@@ -23,9 +23,13 @@ export function Insurance() {
             name="insurance.provider"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Insurance Provider</FormLabel>
+                <FormLabel htmlFor="insurance-provider">Insurance Provider</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Insurance company name" />
+                  <Input
+                    {...field}
+                    id="insurance-provider"
+                    placeholder="Insurance company name"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -37,9 +41,13 @@ export function Insurance() {
             name="insurance.claimNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Claim Number</FormLabel>
+                <FormLabel htmlFor="insurance-claimNumber">Claim Number</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Claim/Policy number" />
+                  <Input
+                    {...field}
+                    id="insurance-claimNumber"
+                    placeholder="Claim/Policy number"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -51,9 +59,13 @@ export function Insurance() {
             name="insurance.adjustorName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Claims Adjustor</FormLabel>
+                <FormLabel htmlFor="insurance-adjustorName">Claims Adjustor</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Adjustor name" />
+                  <Input
+                    {...field}
+                    id="insurance-adjustorName"
+                    placeholder="Adjustor name"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -65,9 +77,13 @@ export function Insurance() {
             name="insurance.adjustorPhone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Adjustor Phone</FormLabel>
+                <FormLabel htmlFor="insurance-adjustorPhone">Adjustor Phone</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Adjustor phone" />
+                  <Input
+                    {...field}
+                    id="insurance-adjustorPhone"
+                    placeholder="Adjustor phone"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -79,9 +95,14 @@ export function Insurance() {
             name="insurance.adjustorEmail"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Adjustor Email</FormLabel>
+                <FormLabel htmlFor="insurance-adjustorEmail">Adjustor Email</FormLabel>
                 <FormControl>
-                  <Input {...field} type="email" placeholder="Adjustor email" />
+                  <Input
+                    {...field}
+                    id="insurance-adjustorEmail"
+                    type="email"
+                    placeholder="Adjustor email"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -1,53 +1,25 @@
 import React, { createContext, useContext, useState } from 'react';
 
+type Mode = 'edit' | 'view';
+
 interface AssessmentContextType {
-  mode: 'edit' | 'view';
-  setMode: (mode: 'edit' | 'view') => void;
-  promptLabOpen: boolean;
-  openPromptLab: (sectionId: string) => void;
-  closePromptLab: () => void;
-  currentSection: string | null;
-  setCurrentSection: (sectionId: string | null) => void;
+  mode: Mode;
+  setMode: (mode: Mode) => void;
 }
 
-const AssessmentContext = createContext<AssessmentContextType | undefined>(undefined);
+const AssessmentContext = createContext<AssessmentContextType>({
+  mode: 'edit',
+  setMode: () => {}
+});
 
-export function AssessmentProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setMode] = useState<'edit' | 'view'>('edit');
-  const [promptLabOpen, setPromptLabOpen] = useState(false);
-  const [currentSection, setCurrentSection] = useState<string | null>(null);
-
-  const openPromptLab = (sectionId: string) => {
-    setCurrentSection(sectionId);
-    setPromptLabOpen(true);
-  };
-
-  const closePromptLab = () => {
-    setPromptLabOpen(false);
-    setCurrentSection(null);
-  };
+export const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
+  const [mode, setMode] = useState<Mode>('edit');
 
   return (
-    <AssessmentContext.Provider
-      value={{
-        mode,
-        setMode,
-        promptLabOpen,
-        openPromptLab,
-        closePromptLab,
-        currentSection,
-        setCurrentSection,
-      }}
-    >
+    <AssessmentContext.Provider value={{ mode, setMode }}>
       {children}
     </AssessmentContext.Provider>
   );
-}
+};
 
-export function useAssessmentContext() {
-  const context = useContext(AssessmentContext);
-  if (context === undefined) {
-    throw new Error('useAssessmentContext must be used within an AssessmentProvider');
-  }
-  return context;
-}
+export const useAssessmentContext = () => useContext(AssessmentContext);

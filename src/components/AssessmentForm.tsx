@@ -9,11 +9,13 @@ import { AssessmentContext } from '@/contexts/AssessmentContext';
 
 // Import all section schemas
 import { demographicsSchema } from '@/sections/1-DemographicsAndHeader/types';
+import { injurySchema } from '@/sections/2-Injuries/types';
+import { InjuriesSection } from '@/sections/2-Injuries/InjuriesSection';
 
 // Combined schema for entire assessment
 const assessmentSchema = z.object({
   demographics: demographicsSchema,
-  // Add other section schemas as we build them
+  injuries: injurySchema,
 });
 
 type AssessmentData = z.infer<typeof assessmentSchema>;
@@ -26,9 +28,11 @@ export function AssessmentForm() {
         firstName: '',
         lastName: '',
         dateOfBirth: '',
-        // Add other default values
       },
-      // Add other section defaults
+      injuries: {
+        date: '',
+        injuries: []
+      },
     },
   });
 
@@ -46,15 +50,18 @@ export function AssessmentForm() {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="demographics" className="w-full">
-              <TabsList className="grid w-full grid-cols- gap-2">
+              <TabsList className="grid w-full grid-cols-2 gap-2">
                 <TabsTrigger value="demographics">Demographics</TabsTrigger>
-                {/* Add other section tabs as we build them */}
+                <TabsTrigger value="injuries">Injuries</TabsTrigger>
               </TabsList>
 
               <TabsContent value="demographics">
-                {/* Import and use the Demographics section component */}
+                {/* Demographics section component */}
               </TabsContent>
-              {/* Add other section content as we build them */}
+              
+              <TabsContent value="injuries">
+                <InjuriesSection />
+              </TabsContent>
             </Tabs>
 
             <div className="flex justify-end gap-4 mt-6">

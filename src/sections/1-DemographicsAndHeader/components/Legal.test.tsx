@@ -1,62 +1,84 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
 import { Legal } from './Legal';
-import { renderWithForm } from '@/test/test-utils';
+import { createFormTests } from '@/test/form-test-factory';
 
-describe('Legal', () => {
-  it('renders all legal representative fields', () => {
-    renderWithForm(<Legal />);
-    
-    expect(screen.getByLabelText(/legal representative name/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/law firm/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/phone number/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/office address/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/file number/i)).toBeInTheDocument();
-  });
+const legalConfig = {
+  fields: [
+    {
+      name: 'legalRep.name',
+      type: 'text',
+      required: true,
+      label: 'Legal Representative Name'
+    },
+    {
+      name: 'legalRep.firm',
+      type: 'text',
+      required: true,
+      label: 'Law Firm'
+    },
+    {
+      name: 'legalRep.phone',
+      type: 'phone',
+      required: true,
+      label: 'Phone Number',
+      validation: {
+        pattern: /^\(\d{3}\) \d{3}-\d{4}$/,
+        message: 'Phone number must be in format (XXX) XXX-XXXX'
+      }
+    },
+    {
+      name: 'legalRep.email',
+      type: 'email',
+      required: true,
+      label: 'Email'
+    },
+    {
+      name: 'legalRep.address',
+      type: 'text',
+      required: true,
+      label: 'Office Address'
+    },
+    {
+      name: 'legalRep.fileNumber',
+      type: 'text',
+      required: true,
+      label: 'File Number',
+      validation: {
+        pattern: /^FILE\d{3}$/,
+        message: 'File number must be in format FILE followed by 3 digits'
+      }
+    }
+  ],
+  sections: [
+    {
+      name: 'Legal Representative Information',
+      fields: [
+        'legalRep.name',
+        'legalRep.firm',
+        'legalRep.phone',
+        'legalRep.email',
+        'legalRep.address',
+        'legalRep.fileNumber'
+      ],
+      description: 'Primary legal representative details'
+    }
+  ],
+  errorHandling: {
+    submission: true,
+    validation: true,
+    network: true
+  }
+};
 
-  it('handles input changes', () => {
-    renderWithForm(<Legal />);
-    
-    const nameInput = screen.getByLabelText(/legal representative name/i);
-    fireEvent.change(nameInput, { target: { value: 'John Smith' } });
-    expect(nameInput).toHaveValue('John Smith');
-    
-    const firmInput = screen.getByLabelText(/law firm/i);
-    fireEvent.change(firmInput, { target: { value: 'Smith & Associates' } });
-    expect(firmInput).toHaveValue('Smith & Associates');
-    
-    const fileNumberInput = screen.getByLabelText(/file number/i);
-    fireEvent.change(fileNumberInput, { target: { value: 'FILE123' } });
-    expect(fileNumberInput).toHaveValue('FILE123');
-  });
+const {
+  structureTests,
+  validationTests,
+  submissionTests,
+  accessibilityTests
+} = createFormTests('Legal', legalConfig);
 
-  it('validates required fields', async () => {
-    const { findByText } = renderWithForm(<Legal />);
-    
-    const nameInput = screen.getByLabelText(/legal representative name/i);
-    fireEvent.blur(nameInput);
-    
-    expect(await findByText('Legal representative name is required')).toBeInTheDocument();
-    
-    const firmInput = screen.getByLabelText(/law firm/i);
-    fireEvent.blur(firmInput);
-    
-    expect(await findByText('Law firm name is required')).toBeInTheDocument();
-  });
-
-  it('validates email format', async () => {
-    const { findByText } = renderWithForm(<Legal />);
-    
-    const emailInput = screen.getByLabelText(/email/i);
-    fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
-    fireEvent.blur(emailInput);
-    
-    expect(await findByText('Invalid email address')).toBeInTheDocument();
-    
-    fireEvent.change(emailInput, { target: { value: 'valid@email.com' } });
-    fireEvent.blur(emailInput);
-    
-    expect(screen.queryByText('Invalid email address')).not.toBeInTheDocument();
-  });
-});
+// Run all generated test suites
+structureTests();
+validationTests();
+submissionTests();
+accessibilityTests();

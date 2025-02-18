@@ -9,13 +9,11 @@ import {
   FormDescription,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Plus, Trash2 } from 'lucide-react';
 import { Demographics } from '../schema';
 
 export function Contact() {
-  const { control, watch } = useFormContext<Demographics>();
+  const { control } = useFormContext<Demographics>();
   
   return (
     <div className="space-y-8">
@@ -28,9 +26,12 @@ export function Contact() {
             name="contact.phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone Number</FormLabel>
+                <FormLabel htmlFor={field.id}>Phone Number</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="(555) 555-5555" />
+                  <Input
+                    {...field}
+                    placeholder="(555) 555-5555"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -42,9 +43,13 @@ export function Contact() {
             name="contact.email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel htmlFor={field.id}>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} type="email" placeholder="email@example.com" />
+                  <Input
+                    {...field}
+                    type="email"
+                    placeholder="email@example.com"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -56,9 +61,12 @@ export function Contact() {
             name="contact.address"
             render={({ field }) => (
               <FormItem className="col-span-2">
-                <FormLabel>Address</FormLabel>
+                <FormLabel htmlFor={field.id}>Address</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Street address" />
+                  <Input
+                    {...field}
+                    placeholder="Street address"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -79,9 +87,12 @@ export function Contact() {
               name="emergencyContact.name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel htmlFor={field.id}>Name</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="Contact name" />
+                    <Input
+                      {...field}
+                      placeholder="Contact name"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -93,9 +104,12 @@ export function Contact() {
               name="emergencyContact.relationship"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Relationship</FormLabel>
+                  <FormLabel htmlFor={field.id}>Relationship</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="e.g., Spouse, Parent" />
+                    <Input
+                      {...field}
+                      placeholder="e.g., Spouse, Parent"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -107,9 +121,12 @@ export function Contact() {
               name="emergencyContact.phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <FormLabel htmlFor={field.id}>Phone Number</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="(555) 555-5555" />
+                    <Input
+                      {...field}
+                      placeholder="(555) 555-5555"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -119,8 +136,8 @@ export function Contact() {
         </CardContent>
       </Card>
 
-      {/* Additional Notes */}
-      <FormDescription className="text-sm text-muted-foreground">
+      {/* Form Description */}
+      <FormDescription>
         Please ensure all contact information is current and accurate. The emergency contact should be someone who can be reached in case we cannot reach you directly.
       </FormDescription>
     </div>

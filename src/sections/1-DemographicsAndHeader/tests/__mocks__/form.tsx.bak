@@ -1,0 +1,2 @@
+// This file has been moved to src/components/ui/__mocks__/form.tsx
+// Keep this file empty to prevent jest-haste-map duplicate module errors

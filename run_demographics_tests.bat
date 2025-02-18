@@ -1,0 +1,3 @@
+@echo off
+echo Running Demographics Section Tests...
+npm test src/sections/1-DemographicsAndHeader/tests/integration/demographics.test.tsx

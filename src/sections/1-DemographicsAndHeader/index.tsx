@@ -3,6 +3,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import { useFormPersistence } from '@/hooks/useFormPersistence';
 import { useAssessmentContext } from '@/contexts/AssessmentContext';
 import { Demographics, demographicsSchema } from './schema';
@@ -40,21 +41,49 @@ const defaultValues: Demographics = {
 };
 
 export function DemographicsSection() {
-  const { mode } = useAssessmentContext();
+  const { mode, setMode } = useAssessmentContext();
   const methods = useForm<Demographics>({
     resolver: zodResolver(demographicsSchema),
     defaultValues
   });
 
-  useFormPersistence(methods);
+  const { persist, loading, error } = useFormPersistence(methods);
+
+  const onSubmit = async (data: Demographics) => {
+    try {
+      await persist(data);
+    } catch (err) {
+      // Error is handled by useFormPersistence
+    }
+  };
 
   if (mode === 'view') {
-    return <Display data={methods.getValues()} />;
+    return (
+      <div>
+        <Button onClick={() => setMode('edit')}>Edit Mode</Button>
+        <Display data={methods.getValues()} />
+      </div>
+    );
   }
 
   return (
     <FormProvider {...methods}>
-      <form>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <div className="flex justify-between mb-4">
+          <Button type="submit" disabled={loading}>
+            {loading ? 'Saving...' : 'Save'}
+          </Button>
+          <Button type="button" onClick={() => setMode('view')}>
+            View Mode
+          </Button>
+        </div>
+
+        {error && (
+          <div role="alert" className="mb-4 text-red-500">
+            Error saving data: {error.message}
+          </div>
+        )}
+
         <Tabs defaultValue="personal" className="w-full">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="personal">Personal</TabsTrigger>

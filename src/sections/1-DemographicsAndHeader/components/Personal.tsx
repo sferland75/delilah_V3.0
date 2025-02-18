@@ -8,17 +8,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Demographics } from '../schema';
 
 export function Personal() {
-  const { control } = useFormContext<Demographics>();
+  const { control, formState: { errors } } = useFormContext<Demographics>();
 
   return (
     <div className="grid grid-cols-2 gap-6">
@@ -27,11 +21,20 @@ export function Personal() {
         name="firstName"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>First Name</FormLabel>
+            <FormLabel htmlFor={field.name}>First Name</FormLabel>
             <FormControl>
-              <Input {...field} placeholder="First name" />
+              <Input 
+                {...field}
+                id={field.name}
+                aria-label="First Name"
+                aria-describedby={errors.firstName ? "firstName-error" : undefined}
+              />
             </FormControl>
-            <FormMessage />
+            {errors.firstName && (
+              <FormMessage id="firstName-error" role="alert">
+                {errors.firstName.message}
+              </FormMessage>
+            )}
           </FormItem>
         )}
       />
@@ -41,11 +44,20 @@ export function Personal() {
         name="lastName"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Last Name</FormLabel>
+            <FormLabel htmlFor={field.name}>Last Name</FormLabel>
             <FormControl>
-              <Input {...field} placeholder="Last name" />
+              <Input 
+                {...field}
+                id={field.name}
+                aria-label="Last Name"
+                aria-describedby={errors.lastName ? "lastName-error" : undefined}
+              />
             </FormControl>
-            <FormMessage />
+            {errors.lastName && (
+              <FormMessage id="lastName-error" role="alert">
+                {errors.lastName.message}
+              </FormMessage>
+            )}
           </FormItem>
         )}
       />
@@ -55,11 +67,21 @@ export function Personal() {
         name="dateOfBirth"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Date of Birth</FormLabel>
+            <FormLabel htmlFor={field.name}>Date of Birth</FormLabel>
             <FormControl>
-              <Input {...field} type="date" />
+              <Input 
+                {...field}
+                id={field.name}
+                type="date"
+                aria-label="Date of Birth"
+                aria-describedby={errors.dateOfBirth ? "dateOfBirth-error" : undefined}
+              />
             </FormControl>
-            <FormMessage />
+            {errors.dateOfBirth && (
+              <FormMessage id="dateOfBirth-error" role="alert">
+                {errors.dateOfBirth.message}
+              </FormMessage>
+            )}
           </FormItem>
         )}
       />
@@ -69,10 +91,16 @@ export function Personal() {
         name="gender"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Gender</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
+            <FormLabel htmlFor={field.name}>Gender</FormLabel>
+            <Select 
+              onValueChange={field.onChange} 
+              value={field.value || ''}
+            >
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger 
+                  id={field.name}
+                  aria-label="Gender"
+                >
                   <SelectValue placeholder="Select gender" />
                 </SelectTrigger>
               </FormControl>
@@ -83,7 +111,9 @@ export function Personal() {
                 <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
               </SelectContent>
             </Select>
-            <FormMessage />
+            {errors.gender && (
+              <FormMessage role="alert">{errors.gender.message}</FormMessage>
+            )}
           </FormItem>
         )}
       />
@@ -93,10 +123,16 @@ export function Personal() {
         name="maritalStatus"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Marital Status</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value || ''}>
+            <FormLabel htmlFor={field.name}>Marital Status</FormLabel>
+            <Select 
+              onValueChange={field.onChange} 
+              value={field.value || ''}
+            >
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger 
+                  id={field.name}
+                  aria-label="Marital Status"
+                >
                   <SelectValue placeholder="Select marital status" />
                 </SelectTrigger>
               </FormControl>
@@ -109,7 +145,9 @@ export function Personal() {
                 <SelectItem value="widowed">Widowed</SelectItem>
               </SelectContent>
             </Select>
-            <FormMessage />
+            {errors.maritalStatus && (
+              <FormMessage role="alert">{errors.maritalStatus.message}</FormMessage>
+            )}
           </FormItem>
         )}
       />

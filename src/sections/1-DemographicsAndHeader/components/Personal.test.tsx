@@ -1,76 +1,77 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
 import { Personal } from './Personal';
-import { renderWithForm } from '@/test/test-utils';
+import { createFormTests } from '@/test/form-test-factory';
 
-describe('Personal', () => {
-  it('renders all required fields', () => {
-    renderWithForm(<Personal />);
-    
-    expect(screen.getByLabelText(/first name/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/last name/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/date of birth/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/gender/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/marital status/i)).toBeInTheDocument();
-  });
+const personalConfig = {
+  fields: [
+    {
+      name: 'firstName',
+      type: 'text',
+      required: true,
+      label: 'First Name'
+    },
+    {
+      name: 'lastName',
+      type: 'text',
+      required: true,
+      label: 'Last Name'
+    },
+    {
+      name: 'dateOfBirth',
+      type: 'date',
+      required: true,
+      label: 'Date of Birth'
+    },
+    {
+      name: 'gender',
+      type: 'select',
+      required: true,
+      label: 'Gender',
+      options: [
+        { value: 'male', label: 'Male' },
+        { value: 'female', label: 'Female' },
+        { value: 'other', label: 'Other' },
+        { value: 'prefer-not-to-say', label: 'Prefer not to say' }
+      ]
+    },
+    {
+      name: 'maritalStatus',
+      type: 'select',
+      required: true,
+      label: 'Marital Status',
+      options: [
+        { value: 'single', label: 'Single' },
+        { value: 'married', label: 'Married' },
+        { value: 'commonLaw', label: 'Common Law' },
+        { value: 'divorced', label: 'Divorced' },
+        { value: 'separated', label: 'Separated' },
+        { value: 'widowed', label: 'Widowed' }
+      ]
+    }
+  ],
+  sections: [
+    {
+      name: 'Personal Information',
+      fields: ['firstName', 'lastName', 'dateOfBirth', 'gender', 'maritalStatus'],
+      description: 'Basic personal information'
+    }
+  ],
+  errorHandling: {
+    submission: true,
+    validation: true,
+    network: true
+  }
+};
 
-  it('handles input changes', () => {
-    renderWithForm(<Personal />);
-    
-    const firstNameInput = screen.getByLabelText(/first name/i);
-    fireEvent.change(firstNameInput, { target: { value: 'John' } });
-    expect(firstNameInput).toHaveValue('John');
-    
-    const lastNameInput = screen.getByLabelText(/last name/i);
-    fireEvent.change(lastNameInput, { target: { value: 'Doe' } });
-    expect(lastNameInput).toHaveValue('Doe');
-    
-    const dobInput = screen.getByLabelText(/date of birth/i);
-    fireEvent.change(dobInput, { target: { value: '1990-01-01' } });
-    expect(dobInput).toHaveValue('1990-01-01');
-  });
+const {
+  structureTests,
+  validationTests,
+  submissionTests,
+  accessibilityTests
+} = createFormTests('Personal', personalConfig);
 
-  it('handles gender selection', async () => {
-    renderWithForm(<Personal />);
-    
-    const genderTrigger = screen.getByRole('combobox', { name: /gender/i });
-    fireEvent.click(genderTrigger);
-    
-    const maleOption = screen.getByRole('option', { name: 'Male' });
-    fireEvent.click(maleOption);
-    
-    expect(screen.getByText('Male')).toBeInTheDocument();
-  });
-
-  it('handles marital status selection', async () => {
-    renderWithForm(<Personal />);
-    
-    const maritalTrigger = screen.getByRole('combobox', { name: /marital status/i });
-    fireEvent.click(maritalTrigger);
-    
-    const marriedOption = screen.getByRole('option', { name: 'Married' });
-    fireEvent.click(marriedOption);
-    
-    expect(screen.getByText('Married')).toBeInTheDocument();
-  });
-
-  it('shows validation messages for required fields', async () => {
-    const { findByText } = renderWithForm(<Personal />);
-    
-    // Try to submit empty form
-    const firstNameInput = screen.getByLabelText(/first name/i);
-    fireEvent.blur(firstNameInput);
-    
-    expect(await findByText('First name is required')).toBeInTheDocument();
-  });
-
-  it('accepts valid inputs without validation errors', () => {
-    renderWithForm(<Personal />);
-    
-    const firstNameInput = screen.getByLabelText(/first name/i);
-    fireEvent.change(firstNameInput, { target: { value: 'John' } });
-    fireEvent.blur(firstNameInput);
-    
-    expect(screen.queryByText('First name is required')).not.toBeInTheDocument();
-  });
-});
+// Run all generated test suites
+structureTests();
+validationTests();
+submissionTests();
+accessibilityTests();

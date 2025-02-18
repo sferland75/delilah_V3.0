@@ -1,0 +1,1 @@
+export const zodResolver = jest.fn(() => jest.fn());
