@@ -1,182 +1,134 @@
-# Testing Guide (Updated Feb 2025)
+# Testing Guide - Delilah V3.0
 
-## Tab Panel Testing Pattern
-When testing tabbed interfaces, use these guidelines:
+## Test Setup
 
+1. Configure test environment:
+```bash
+npm install             # Install dependencies
+npm test -- --init     # Initialize Jest if needed
+```
+
+2. File structure:
+```
+src/
+└── sections/
+    └── [section-name]/
+        └── tests/
+            ├── components/     # Component tests
+            ├── integration/    # Integration tests
+            └── unit/          # Unit tests
+```
+
+## Running Tests
+
+1. Run all tests:
+```bash
+npm test
+```
+
+2. Run specific tests:
+```bash
+npm test -- path/to/test
+```
+
+3. Watch mode:
+```bash
+npm test -- --watch
+```
+
+## Test Types
+
+### Unit Tests
+- Test individual functions
+- Mock dependencies
+- Focus on specific behavior
+
+### Component Tests
+- Test React components
+- Use React Testing Library
+- Test user interactions
+
+### Integration Tests
+- Test multiple components
+- Test data flow
+- Test API integration
+
+## Writing Tests
+
+1. Create test file:
 ```typescript
-describe('Tab Panel Tests', () => {
-  it('shows correct active tab panel', async () => {
-    render(<Component />);
+import { render, screen } from '@testing-library/react';
+import { YourComponent } from './YourComponent';
 
-    // Check panel visibility using ARIA attributes
-    expect(screen.getByRole('tabpanel', { name: /panel-name/i }))
-      .toBeInTheDocument();
-    
-    // Switch tabs
-    await user.click(screen.getByRole('tab', { name: /other-tab/i }));
-    
-    // Check hidden state
-    const firstPanel = screen.getByRole('tabpanel', { name: /panel-name/i });
-    expect(firstPanel).toHaveAttribute('hidden');
+describe('YourComponent', () => {
+  it('renders correctly', () => {
+    render(<YourComponent />);
+    expect(screen.getByText('Expected Text')).toBeInTheDocument();
   });
 });
 ```
 
-## Form Testing Factory Pattern
+2. Test structure:
+- Describe block for feature
+- Individual test cases
+- Clear test names
 
-### Basic Setup
-```typescript
-const createFormTests = (componentName: string, config: FormTestConfig) => {
-  describe(componentName, () => {
-    // Standard form tests...
-  });
-};
+3. Assertions:
+- Be specific
+- Test behavior
+- Cover edge cases
+
+## Best Practices
+
+1. Write tests first
+2. Keep tests focused
+3. Use meaningful names
+4. Test important paths
+5. Mock external services
+
+## Commands
+
+```bash
+# Run all tests
+npm test
+
+# Run specific test
+npm test -- path/to/test
+
+# Update snapshots
+npm test -- -u
+
+# Get coverage report
+npm test -- --coverage
 ```
 
-### Mock Patterns
-```typescript
-// Form Context Mock
-jest.mock('react-hook-form', () => ({
-  useForm: () => ({
-    register: jest.fn(),
-    handleSubmit: (cb: any) => (e: any) => {
-      e?.preventDefault?.();
-      return cb({});
-    },
-    formState: { errors: {} }
-  }),
-  FormProvider: ({ children }: any) => <>{children}</>
-}));
+## Debugging Tests
 
-// UI Component Mocks
-jest.mock('@/components/ui/form', () => ({
-  FormField: ({ name, render }: any) => {
-    const [section, field] = name.split('.');
-    const id = `${section}-${field}`;
-    return render({ 
-      field: { 
-        name,
-        id,
-        value: '',
-        onChange: jest.fn(),
-        onBlur: jest.fn()
-      }
-    });
-  }
-  // ... other form components
-}));
-```
+1. Use console.log()
+2. Check test output
+3. Use debugger
+4. Inspect DOM
 
-## E2E Testing Guidelines
+## Common Problems
 
-### Component Structure
-```typescript
-describe('Section Integration', () => {
-  describe('Navigation', () => {
-    it('allows tab navigation', async () => {
-      // Test tab switching
-    });
-  });
+1. Async issues:
+- Use await
+- Wait for elements
+- Handle promises
 
-  describe('Form Interaction', () => {
-    it('handles form submission', async () => {
-      // Test form submission
-    });
-  });
+2. Mock issues:
+- Check mock setup
+- Verify mock calls
+- Clear mocks between tests
 
-  describe('Mode Switching', () => {
-    it('handles edit/view mode', async () => {
-      // Test mode switching
-    });
-  });
-});
-```
+3. DOM issues:
+- Check rendered output
+- Verify elements exist
+- Check accessibility
 
-### Best Practices
-1. Use role-based queries when possible
-2. Test ARIA attributes for accessibility
-3. Mock external dependencies
-4. Handle form events properly
-5. Test visibility states correctly
+## Getting Help
 
-## Testing Hierarchy
-
-1. Unit Tests
-   - Individual components
-   - Form validation
-   - Error states
-
-2. Integration Tests
-   - Cross-component interaction
-   - State management
-   - Data flow
-
-3. E2E Tests
-   - User workflows
-   - Full form submission
-   - Navigation paths
-
-## Common Patterns
-
-### Tab Testing
-```typescript
-// Find tab elements
-const tab = screen.getByRole('tab', { name: /tab-name/i });
-const panel = screen.getByRole('tabpanel', { name: /panel-name/i });
-
-// Check initial state
-expect(tab).toHaveAttribute('aria-selected', 'true');
-expect(panel).not.toHaveAttribute('hidden');
-
-// Switch tabs
-await user.click(otherTab);
-expect(panel).toHaveAttribute('hidden');
-```
-
-### Form Testing
-```typescript
-// Test form submission
-const submitButton = screen.getByRole('button', { name: /submit/i });
-await user.click(submitButton);
-expect(mockSubmit).toHaveBeenCalled();
-
-// Test validation
-const input = screen.getByLabelText(/field-name/i);
-await user.type(input, 'invalid');
-expect(screen.getByText(/error-message/i)).toBeInTheDocument();
-```
-
-## Error Handling
-
-### Test Error States
-```typescript
-it('handles errors gracefully', async () => {
-  // Mock error state
-  mockHook.mockReturnValue({
-    error: new Error('Test error'),
-    loading: false
-  });
-
-  render(<Component />);
-  expect(screen.getByText(/test error/i)).toBeInTheDocument();
-});
-```
-
-### Form Validation
-```typescript
-it('validates required fields', async () => {
-  render(<Component />);
-  
-  const input = screen.getByLabelText(/required-field/i);
-  await user.clear(input);
-  await user.tab();
-  
-  expect(screen.getByText(/field is required/i)).toBeInTheDocument();
-});
-```
-
-## Next Steps
-1. Add tab panel visibility testing
-2. Improve form event handling
-3. Standardize mock patterns
-4. Complete E2E test suite
+1. Check documentation
+2. Review existing tests
+3. Run tests in debug mode
+4. Ask for help in PR
