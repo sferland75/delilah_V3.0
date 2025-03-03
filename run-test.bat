@@ -1,0 +1,3 @@
+@echo off
+echo Running Referral Detector Test...
+node test-referral-detector.js

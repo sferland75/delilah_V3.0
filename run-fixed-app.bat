@@ -1,0 +1,13 @@
+@echo off
+echo Starting Delilah V3.0 with updated fixes...
+echo.
+echo Checking for app directory (App Router) conflicts...
+if exist "d:\delilah_V3.0\src\app\assessment\[[...path]]" (
+    echo Disabling conflicting catch-all routes...
+    if not exist "d:\delilah_V3.0\src\app\assessment\[[...path]]\page.tsx.bak" (
+        ren "d:\delilah_V3.0\src\app\assessment\[[...path]]\page.tsx" "page.tsx.bak"
+    )
+)
+
+echo Running the application...
+npm run dev

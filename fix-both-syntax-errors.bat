@@ -1,0 +1,3 @@
+@echo off
+echo Fixing syntax errors in Next.js development server...
+node fix-both-syntax-errors.js

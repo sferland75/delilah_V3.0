@@ -1,0 +1,3 @@
+@echo off
+echo Running Simple Referral Extraction Test...
+node test-simple-extraction.js
