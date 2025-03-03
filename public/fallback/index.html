@@ -1,0 +1,43 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Delilah V3.0 - Safe Navigation</title> 
+    <style> 
+        body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; } 
+        h1 { color: #2563eb; } 
+        .links { display: flex; flex-wrap: wrap; gap: 1rem; margin: 2rem 0; } 
+        .link { padding: 1rem; background: #f1f5f9; border-radius: 0.5rem; text-decoration: none; color: #0f172a; width: 200px; } 
+        .link:hover { background: #e2e8f0; } 
+        .section { margin-bottom: 2rem; } 
+    </style> 
+</head> 
+<body> 
+    <h1>Delilah V3.0 Navigation</h1> 
+    <p>This is an ultra-reliable navigation page that doesn't depend on Next.js routing.</p> 
+ 
+    <div class="section"> 
+        <h2>Main Navigation</h2> 
+        <div class="links"> 
+            <a href="/simple-nav" class="link">Simple Nav Page</a> 
+            <a href="/assessment" class="link">Assessment</a> 
+            <a href="/import-pdf" class="link">Import PDF</a> 
+            <a href="/report-drafting" class="link">Reports</a> 
+            <a href="/full-assessment" class="link">Full Assessment</a> 
+        </div> 
+    </div> 
+ 
+    <div class="section"> 
+        <h2>Assessment Sections</h2> 
+        <div class="links"> 
+            <a href="/assessment-sections" class="link">All Sections</a> 
+            <a href="/medical-full" class="link">Medical History</a> 
+            <a href="/emergency-symptoms" class="link">Symptoms</a> 
+            <a href="/typical-day" class="link">Typical Day</a> 
+        </div> 
+    </div> 
+ 
+    <p><strong>Tip:</strong> You can access this page directly at http://localhost:3000/fallback/ even if routing is broken.</p> 
+</body> 
+</html> 
