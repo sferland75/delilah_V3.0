@@ -1,0 +1,23 @@
+import { useEffect } from 'react';
+import configureStandardFonts from '../utils/pdf-import/configurePdfJs';
+import { AssessmentProvider } from '../contexts/AssessmentContext';
+import Navbar from '../components/Navbar';
+import '../styles/globals.css'; // Import global styles
+
+function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    // Configure PDF.js standard fonts
+    configureStandardFonts();
+  }, []);
+
+  return (
+    <AssessmentProvider>
+      <Navbar />
+      <main className="container mx-auto px-4 py-6">
+        <Component {...pageProps} />
+      </main>
+    </AssessmentProvider>
+  );
+}
+
+export default MyApp;

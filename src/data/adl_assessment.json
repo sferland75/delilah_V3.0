@@ -1,0 +1,233 @@
+{
+  "activitiesOfDailyLiving": {
+    "basicADLs": {
+      "bathing": {
+        "independence": "Modified Independent",
+        "assistiveDevices": [
+          "Shower bench",
+          "Handheld shower head",
+          "Grab bar"
+        ],
+        "limitations": "Difficulty with overhead washing, hair washing, and transfers in/out of tub",
+        "currentMethod": "Uses shower bench, showers every other day due to fatigue and pain",
+        "assistance": "Occasional assistance from spouse with hair washing",
+        "notes": "Manages most bathing independently but takes significantly longer than prior to injury."
+      },
+      "personalHygiene": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "None",
+        "limitations": "Difficulty with sustained arm positions for shaving, styling hair",
+        "currentMethod": "Simplifies grooming routine, takes frequent breaks",
+        "assistance": "Occasional assistance with hair styling",
+        "notes": "Has adapted techniques but experiences increased pain with grooming activities."
+      },
+      "dressing": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "None",
+        "limitations": "Difficulty with overhead garments, fasteners, bending for lower body dressing",
+        "currentMethod": "Selects easier clothing (front-opening shirts, elastic waist pants), sits for lower body dressing",
+        "assistance": "Occasional assistance with difficult garments",
+        "notes": "Has eliminated certain clothing items that are too difficult to manage."
+      },
+      "toileting": {
+        "independence": "Independent",
+        "assistiveDevices": "None",
+        "limitations": "Some discomfort with sitting/standing transitions",
+        "currentMethod": "Uses vanity counter for support with sit-to-stand",
+        "assistance": "None",
+        "notes": "No significant issues with toileting independence."
+      },
+      "feeding": {
+        "independence": "Independent",
+        "assistiveDevices": "None",
+        "limitations": "Some discomfort with prolonged sitting at meals",
+        "currentMethod": "Uses supportive chair with arms, takes breaks during longer meals",
+        "assistance": "None",
+        "notes": "No significant limitations with self-feeding."
+      },
+      "transfersAndMobility": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Occasionally uses cane for longer distances",
+        "limitations": "Pain with transfers, limited walking distance, difficulty with stairs",
+        "currentMethod": "Uses furniture for support with transfers, takes breaks during walking",
+        "assistance": "None for basic transfers, avoids difficult situations (full flight of stairs)",
+        "notes": "All transfers and mobility tasks performed more slowly and with increased caution."
+      }
+    },
+    "instrumentalADLs": {
+      "mealPreparation": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "None",
+        "limitations": "Standing tolerance, lifting/carrying items, reaching overhead cupboards",
+        "currentMethod": "Prepares simple meals, sits for food preparation when possible",
+        "assistance": "Spouse assists with more complex meals and heavier items",
+        "notes": "Diet has become more simplified due to difficulties with meal preparation."
+      },
+      "homeManagement": {
+        "independence": "Maximum Assistance",
+        "assistiveDevices": "None",
+        "limitations": "Significant limitations with most cleaning tasks due to pain, reaching, bending, lifting",
+        "currentMethod": "Attempts light straightening, dusting at waist level",
+        "assistance": "Spouse and son perform majority of household cleaning",
+        "notes": "Previously managed all home cleaning independently. Current limitations cause significant distress."
+      },
+      "laundry": {
+        "independence": "Moderate Assistance",
+        "assistiveDevices": "None",
+        "limitations": "Difficulty with bending to washer/dryer, carrying loads, reaching for hanging items",
+        "currentMethod": "Can assist with folding when seated",
+        "assistance": "Spouse performs majority of laundry tasks",
+        "notes": "Frustration with inability to complete previously routine task."
+      },
+      "shopping": {
+        "independence": "Dependent",
+        "assistiveDevices": "None",
+        "limitations": "Transportation, walking distances, carrying items",
+        "currentMethod": "Creates shopping lists, sometimes accompanies spouse to store for small trips",
+        "assistance": "Spouse performs majority of shopping",
+        "notes": "Cannot shop independently due to transportation and physical limitations."
+      },
+      "financialManagement": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "None",
+        "limitations": "Some difficulty with concentration and memory for complex financial tasks",
+        "currentMethod": "Uses online banking, creates reminders for bill payments",
+        "assistance": "Spouse double-checks important financial matters",
+        "notes": "Manages day-to-day finances but spouse taking more responsibility for complex decisions."
+      },
+      "medication": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Pill organizer",
+        "limitations": "Occasional memory lapses",
+        "currentMethod": "Uses weekly pill organizer, phone reminders",
+        "assistance": "Spouse verifies correct medications taken",
+        "notes": "No significant issues with medication management."
+      },
+      "communication": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "None",
+        "limitations": "Neck pain with prolonged phone use, concentration issues affect complex communication",
+        "currentMethod": "Uses speakerphone, takes breaks during longer calls, writes notes for important points",
+        "assistance": "Sometimes asks spouse to make important calls when fatigue or pain is high",
+        "notes": "Communication skills intact but endurance for sustained communication reduced."
+      },
+      "transportation": {
+        "independence": "Dependent",
+        "assistiveDevices": "None",
+        "limitations": "Unable to drive due to neck mobility limitations, pain, and anxiety post-accident",
+        "currentMethod": "Relies on others for all transportation needs",
+        "assistance": "Spouse, family members provide transportation",
+        "notes": "Loss of driving is significant barrier to independence and source of frustration."
+      }
+    },
+    "leisureAndRecreation": {
+      "priorInterests": [
+        {
+          "activity": "Gym workouts",
+          "frequency": "3 times weekly",
+          "importance": "High - key stress management and health maintenance",
+          "notes": "Focused on strength training and cardio"
+        },
+        {
+          "activity": "Hiking",
+          "frequency": "Weekend activity, most weekends in good weather",
+          "importance": "High - valued outdoor time and exercise",
+          "notes": "Often hiked with spouse or friends at local state park"
+        },
+        {
+          "activity": "Recreational volleyball league",
+          "frequency": "Once weekly during season",
+          "importance": "Moderate - enjoyed social aspects and competition",
+          "notes": "Played in community league for past 5 years"
+        },
+        {
+          "activity": "Woodworking",
+          "frequency": "Variable - projects several times monthly",
+          "importance": "Moderate - enjoyed creating items for home and gifts",
+          "notes": "Small workshop in garage for projects"
+        },
+        {
+          "activity": "Reading",
+          "frequency": "Daily",
+          "importance": "Moderate - enjoyed for relaxation",
+          "notes": "Preferred non-fiction, history"
+        },
+        {
+          "activity": "Social gatherings with friends",
+          "frequency": "2-3 times monthly",
+          "importance": "High - valued social connections",
+          "notes": "Regular game nights, dinners with close friend group"
+        }
+      ],
+      "currentParticipation": [
+        {
+          "activity": "Reading",
+          "frequency": "Daily but for shorter periods",
+          "modifications": "Uses reading stand to avoid neck flexion, takes frequent breaks",
+          "barriers": "Concentration issues, neck pain with reading position",
+          "notes": "Still able to enjoy but for limited periods"
+        },
+        {
+          "activity": "Television",
+          "frequency": "Daily",
+          "modifications": "Uses supportive recliner, proper neck support",
+          "barriers": "Eye fatigue, neck pain with positioning",
+          "notes": "More reliant on passive leisure due to limitations"
+        },
+        {
+          "activity": "Short walks",
+          "frequency": "2-3 times weekly, weather permitting",
+          "modifications": "Very short distance, slow pace, uses cane as needed",
+          "barriers": "Pain, limited endurance, transportation to walking locations",
+          "notes": "Attempting to maintain some physical activity but significantly limited"
+        }
+      ],
+      "inactiveLeisure": [
+        {
+          "activity": "Gym workouts",
+          "reason": "Physical limitations, transportation",
+          "potential": "May be able to return with modifications after further recovery and rehabilitation",
+          "notes": "Significant loss as this was primary exercise and stress management"
+        },
+        {
+          "activity": "Hiking",
+          "reason": "Physical limitations, transportation, terrain challenges",
+          "potential": "Long-term goal to return to modified hiking on level paths",
+          "notes": "Misses outdoor activity and connection with nature"
+        },
+        {
+          "activity": "Volleyball",
+          "reason": "Physical limitations, unable to perform required movements",
+          "potential": "Unclear if return will be possible",
+          "notes": "Misses social aspect of team sport"
+        },
+        {
+          "activity": "Woodworking",
+          "reason": "Physical limitations with tools, standing tolerance, lifting",
+          "potential": "May be able to return to modified projects in future",
+          "notes": "Creative outlet currently unavailable"
+        },
+        {
+          "activity": "Social gatherings",
+          "reason": "Transportation, fatigue, pain with sitting, cognitive overload in group settings",
+          "potential": "Could begin with short, small gatherings as condition improves",
+          "notes": "Social isolation is significant concern"
+        }
+      ],
+      "leisureGoals": [
+        "Resume modified gym routine with focus on rehabilitation exercises",
+        "Return to short, level hiking trails with proper supports",
+        "Develop alternative creative outlets that accommodate current limitations",
+        "Increase social participation through small, structured gatherings",
+        "Explore new leisure options that are compatible with current limitations (audiobooks, adaptive sports)"
+      ],
+      "communityResources": [
+        "Local recreation center has adaptive fitness programs (currently unavailable due to transportation)",
+        "Library offers home delivery service (not yet utilized)",
+        "Community center has virtual social events (could explore)",
+        "Local pool offers warm water therapy (physician clearance needed)",
+        "Peer support group for chronic pain available online (could explore)"
+      ]
+    }
+  }
+}

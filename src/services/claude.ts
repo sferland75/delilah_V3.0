@@ -1,8 +1,4 @@
-import Anthropic from '@anthropic-ai/sdk';
-
-const anthropic = new Anthropic({
-  apiKey: process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY || '',
-});
+// Client-side service for interacting with Claude via API routes
 
 export interface GenerationOptions {
   maxTokens?: number;
@@ -23,49 +19,34 @@ export interface GenerationResult {
   cached?: boolean;
 }
 
-// Simple in-memory cache for development
-const responseCache = new Map<string, string>();
-
 export async function generateWithClaude(
   prompt: string,
   options: GenerationOptions = {}
 ): Promise<GenerationResult> {
   try {
     const mergedOptions = { ...DEFAULT_OPTIONS, ...options };
-    const { cacheKey } = mergedOptions;
 
-    // Check cache if cacheKey provided
-    if (cacheKey && responseCache.has(cacheKey)) {
-      return {
-        content: responseCache.get(cacheKey) || '',
-        cached: true
-      };
-    }
-
-    // Call Claude API
-    const response = await anthropic.messages.create({
-      model: mergedOptions.model,
-      max_tokens: mergedOptions.maxTokens,
-      temperature: mergedOptions.temperature,
-      messages: [
-        {
-          role: 'user',
-          content: prompt
-        }
-      ]
+    // Call our API route instead of directly calling Anthropic
+    const response = await fetch('/api/claude', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt,
+        maxTokens: mergedOptions.maxTokens,
+        temperature: mergedOptions.temperature,
+        model: mergedOptions.model,
+        cacheKey: mergedOptions.cacheKey
+      }),
     });
 
-    const generatedContent = response.content[0].text;
-
-    // Cache the response if cacheKey provided
-    if (cacheKey) {
-      responseCache.set(cacheKey, generatedContent);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'API request failed');
     }
 
-    return {
-      content: generatedContent,
-      cached: false
-    };
+    return await response.json();
   } catch (error) {
     console.error('Error generating with Claude:', error);
     return {
@@ -76,16 +57,23 @@ export async function generateWithClaude(
 }
 
 // Clear specific cache entry
-export function clearCacheEntry(key: string): void {
-  responseCache.delete(key);
+export async function clearCacheEntry(key: string): Promise<void> {
+  try {
+    await fetch(`/api/claude?key=${encodeURIComponent(key)}`, {
+      method: 'DELETE',
+    });
+  } catch (error) {
+    console.error('Error clearing cache entry:', error);
+  }
 }
 
 // Clear entire cache
-export function clearCache(): void {
-  responseCache.clear();
-}
-
-// Get cache size
-export function getCacheSize(): number {
-  return responseCache.size;
+export async function clearCache(): Promise<void> {
+  try {
+    await fetch('/api/claude', {
+      method: 'DELETE',
+    });
+  } catch (error) {
+    console.error('Error clearing cache:', error);
+  }
 }

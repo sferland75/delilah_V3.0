@@ -1,0 +1,221 @@
+{
+  "symptomsAssessment": {
+    "physicalSymptoms": [
+      {
+        "symptomName": "Neck Pain",
+        "location": "Posterior cervical spine, radiating to shoulders bilaterally",
+        "intensity": {
+          "current": 7,
+          "best": 4,
+          "worst": 9
+        },
+        "quality": "Sharp, stabbing with movement; dull, aching at rest",
+        "frequency": "Constant",
+        "duration": "Since accident (6 weeks)",
+        "pattern": "Worse in morning and after prolonged activity",
+        "aggravatingFactors": [
+          "Looking up or down",
+          "Turning head to either side",
+          "Prolonged sitting",
+          "Computer use"
+        ],
+        "alleviatingFactors": [
+          "Heat therapy",
+          "Gentle stretching",
+          "Pain medication",
+          "Rest with proper neck support"
+        ],
+        "associatedSymptoms": [
+          "Headaches",
+          "Limited range of motion",
+          "Muscle tension"
+        ],
+        "impact": "Prevents driving, computer work, and many daily activities. Sleep is frequently disrupted."
+      },
+      {
+        "symptomName": "Lower Back Pain",
+        "location": "Lumbar spine (L4-L5 region), radiating to right hip",
+        "intensity": {
+          "current": 6,
+          "best": 3,
+          "worst": 8
+        },
+        "quality": "Deep, aching; occasional sharp pain with certain movements",
+        "frequency": "Constant",
+        "duration": "Since accident (6 weeks)",
+        "pattern": "Worse with prolonged standing or sitting, after physical activity",
+        "aggravatingFactors": [
+          "Bending forward",
+          "Lifting objects",
+          "Rising from seated position",
+          "Prolonged sitting or standing"
+        ],
+        "alleviatingFactors": [
+          "Lying down with knees supported",
+          "Gentle walking",
+          "Heat therapy",
+          "Medication"
+        ],
+        "associatedSymptoms": [
+          "Right leg numbness",
+          "Stiffness after inactivity",
+          "Muscle spasms"
+        ],
+        "impact": "Unable to lift objects, difficulty with household tasks, cannot sit for extended periods required for work."
+      },
+      {
+        "symptomName": "Right Shoulder Pain",
+        "location": "Right shoulder joint and surrounding muscles",
+        "intensity": {
+          "current": 5,
+          "best": 2,
+          "worst": 7
+        },
+        "quality": "Aching, occasionally sharp with overhead movements",
+        "frequency": "Intermittent, but daily",
+        "duration": "Since accident (6 weeks)",
+        "pattern": "Worse with use, especially overhead activities",
+        "aggravatingFactors": [
+          "Reaching overhead",
+          "Carrying items",
+          "Sleeping on right side",
+          "Pushing/pulling motions"
+        ],
+        "alleviatingFactors": [
+          "Rest",
+          "Ice therapy",
+          "Anti-inflammatory medication",
+          "Gentle ROM exercises"
+        ],
+        "associatedSymptoms": [
+          "Clicking sensation",
+          "Limited range of motion",
+          "Weakness with resistance"
+        ],
+        "impact": "Difficulty with dressing, particularly overhead garments, unable to reach high shelves, limits ability to exercise."
+      }
+    ],
+    "cognitiveSymptoms": [
+      {
+        "symptomName": "Memory Issues",
+        "description": "Difficulty remembering recent conversations, appointments, and tasks",
+        "onset": "Since accident, progressively more noticeable",
+        "frequency": "Daily",
+        "severity": "Moderate",
+        "pattern": "Worse when tired or stressed, more pronounced with complex information",
+        "aggravatingFactors": [
+          "Fatigue",
+          "Stress",
+          "Multitasking",
+          "Noisy environments"
+        ],
+        "alleviatingFactors": [
+          "Using written reminders",
+          "Quiet environment",
+          "Adequate rest",
+          "Breaking information into smaller parts"
+        ],
+        "impact": "Affecting work capabilities, missing appointments, repeating questions in conversations, inconsistency in following through with tasks."
+      },
+      {
+        "symptomName": "Concentration Difficulties",
+        "description": "Trouble focusing on tasks, easily distracted, difficulty following complex instructions",
+        "onset": "Immediately following accident",
+        "frequency": "Daily, throughout the day",
+        "severity": "Moderate to severe",
+        "pattern": "Worse in afternoons and when tired, better in morning after rest",
+        "aggravatingFactors": [
+          "Multiple stimuli",
+          "Long tasks",
+          "Pain flare-ups",
+          "Stress"
+        ],
+        "alleviatingFactors": [
+          "Breaking tasks into smaller steps",
+          "Quiet environment",
+          "Frequent breaks",
+          "Written instructions"
+        ],
+        "impact": "Unable to perform job duties that require sustained attention, difficulty reading for extended periods, challenges with finishing tasks."
+      }
+    ],
+    "psychologicalSymptoms": {
+      "mood": {
+        "description": "Periods of low mood, frustration, and irritability",
+        "onset": "Gradually worsening since injury",
+        "frequency": "Almost daily",
+        "severity": "Moderate",
+        "pattern": "Worse when pain levels are high, better after successful therapy sessions",
+        "triggers": [
+          "Pain flare-ups",
+          "Inability to perform usual activities",
+          "Financial concerns due to work absence",
+          "Sleep deprivation"
+        ],
+        "alleviatingFactors": [
+          "Time with family",
+          "Small accomplishments",
+          "Pain reduction",
+          "Relaxation techniques"
+        ],
+        "impact": "Strained family relationships, withdrawal from social activities, decreased motivation for recovery"
+      },
+      "anxiety": {
+        "description": "Worry about recovery, future ability to work, financial stability",
+        "onset": "Since accident, intensifying over time",
+        "frequency": "Daily thoughts, occasionally escalating to acute episodes",
+        "severity": "Moderate to severe",
+        "pattern": "Worse at night and when alone with thoughts",
+        "triggers": [
+          "Medical appointments",
+          "Bills arriving",
+          "Pain increases",
+          "Thoughts about returning to work"
+        ],
+        "alleviatingFactors": [
+          "Deep breathing exercises",
+          "Talking with spouse",
+          "Listening to music",
+          "Having a clear plan"
+        ],
+        "impact": "Sleep disruption, muscle tension contributing to pain, difficulty making decisions, avoidance of driving"
+      },
+      "previousHistory": "No prior diagnosis of anxiety or depression. Had brief period of situational anxiety during company downsizing in 2018, resolved without treatment.",
+      "currentTreatment": "No formal psychological treatment. Primary care physician has discussed possibility of short-term anxiolytic medication if symptoms worsen."
+    },
+    "sleepSymptoms": {
+      "hoursPerNight": 5.5,
+      "troubleFallingAsleep": true,
+      "troubleStayingAsleep": true,
+      "earlyMorningAwakening": true,
+      "nonRestorative": true,
+      "description": "Difficulty finding comfortable position due to pain. Wakes 3-4 times nightly. Often takes 1+ hour to fall asleep.",
+      "pattern": "Worse after physically demanding days or when anxiety is high",
+      "interventions": [
+        "Trying to maintain consistent sleep schedule",
+        "Using extra pillows for support",
+        "Relaxation apps",
+        "Occasional sleep aid (diphenhydramine)"
+      ],
+      "impact": "Daytime fatigue affecting cognitive function, mood, and pain tolerance. Requires nap during day which disrupts schedule."
+    },
+    "fatigueSymptoms": {
+      "level": "Severe",
+      "pattern": "Worst in afternoon, slightly better after morning rest",
+      "duration": "Persistent since injury, daily",
+      "aggravatingFactors": [
+        "Physical therapy sessions",
+        "Poor sleep",
+        "Stress",
+        "Pain flare-ups"
+      ],
+      "alleviatingFactors": [
+        "Short rest periods",
+        "Pacing activities",
+        "Hydration",
+        "Small, frequent meals"
+      ],
+      "impact": "Severely limits activity duration, requires planning and pacing for all activities, cannot sustain work tasks for normal periods."
+    }
+  }
+}

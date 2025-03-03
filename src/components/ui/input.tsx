@@ -1,5 +1,7 @@
-import React from 'react';
+import { forwardRef } from 'react';
 
-export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return <input {...props} />;
-}
+export const Input = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>((props, ref) => {
+  return <input ref={ref} {...props} />;
+});
+
+Input.displayName = 'Input';

@@ -1,0 +1,22 @@
+import { redirect } from 'next/navigation';
+
+// This component handles redirection from App Router paths to the corresponding Pages Router paths
+export default function ImportPdfRedirect({ params }: { params?: { path?: string[] } }) {
+  // Map App Router paths to Pages Router paths
+  const pathMappings: Record<string, string> = {
+    // Root import redirects to the import-pdf page
+    '': '/import-pdf',
+    // Sub-paths for import functionality
+    'pdf': '/import-pdf',
+    'assessment': '/import-pdf',
+  };
+
+  // Get the first path segment if it exists
+  const pathSegment = params?.path?.[0] || '';
+  
+  // Get the redirect target, default to import-pdf if not found
+  const redirectTarget = pathMappings[pathSegment] || '/import-pdf';
+  
+  // Redirect to the appropriate Pages Router path
+  redirect(redirectTarget);
+}

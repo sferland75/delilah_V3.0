@@ -1,0 +1,1575 @@
+{
+  "demographics": {
+    "personalInfo": {
+      "firstName": "John",
+      "lastName": "Smith",
+      "dateOfBirth": "1975-05-18",
+      "gender": "male",
+      "address": {
+        "street": "123 Maple Avenue",
+        "city": "Springfield",
+        "state": "IL",
+        "zipCode": "62704",
+        "country": "USA"
+      },
+      "contactInfo": {
+        "phone": "555-123-4567",
+        "email": "john.smith@example.com",
+        "preferredContact": "phone"
+      }
+    },
+    "referralInfo": {
+      "referralDate": "2025-02-01",
+      "referralSource": "Dr. Lisa Wilson",
+      "referringClinic": "Springfield Medical Center",
+      "referralReason": "Assessment following MVA with ongoing functional limitations",
+      "insuranceProvider": "Blue Cross Blue Shield",
+      "policyNumber": "BCBS-12345678",
+      "claimNumber": "INJ-987654321",
+      "adjuster": {
+        "name": "Michael Johnson",
+        "phone": "555-987-6543",
+        "email": "m.johnson@insuranceco.com"
+      },
+      "attorney": {
+        "name": "Sarah Parker",
+        "firm": "Parker & Associates",
+        "phone": "555-345-6789",
+        "email": "s.parker@parkerlaw.com"
+      }
+    },
+    "emergencyContact": {
+      "name": "Mary Smith",
+      "relationship": "Spouse",
+      "phone": "555-234-5678",
+      "email": "mary.smith@example.com"
+    }
+  },
+  "medicalHistory": {
+    "pastMedicalHistory": {
+      "conditions": [
+        {
+          "condition": "Hypertension",
+          "diagnosisDate": "2018-03-15",
+          "status": "managed",
+          "treatment": "Lisinopril 10mg daily"
+        },
+        {
+          "condition": "Type 2 Diabetes",
+          "diagnosisDate": "2019-06-10",
+          "status": "managed",
+          "treatment": "Metformin 500mg twice daily, diet management"
+        },
+        {
+          "condition": "Mild Asthma",
+          "diagnosisDate": "2010-02-22",
+          "status": "managed",
+          "treatment": "Albuterol inhaler as needed"
+        }
+      ],
+      "surgeries": [
+        {
+          "procedure": "Appendectomy",
+          "date": "2005-11-20",
+          "surgeon": "Dr. Robert Taylor",
+          "facility": "Springfield General Hospital",
+          "outcome": "Full recovery, no complications"
+        },
+        {
+          "procedure": "Arthroscopic Knee Surgery",
+          "date": "2015-07-08",
+          "surgeon": "Dr. Amanda Chen",
+          "facility": "Sports Medicine Clinic",
+          "outcome": "Good recovery, occasional mild pain with activity"
+        }
+      ],
+      "allergies": [
+        "Penicillin - causes rash",
+        "Sulfa drugs - causes difficulty breathing",
+        "Shellfish - mild reaction"
+      ],
+      "medications": [
+        {
+          "name": "Lisinopril",
+          "dosage": "10mg",
+          "frequency": "Once daily",
+          "reason": "Hypertension",
+          "prescribedBy": "Dr. Lisa Wilson",
+          "startDate": "2018-04-01",
+          "status": "current"
+        },
+        {
+          "name": "Metformin",
+          "dosage": "500mg",
+          "frequency": "Twice daily",
+          "reason": "Type 2 Diabetes",
+          "prescribedBy": "Dr. Lisa Wilson",
+          "startDate": "2019-06-15",
+          "status": "current"
+        },
+        {
+          "name": "Albuterol",
+          "dosage": "90mcg",
+          "frequency": "As needed",
+          "reason": "Asthma",
+          "prescribedBy": "Dr. James Reed",
+          "startDate": "2010-03-01",
+          "status": "current"
+        },
+        {
+          "name": "Acetaminophen",
+          "dosage": "500mg",
+          "frequency": "As needed for pain",
+          "reason": "Pain management",
+          "status": "current"
+        }
+      ],
+      "familyHistory": "Father had cardiac disease (deceased at 68); Mother has Type 2 diabetes and hypertension (alive, 73); No family history of neurological disorders."
+    },
+    "injuryDetails": {
+      "injuryDate": "2025-01-15",
+      "injuryTime": "07:45",
+      "injuryType": "Motor Vehicle Accident",
+      "injuryDescription": "Patient was the driver of a sedan struck from behind while stopped at a traffic light. Moderate impact, vehicle sustained significant rear-end damage.",
+      "locationOfInjury": "Intersection of Main St. and Oak Rd., Springfield",
+      "initialSymptoms": "Immediate neck pain, headache, dizziness, and lower back pain",
+      "initialTreatment": "Evaluated at Springfield General ER, CT scans negative for fracture, diagnosed with whiplash and lumbar strain",
+      "subsequentTreatment": "Prescribed pain medication and muscle relaxants, referred to physical therapy"
+    },
+    "functionalHistory": {
+      "priorLevelOfFunction": "Independent in all ADLs and IADLs. Worked full-time as a construction project manager. Exercised regularly (gym 3x/week, weekend hiking). Active socially, no assistance required for daily activities.",
+      "recentChanges": "Significant reduction in mobility and independence since accident. Unable to return to work due to pain and limited function. Requires assistance with some household tasks and transportation.",
+      "priorLivingArrangement": "Lives in two-story home with spouse and teenage son. Master bedroom on main floor. Three steps to enter home.",
+      "priorMobilityStatus": "Independent in all mobility including driving, community access, and recreational activities."
+    },
+    "currentTreatments": [
+      {
+        "provider": "Dr. James Thompson",
+        "type": "Physical Therapy",
+        "facility": "Springfield Rehabilitation Center",
+        "startDate": "2025-01-20",
+        "frequency": "3 times per week",
+        "status": "ongoing",
+        "notes": "Initial focus on pain management, gentle ROM, postural training. Recent progression to light strengthening."
+      },
+      {
+        "provider": "Dr. Lisa Wilson",
+        "type": "Primary Care",
+        "facility": "Springfield Medical Center",
+        "startDate": "2025-01-25",
+        "frequency": "Monthly follow-up",
+        "status": "ongoing",
+        "notes": "Monitoring pain management, medication efficacy, and overall recovery."
+      },
+      {
+        "provider": "Dr. Marcus Chen",
+        "type": "Pain Management",
+        "facility": "Springfield Pain Clinic",
+        "startDate": "2025-02-05",
+        "frequency": "Bi-weekly",
+        "status": "ongoing",
+        "notes": "Evaluating for trigger point injections, medication management, and referrals as needed."
+      }
+    ]
+  },
+  "symptomsAssessment": {
+    "physicalSymptoms": [
+      {
+        "symptomName": "Neck Pain",
+        "location": "Posterior cervical spine, radiating to shoulders bilaterally",
+        "intensity": {
+          "current": 7,
+          "best": 4,
+          "worst": 9
+        },
+        "quality": "Sharp, stabbing with movement; dull, aching at rest",
+        "frequency": "Constant",
+        "duration": "Since accident (6 weeks)",
+        "pattern": "Worse in morning and after prolonged activity",
+        "aggravatingFactors": [
+          "Looking up or down",
+          "Turning head to either side",
+          "Prolonged sitting",
+          "Computer use"
+        ],
+        "alleviatingFactors": [
+          "Heat therapy",
+          "Gentle stretching",
+          "Pain medication",
+          "Rest with proper neck support"
+        ],
+        "associatedSymptoms": [
+          "Headaches",
+          "Limited range of motion",
+          "Muscle tension"
+        ],
+        "impact": "Prevents driving, computer work, and many daily activities. Sleep is frequently disrupted."
+      },
+      {
+        "symptomName": "Lower Back Pain",
+        "location": "Lumbar spine (L4-L5 region), radiating to right hip",
+        "intensity": {
+          "current": 6,
+          "best": 3,
+          "worst": 8
+        },
+        "quality": "Deep, aching; occasional sharp pain with certain movements",
+        "frequency": "Constant",
+        "duration": "Since accident (6 weeks)",
+        "pattern": "Worse with prolonged standing or sitting, after physical activity",
+        "aggravatingFactors": [
+          "Bending forward",
+          "Lifting objects",
+          "Rising from seated position",
+          "Prolonged sitting or standing"
+        ],
+        "alleviatingFactors": [
+          "Lying down with knees supported",
+          "Gentle walking",
+          "Heat therapy",
+          "Medication"
+        ],
+        "associatedSymptoms": [
+          "Right leg numbness",
+          "Stiffness after inactivity",
+          "Muscle spasms"
+        ],
+        "impact": "Unable to lift objects, difficulty with household tasks, cannot sit for extended periods required for work."
+      },
+      {
+        "symptomName": "Right Shoulder Pain",
+        "location": "Right shoulder joint and surrounding muscles",
+        "intensity": {
+          "current": 5,
+          "best": 2,
+          "worst": 7
+        },
+        "quality": "Aching, occasionally sharp with overhead movements",
+        "frequency": "Intermittent, but daily",
+        "duration": "Since accident (6 weeks)",
+        "pattern": "Worse with use, especially overhead activities",
+        "aggravatingFactors": [
+          "Reaching overhead",
+          "Carrying items",
+          "Sleeping on right side",
+          "Pushing/pulling motions"
+        ],
+        "alleviatingFactors": [
+          "Rest",
+          "Ice therapy",
+          "Anti-inflammatory medication",
+          "Gentle ROM exercises"
+        ],
+        "associatedSymptoms": [
+          "Clicking sensation",
+          "Limited range of motion",
+          "Weakness with resistance"
+        ],
+        "impact": "Difficulty with dressing, particularly overhead garments, unable to reach high shelves, limits ability to exercise."
+      }
+    ],
+    "cognitiveSymptoms": [
+      {
+        "symptomName": "Memory Issues",
+        "description": "Difficulty remembering recent conversations, appointments, and tasks",
+        "onset": "Since accident, progressively more noticeable",
+        "frequency": "Daily",
+        "severity": "Moderate",
+        "pattern": "Worse when tired or stressed, more pronounced with complex information",
+        "aggravatingFactors": [
+          "Fatigue",
+          "Stress",
+          "Multitasking",
+          "Noisy environments"
+        ],
+        "alleviatingFactors": [
+          "Using written reminders",
+          "Quiet environment",
+          "Adequate rest",
+          "Breaking information into smaller parts"
+        ],
+        "impact": "Affecting work capabilities, missing appointments, repeating questions in conversations, inconsistency in following through with tasks."
+      },
+      {
+        "symptomName": "Concentration Difficulties",
+        "description": "Trouble focusing on tasks, easily distracted, difficulty following complex instructions",
+        "onset": "Immediately following accident",
+        "frequency": "Daily, throughout the day",
+        "severity": "Moderate to severe",
+        "pattern": "Worse in afternoons and when tired, better in morning after rest",
+        "aggravatingFactors": [
+          "Multiple stimuli",
+          "Long tasks",
+          "Pain flare-ups",
+          "Stress"
+        ],
+        "alleviatingFactors": [
+          "Breaking tasks into smaller steps",
+          "Quiet environment",
+          "Frequent breaks",
+          "Written instructions"
+        ],
+        "impact": "Unable to perform job duties that require sustained attention, difficulty reading for extended periods, challenges with finishing tasks."
+      }
+    ],
+    "psychologicalSymptoms": {
+      "mood": {
+        "description": "Periods of low mood, frustration, and irritability",
+        "onset": "Gradually worsening since injury",
+        "frequency": "Almost daily",
+        "severity": "Moderate",
+        "pattern": "Worse when pain levels are high, better after successful therapy sessions",
+        "triggers": [
+          "Pain flare-ups",
+          "Inability to perform usual activities",
+          "Financial concerns due to work absence",
+          "Sleep deprivation"
+        ],
+        "alleviatingFactors": [
+          "Time with family",
+          "Small accomplishments",
+          "Pain reduction",
+          "Relaxation techniques"
+        ],
+        "impact": "Strained family relationships, withdrawal from social activities, decreased motivation for recovery"
+      },
+      "anxiety": {
+        "description": "Worry about recovery, future ability to work, financial stability",
+        "onset": "Since accident, intensifying over time",
+        "frequency": "Daily thoughts, occasionally escalating to acute episodes",
+        "severity": "Moderate to severe",
+        "pattern": "Worse at night and when alone with thoughts",
+        "triggers": [
+          "Medical appointments",
+          "Bills arriving",
+          "Pain increases",
+          "Thoughts about returning to work"
+        ],
+        "alleviatingFactors": [
+          "Deep breathing exercises",
+          "Talking with spouse",
+          "Listening to music",
+          "Having a clear plan"
+        ],
+        "impact": "Sleep disruption, muscle tension contributing to pain, difficulty making decisions, avoidance of driving"
+      },
+      "previousHistory": "No prior diagnosis of anxiety or depression. Had brief period of situational anxiety during company downsizing in 2018, resolved without treatment.",
+      "currentTreatment": "No formal psychological treatment. Primary care physician has discussed possibility of short-term anxiolytic medication if symptoms worsen."
+    },
+    "sleepSymptoms": {
+      "hoursPerNight": 5.5,
+      "troubleFallingAsleep": true,
+      "troubleStayingAsleep": true,
+      "earlyMorningAwakening": true,
+      "nonRestorative": true,
+      "description": "Difficulty finding comfortable position due to pain. Wakes 3-4 times nightly. Often takes 1+ hour to fall asleep.",
+      "pattern": "Worse after physically demanding days or when anxiety is high",
+      "interventions": [
+        "Trying to maintain consistent sleep schedule",
+        "Using extra pillows for support",
+        "Relaxation apps",
+        "Occasional sleep aid (diphenhydramine)"
+      ],
+      "impact": "Daytime fatigue affecting cognitive function, mood, and pain tolerance. Requires nap during day which disrupts schedule."
+    },
+    "fatigueSymptoms": {
+      "level": "Severe",
+      "pattern": "Worst in afternoon, slightly better after morning rest",
+      "duration": "Persistent since injury, daily",
+      "aggravatingFactors": [
+        "Physical therapy sessions",
+        "Poor sleep",
+        "Stress",
+        "Pain flare-ups"
+      ],
+      "alleviatingFactors": [
+        "Short rest periods",
+        "Pacing activities",
+        "Hydration",
+        "Small, frequent meals"
+      ],
+      "impact": "Severely limits activity duration, requires planning and pacing for all activities, cannot sustain work tasks for normal periods."
+    }
+  },
+  "functionalStatus": {
+    "mobilityStatus": {
+      "bedMobility": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Uses additional pillows for positioning",
+        "painLimitations": "Significant pain with rolling, transitioning from lying to sitting",
+        "notes": "Requires 2-3 minutes to change positions in bed. Uses log-roll technique to minimize pain."
+      },
+      "transfers": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Uses arms of chairs for support",
+        "painLimitations": "Moderate pain with sit-to-stand transitions, especially from low surfaces",
+        "notes": "Moving slower than normal. Needs to brace for stability when rising from seated position."
+      },
+      "walking": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Occasionally uses cane for longer distances or on bad pain days",
+        "distance": "Up to 200 meters without rest",
+        "painLimitations": "Increasing back and neck pain with distance",
+        "notes": "Altered gait pattern noted - decreased stride length, reduced arm swing on right. Walks with increased caution."
+      },
+      "stairs": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Always uses handrail",
+        "painLimitations": "Significant back pain, especially descending",
+        "notes": "Takes one step at a time, leads with left leg ascending. Can manage the 3 steps into home but avoids full flight of stairs to second floor when possible."
+      },
+      "communityMobility": {
+        "independence": "Dependent",
+        "transportation": "Currently not driving, relies on spouse or family for transportation",
+        "barriers": "Unable to turn neck sufficiently for safe driving, anxiety about driving since accident",
+        "notes": "Previously independent with all community mobility. Currently limited in community access due to transportation dependence."
+      }
+    },
+    "upperExtremityFunction": {
+      "range": {
+        "cervical": {
+          "flexion": "Limited to 30° (normal 45°)",
+          "extension": "Limited to 30° (normal 45°)",
+          "rotation": "Limited to 50° bilaterally (normal 80°)",
+          "lateralFlexion": "Limited to 30° bilaterally (normal 45°)",
+          "painWithMovement": "Significant pain at end ranges of all movements"
+        },
+        "shoulder": {
+          "flexion": "Right: Limited to 120° (normal 180°), Left: WNL",
+          "abduction": "Right: Limited to 100° (normal 180°), Left: WNL",
+          "internalRotation": "Right: Limited to 60° (normal 90°), Left: WNL",
+          "externalRotation": "Right: Limited to 70° (normal 90°), Left: WNL",
+          "painWithMovement": "Moderate to severe pain with right shoulder at end ranges"
+        },
+        "elbow": {
+          "flexion": "WNL bilaterally",
+          "extension": "WNL bilaterally",
+          "supination": "WNL bilaterally",
+          "pronation": "WNL bilaterally",
+          "painWithMovement": "No significant pain"
+        },
+        "wrist": {
+          "flexion": "WNL bilaterally",
+          "extension": "WNL bilaterally",
+          "ulnarDeviation": "WNL bilaterally",
+          "radialDeviation": "WNL bilaterally",
+          "painWithMovement": "No significant pain"
+        },
+        "hand": {
+          "fingerROM": "WNL bilaterally",
+          "thumbROM": "WNL bilaterally",
+          "painWithMovement": "No significant pain"
+        }
+      },
+      "strength": {
+        "shoulder": {
+          "flexion": "Right: 3+/5, Left: 5/5",
+          "abduction": "Right: 3/5, Left: 5/5",
+          "internalRotation": "Right: 4/5, Left: 5/5",
+          "externalRotation": "Right: 3+/5, Left: 5/5",
+          "painWithResistance": "Moderate pain with resistance to right shoulder"
+        },
+        "elbow": {
+          "flexion": "Right: 4+/5, Left: 5/5",
+          "extension": "Right: 4+/5, Left: 5/5",
+          "painWithResistance": "Mild pain with resistance to right elbow"
+        },
+        "wrist": {
+          "flexion": "Right: 4+/5, Left: 5/5",
+          "extension": "Right: 4+/5, Left: 5/5",
+          "painWithResistance": "No significant pain"
+        },
+        "grip": {
+          "right": "65 pounds (previously 110 pounds)",
+          "left": "95 pounds (previously 100 pounds)",
+          "painWithGrip": "Mild pain with maximal grip on right"
+        },
+        "pinch": {
+          "right": "15 pounds (previously 22 pounds)",
+          "left": "20 pounds (previously 20 pounds)",
+          "painWithPinch": "No significant pain"
+        }
+      },
+      "coordination": {
+        "fineMotor": "WNL bilaterally",
+        "grossMotor": "Slightly impaired with right UE due to pain and compensatory movements",
+        "notes": "No tremors, able to perform rapid alternating movements. Some difficulty with precise movements of right arm due to pain."
+      },
+      "functionalLimitations": {
+        "reaching": "Difficulty with overhead reaching on right. Cannot maintain arms above shoulder height >30 seconds",
+        "lifting": "Limited to 10 pounds with right arm, 25 pounds bilaterally",
+        "carrying": "Prefers to carry items with left arm. Limited to 5-10 minutes of carrying with right",
+        "pushingPulling": "Limited to light resistance. Moderate pain with pushing/pulling motions",
+        "manipulation": "No significant limitations with fine manipulation",
+        "impact": "Affects ability to perform job duties involving lifting materials, using tools overhead, carrying supplies. Home limitations with laundry, meal preparation, yard work."
+      }
+    },
+    "lowerExtremityFunction": {
+      "range": {
+        "lumbosacral": {
+          "flexion": "Limited to 40° (normal 60°)",
+          "extension": "Limited to 15° (normal 25°)",
+          "rotation": "Limited to 20° bilaterally (normal 30°)",
+          "lateralFlexion": "Limited to 15° bilaterally (normal 25°)",
+          "painWithMovement": "Significant pain with all movements, especially flexion and right rotation"
+        },
+        "hip": {
+          "flexion": "Right: Limited to 100° (normal 120°), Left: WNL",
+          "extension": "Right: Limited to 10° (normal 30°), Left: WNL",
+          "abduction": "Right: WNL, Left: WNL",
+          "adduction": "Right: WNL, Left: WNL",
+          "painWithMovement": "Moderate pain with right hip flexion and extension"
+        },
+        "knee": {
+          "flexion": "WNL bilaterally",
+          "extension": "WNL bilaterally",
+          "painWithMovement": "No significant pain"
+        },
+        "ankle": {
+          "dorsiflexion": "WNL bilaterally",
+          "plantarflexion": "WNL bilaterally",
+          "inversion": "WNL bilaterally",
+          "eversion": "WNL bilaterally",
+          "painWithMovement": "No significant pain"
+        }
+      },
+      "strength": {
+        "hip": {
+          "flexion": "Right: 4/5, Left: 5/5",
+          "extension": "Right: 4-/5, Left: 5/5",
+          "abduction": "Right: 4/5, Left: 5/5",
+          "adduction": "Right: 4/5, Left: 5/5",
+          "painWithResistance": "Moderate pain with resistance to right hip"
+        },
+        "knee": {
+          "flexion": "Right: 4+/5, Left: 5/5",
+          "extension": "Right: 4+/5, Left: 5/5",
+          "painWithResistance": "Mild pain with resistance to right knee"
+        },
+        "ankle": {
+          "dorsiflexion": "WNL bilaterally",
+          "plantarflexion": "WNL bilaterally",
+          "inversion": "WNL bilaterally",
+          "eversion": "WNL bilaterally",
+          "painWithResistance": "No significant pain"
+        }
+      },
+      "coordination": {
+        "balance": {
+          "static": "Able to maintain standing balance on firm surface with eyes open and closed",
+          "dynamic": "Some difficulty with quick direction changes, hesitancy on uneven surfaces",
+          "singleLegStance": "Right: 10 seconds, Left: 20 seconds",
+          "notes": "Increased postural sway noted. Protective reactions intact."
+        },
+        "gait": {
+          "pattern": "Decreased stride length, slight antalgic pattern favoring right side",
+          "base": "Normal width",
+          "rhythm": "Somewhat irregular due to pain",
+          "armSwing": "Reduced on right side",
+          "notes": "Hesitancy with direction changes and uneven surfaces. Increased caution on stairs."
+        }
+      },
+      "functionalLimitations": {
+        "standing": "Limited to 15-20 minutes before needing to change position",
+        "walking": "Limited to 200 meters before needing rest",
+        "squatting": "Significant difficulty, limited to 25% of normal depth with support",
+        "kneeling": "Unable due to pain",
+        "impact": "Affects ability to perform job duties involving site inspections, climbing ladders, walking through construction sites. Home limitations with yard work, home maintenance, shopping."
+      }
+    },
+    "posturalControl": {
+      "sitting": {
+        "tolerance": "30-45 minutes before needing position change",
+        "alignment": "Tendency toward forward head posture and rounded shoulders",
+        "stability": "Good with proper support, moderate without support",
+        "notes": "Requires lumbar support and properly adjusted chair height. Needs to shift position frequently."
+      },
+      "standing": {
+        "tolerance": "15-20 minutes before needing to sit or change position",
+        "alignment": "Slight forward head posture, weight shifted to left side",
+        "stability": "Adequate on level surfaces, decreased on uneven terrain",
+        "notes": "Fatigues quickly in standing, especially on hard surfaces. Pain increases with prolonged standing."
+      },
+      "transitions": {
+        "sit_to_stand": "Modified independent, uses arms for support",
+        "stand_to_sit": "Modified independent, controlled lowering with hand support",
+        "supine_to_sit": "Modified independent, uses log roll technique",
+        "floor_to_stand": "Significant difficulty, requires support from furniture",
+        "notes": "All transitions are performed slowly and with deliberate movements to minimize pain."
+      }
+    },
+    "activityTolerances": {
+      "physicalActivity": {
+        "duration": "20-30 minutes of light activity before needing rest",
+        "limitations": "Pain, fatigue, decreased endurance",
+        "notes": "Needs to pace activities throughout day. Cannot sustain previous level of physical exertion."
+      },
+      "cognitiveActivity": {
+        "duration": "45-60 minutes before concentration significantly impaired",
+        "limitations": "Pain distraction, memory issues, fatigue",
+        "notes": "Better in morning. Difficulty with complex problem-solving tasks by afternoon."
+      },
+      "restRequirements": {
+        "frequency": "Every 30-60 minutes during daily activities",
+        "duration": "10-20 minutes per rest period",
+        "notes": "Often requires afternoon nap of 30-60 minutes to manage through evening."
+      }
+    },
+    "painImpact": {
+      "functionalLimitations": [
+        "Unable to drive due to neck pain and limited rotation",
+        "Cannot work in prior capacity due to physical and cognitive limitations",
+        "Limited in household tasks requiring lifting, bending, reaching",
+        "Difficulty with prolonged sitting needed for desk work, meetings",
+        "Cannot participate in previous recreational activities (gym workouts, hiking)"
+      ],
+      "compensatoryStrategies": [
+        "Using left arm preferentially for reaching and lifting",
+        "Taking frequent breaks during activities",
+        "Using written reminders to compensate for memory issues",
+        "Pacing activities throughout day",
+        "Modifying home environment for easier access to frequently used items"
+      ],
+      "coping": [
+        "Heat therapy for neck and back",
+        "Gentle stretching exercises as directed by PT",
+        "Meditation and breathing techniques",
+        "Pain medication as prescribed",
+        "Support from family members"
+      ]
+    }
+  },
+  "typicalDay": {
+    "morningRoutine": {
+      "wakeTime": "06:30",
+      "activities": [
+        {
+          "time": "06:30 - 07:00",
+          "description": "Slow to get out of bed due to stiffness and pain. Takes time to slowly stretch and move before getting up.",
+          "independence": "Modified Independent",
+          "painLevel": 7,
+          "notes": "Requires extra time due to pain and stiffness. Often has difficulty sleeping so may be fatigued."
+        },
+        {
+          "time": "07:00 - 07:45",
+          "description": "Basic hygiene and dressing. Shower every other day due to fatigue and pain with overhead movements.",
+          "independence": "Modified Independent",
+          "painLevel": 6,
+          "notes": "Difficulty with buttons, overhead garments, washing hair. Uses bench in shower. Keeps frequently used items at accessible height."
+        },
+        {
+          "time": "07:45 - 08:15",
+          "description": "Simple breakfast preparation and eating. Usually cereal, toast, or microwave items.",
+          "independence": "Modified Independent",
+          "painLevel": 5,
+          "notes": "Avoids cooking that requires standing for extended periods. Has difficulty with some containers and food preparation."
+        },
+        {
+          "time": "08:15 - 08:30",
+          "description": "Medication routine and preparation for the day.",
+          "independence": "Independent",
+          "painLevel": 5,
+          "notes": "Uses pill organizer to compensate for memory issues. Reviews schedule for the day."
+        }
+      ],
+      "assistanceRequired": "Occasional help from spouse with difficult clothing items, hair washing, and meal preparation."
+    },
+    "daytimeActivities": {
+      "weekdaySchedule": [
+        {
+          "time": "08:30 - 10:00",
+          "description": "Light household tasks, checking emails, phone calls related to insurance and appointments.",
+          "independence": "Modified Independent",
+          "painLevel": 5,
+          "notes": "Paces activities with frequent breaks. Uses written notes to track important call information due to memory issues."
+        },
+        {
+          "time": "10:00 - 10:30",
+          "description": "Rest period with gentle stretching.",
+          "independence": "Independent",
+          "painLevel": 5,
+          "notes": "Usually lies down with supportive pillows to relieve neck and back strain."
+        },
+        {
+          "time": "10:30 - 12:00",
+          "description": "Medical appointments (typically PT 3x weekly) or continued light home activities.",
+          "independence": "Dependent for Transportation",
+          "painLevel": 6,
+          "notes": "Relies on spouse or family member for transportation to appointments."
+        },
+        {
+          "time": "12:00 - 13:00",
+          "description": "Lunch and short rest.",
+          "independence": "Modified Independent",
+          "painLevel": 5,
+          "notes": "Prepares simple meals. Often rests afterward to manage pain and fatigue."
+        },
+        {
+          "time": "13:00 - 14:30",
+          "description": "Light cognitive activities such as reading, computer use (limited), or watching TV.",
+          "independence": "Independent",
+          "painLevel": 6,
+          "notes": "Needs to take frequent breaks from screen time due to neck pain. Uses reading stand to avoid looking down."
+        },
+        {
+          "time": "14:30 - 15:30",
+          "description": "Afternoon rest period, often nap.",
+          "independence": "Independent",
+          "painLevel": 7,
+          "notes": "Pain and fatigue typically peak in afternoon. Nap helps manage evening activities."
+        },
+        {
+          "time": "15:30 - 17:00",
+          "description": "Light household activities, gentle walking outside if weather permits.",
+          "independence": "Modified Independent",
+          "painLevel": 6,
+          "notes": "Tries to get some fresh air and gentle movement. Often limited by pain and fatigue."
+        }
+      ],
+      "weekendVariations": "Weekends follow similar pattern but with more family interaction. Son or spouse often help with household tasks and yard work that patient cannot perform. May have occasional social visits from friends or family members."
+    },
+    "eveningRoutine": {
+      "dinnerTime": "18:00",
+      "activities": [
+        {
+          "time": "17:00 - 18:00",
+          "description": "Dinner preparation with spouse.",
+          "independence": "Modified Independent",
+          "painLevel": 6,
+          "notes": "Helps with meal preparation but cannot stand for extended periods or lift heavy items. Spouse does most of cooking."
+        },
+        {
+          "time": "18:00 - 19:00",
+          "description": "Family dinner.",
+          "independence": "Independent",
+          "painLevel": 5,
+          "notes": "Enjoys family time. Uses cushion for lumbar support while sitting at dining table."
+        },
+        {
+          "time": "19:00 - 20:30",
+          "description": "Relaxation time with family, watching TV, or gentle conversation.",
+          "independence": "Independent",
+          "painLevel": 6,
+          "notes": "Uses recliner with heat pad for comfort. Pain often increases as day progresses."
+        },
+        {
+          "time": "20:30 - 21:30",
+          "description": "Evening hygiene routine and preparation for bed.",
+          "independence": "Modified Independent",
+          "painLevel": 7,
+          "notes": "Pain and stiffness more pronounced by evening. Takes evening medications."
+        },
+        {
+          "time": "21:30 - 22:00",
+          "description": "Relaxation techniques, meditation, or reading in bed.",
+          "independence": "Independent",
+          "painLevel": 7,
+          "notes": "Uses relaxation app to help manage pain and prepare for sleep."
+        }
+      ],
+      "bedtime": "22:00",
+      "sleepEnvironment": "Uses multiple pillows for positioning - cervical pillow for neck, body pillow between knees, small lumbar roll. Has sound machine for white noise. Takes sleep aid as needed."
+    },
+    "sleepPattern": {
+      "qualityDescription": "Poor and fragmented. Difficulty finding comfortable position. Pain disrupts sleep.",
+      "nighttimeWakings": "3-4 times per night, usually due to pain when changing positions",
+      "morningState": "Wakes feeling unrefreshed. Significant stiffness and increased pain in morning."
+    }
+  },
+  "environmentalAssessment": {
+    "homeEnvironment": {
+      "housingType": "Single-family home, two-story",
+      "ownership": "Own",
+      "yearsAtLocation": 8,
+      "entryAccess": {
+        "entranceSteps": 3,
+        "handrails": "One side only, right",
+        "doorWidth": "36 inches",
+        "thresholds": "Standard height, manageable with caution",
+        "notes": "Main entrance has 3 steps with handrail. Patient able to negotiate with support but moves slowly and cautiously."
+      },
+      "interiorAccess": {
+        "stairsToSecondFloor": 14,
+        "handrails": "Both sides",
+        "hallwayWidth": "48 inches",
+        "doorwayWidths": "Standard 32-36 inches",
+        "flooring": "Hardwood in main living areas, carpet in bedrooms, tile in bathrooms and kitchen",
+        "thresholds": "Minimal between rooms, small lip at bathroom and kitchen transitions",
+        "notes": "Patient avoids using stairs to second floor when possible. Master bedroom and full bathroom on main floor."
+      },
+      "bathroomAccess": {
+        "mainBathroom": {
+          "location": "Main floor, adjacent to master bedroom",
+          "tub": true,
+          "shower": true,
+          "combinationTubShower": true,
+          "separateShower": false,
+          "showerEntry": "Step over tub side, approximately 15 inches high",
+          "grabBars": "Recently installed grab bar on shower wall",
+          "showerSeat": "Portable bath bench used",
+          "toiletHeight": "Standard height",
+          "toiletGrabBars": "None",
+          "sinkAccessibility": "Standard height, no modifications",
+          "notes": "Patient uses shower bench and handheld shower head. Has difficulty with tub transfers but manages independently with caution."
+        },
+        "secondaryBathroom": {
+          "location": "Second floor",
+          "tub": false,
+          "shower": true,
+          "combinationTubShower": false,
+          "separateShower": true,
+          "showerEntry": "Small curb, approximately 4 inches",
+          "grabBars": "None",
+          "showerSeat": "None",
+          "toiletHeight": "Standard height",
+          "toiletGrabBars": "None",
+          "sinkAccessibility": "Standard height, no modifications",
+          "notes": "Patient rarely uses second floor bathroom due to difficulty with stairs."
+        }
+      },
+      "kitchenAccess": {
+        "counterHeight": "Standard 36 inches",
+        "upperCabinetHeight": "Standard, lowest shelf approximately 54 inches from floor",
+        "sinkAccessibility": "Standard height, no modifications",
+        "applianceAccessibility": "Standard arrangement, side-by-side refrigerator, standard range",
+        "storageAccessibility": "Frequently used items moved to lower shelves and drawers since injury",
+        "notes": "Patient has difficulty reaching upper cabinets due to right shoulder limitations and neck pain. Spouse has rearranged kitchen to place commonly used items within easy reach."
+      },
+      "bedroomAccess": {
+        "bedType": "King-size mattress, medium-firm",
+        "bedHeight": "25 inches from floor to top of mattress",
+        "transferAids": "Uses nightstand for support when getting in/out of bed",
+        "notes": "Patient sleeps with multiple pillows for positioning. Uses log-roll technique to get in and out of bed."
+      },
+      "generalSafety": {
+        "lighting": "Adequate throughout home. Night lights added in hallway and bathroom",
+        "floorSurfaces": "Generally good condition. Small area rug in living room secured with non-slip pad",
+        "clutter": "Minimal, family maintains clear pathways",
+        "electricalCords": "Well-managed, no trip hazards",
+        "notes": "Home is well-maintained with good attention to safety. No significant hazards identified."
+      },
+      "modifications": {
+        "existing": [
+          "Shower grab bar in main bathroom",
+          "Portable shower bench",
+          "Handheld shower head",
+          "Night lights in hallway and bathroom"
+        ],
+        "recommended": [
+          "Toilet grab bars for main bathroom",
+          "Additional grab bar for tub entry",
+          "Consider raised toilet seat",
+          "Improved lighting in stairwell",
+          "Non-slip treads for stairs"
+        ]
+      }
+    },
+    "workEnvironment": {
+      "occupation": "Construction Project Manager",
+      "status": "Currently on medical leave since accident (6 weeks)",
+      "workSchedule": "Typically 40-50 hours per week pre-injury",
+      "workplaceAccess": {
+        "entranceAccess": "Office building with elevator access",
+        "workstationSetup": "Private office with standard desk and office chair",
+        "computerSetup": "Desktop computer, dual monitors",
+        "notes": "Workplace has good accessibility, but patient cannot currently perform job duties due to physical and cognitive limitations."
+      },
+      "jobDemands": {
+        "physical": {
+          "sitting": "4-6 hours daily at desk for documentation, meetings, computer work",
+          "standing": "2-3 hours daily during site visits and inspections",
+          "walking": "Variable, up to 1-2 miles daily during site visits",
+          "lifting": "Occasionally up to 30 pounds (materials, samples)",
+          "carrying": "Frequently 5-10 pounds (tablet, plans, clipboard)",
+          "climbing": "Occasionally required to access construction areas, ladders",
+          "notes": "Job requires combination of office work and construction site visits."
+        },
+        "cognitive": {
+          "attention": "Sustained attention required for document review, meetings, and site inspections",
+          "multitasking": "High demands for managing multiple projects simultaneously",
+          "problemSolving": "Complex problem-solving required for construction issues",
+          "communication": "Regular communication with contractors, clients, team members",
+          "stressLevel": "Moderate to high, especially during critical project phases",
+          "notes": "Job requires high-level cognitive function, memory, and attention to detail."
+        },
+        "environmental": {
+          "noise": "Variable - quiet office environment to loud construction sites",
+          "lighting": "Controlled in office, variable on construction sites",
+          "temperature": "Controlled in office, variable on construction sites",
+          "hazards": "Construction sites require protective equipment",
+          "notes": "Job requires adaptation to varying environmental conditions."
+        }
+      },
+      "returnToWorkConsiderations": {
+        "barriers": [
+          "Cannot drive to work locations",
+          "Unable to tolerate sitting required for desk work",
+          "Neck pain limits computer use",
+          "Right shoulder limitations affect carrying plans, using tablet on site",
+          "Cannot negotiate construction site terrain safely",
+          "Memory and concentration issues affect ability to manage complex projects",
+          "Fatigue limits workday endurance"
+        ],
+        "accommodations": [
+          "Potential for gradual return with reduced hours",
+          "Temporary modification to office-only duties with ergonomic workstation",
+          "Scheduled rest breaks",
+          "Reduced meeting schedule",
+          "Project load reduction during recovery phase"
+        ],
+        "timelineEstimate": "Unknown at this time. Will require significant improvement in pain, mobility, and cognitive function."
+      }
+    },
+    "communityAccess": {
+      "transportation": {
+        "priorMethod": "Independent driving",
+        "currentMethod": "Dependent on spouse and family for transportation",
+        "publicTransport": "Available but patient unfamiliar with system and has anxiety about using",
+        "barriers": "Unable to drive due to neck mobility limitations and pain; anxiety about driving following accident",
+        "notes": "Transportation dependence significantly impacts independence and contributes to feelings of isolation."
+      },
+      "communityResources": {
+        "nearbyAmenities": {
+          "grocery": "2 miles",
+          "pharmacy": "1.5 miles",
+          "medicalFacilities": "Primary care 3 miles, PT clinic 4 miles",
+          "recreation": "Community park 0.5 miles, gym 3 miles",
+          "notes": "Most amenities within reasonable distance but not accessible without transportation."
+        },
+        "recreationalOptions": {
+          "priorActivities": [
+            "Local gym membership (3x weekly)",
+            "Weekend hiking in nearby state park",
+            "Community recreational sports league (volleyball)",
+            "Local theater events"
+          ],
+          "currentParticipation": "None due to physical limitations and transportation issues",
+          "potentialOptions": [
+            "Gentle walking in neighborhood when pain allows",
+            "Adapted pool program when cleared by physician",
+            "Online social groups during recovery"
+          ],
+          "notes": "Significant reduction in recreational activities contributing to decreased quality of life."
+        },
+        "socialSupport": {
+          "family": "Spouse and teenage son in home, parents live 1 hour away, sister in same city",
+          "friends": "Several close friends, limited visits since injury",
+          "healthcareTeam": "Primary care, physical therapist, pain management specialist",
+          "services": "No formal services currently in place",
+          "notes": "Strong family support system. Friends willing to help but patient sometimes reluctant to ask."
+        }
+      }
+    }
+  },
+  "activitiesOfDailyLiving": {
+    "basicADLs": {
+      "bathing": {
+        "independence": "Modified Independent",
+        "assistiveDevices": [
+          "Shower bench",
+          "Handheld shower head",
+          "Grab bar"
+        ],
+        "limitations": "Difficulty with overhead washing, hair washing, and transfers in/out of tub",
+        "currentMethod": "Uses shower bench, showers every other day due to fatigue and pain",
+        "assistance": "Occasional assistance from spouse with hair washing",
+        "notes": "Manages most bathing independently but takes significantly longer than prior to injury."
+      },
+      "personalHygiene": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "None",
+        "limitations": "Difficulty with sustained arm positions for shaving, styling hair",
+        "currentMethod": "Simplifies grooming routine, takes frequent breaks",
+        "assistance": "Occasional assistance with hair styling",
+        "notes": "Has adapted techniques but experiences increased pain with grooming activities."
+      },
+      "dressing": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "None",
+        "limitations": "Difficulty with overhead garments, fasteners, bending for lower body dressing",
+        "currentMethod": "Selects easier clothing (front-opening shirts, elastic waist pants), sits for lower body dressing",
+        "assistance": "Occasional assistance with difficult garments",
+        "notes": "Has eliminated certain clothing items that are too difficult to manage."
+      },
+      "toileting": {
+        "independence": "Independent",
+        "assistiveDevices": "None",
+        "limitations": "Some discomfort with sitting/standing transitions",
+        "currentMethod": "Uses vanity counter for support with sit-to-stand",
+        "assistance": "None",
+        "notes": "No significant issues with toileting independence."
+      },
+      "feeding": {
+        "independence": "Independent",
+        "assistiveDevices": "None",
+        "limitations": "Some discomfort with prolonged sitting at meals",
+        "currentMethod": "Uses supportive chair with arms, takes breaks during longer meals",
+        "assistance": "None",
+        "notes": "No significant limitations with self-feeding."
+      },
+      "transfersAndMobility": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Occasionally uses cane for longer distances",
+        "limitations": "Pain with transfers, limited walking distance, difficulty with stairs",
+        "currentMethod": "Uses furniture for support with transfers, takes breaks during walking",
+        "assistance": "None for basic transfers, avoids difficult situations (full flight of stairs)",
+        "notes": "All transfers and mobility tasks performed more slowly and with increased caution."
+      }
+    },
+    "instrumentalADLs": {
+      "mealPreparation": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "None",
+        "limitations": "Standing tolerance, lifting/carrying items, reaching overhead cupboards",
+        "currentMethod": "Prepares simple meals, sits for food preparation when possible",
+        "assistance": "Spouse assists with more complex meals and heavier items",
+        "notes": "Diet has become more simplified due to difficulties with meal preparation."
+      },
+      "homeManagement": {
+        "independence": "Maximum Assistance",
+        "assistiveDevices": "None",
+        "limitations": "Significant limitations with most cleaning tasks due to pain, reaching, bending, lifting",
+        "currentMethod": "Attempts light straightening, dusting at waist level",
+        "assistance": "Spouse and son perform majority of household cleaning",
+        "notes": "Previously managed all home cleaning independently. Current limitations cause significant distress."
+      },
+      "laundry": {
+        "independence": "Moderate Assistance",
+        "assistiveDevices": "None",
+        "limitations": "Difficulty with bending to washer/dryer, carrying loads, reaching for hanging items",
+        "currentMethod": "Can assist with folding when seated",
+        "assistance": "Spouse performs majority of laundry tasks",
+        "notes": "Frustration with inability to complete previously routine task."
+      },
+      "shopping": {
+        "independence": "Dependent",
+        "assistiveDevices": "None",
+        "limitations": "Transportation, walking distances, carrying items",
+        "currentMethod": "Creates shopping lists, sometimes accompanies spouse to store for small trips",
+        "assistance": "Spouse performs majority of shopping",
+        "notes": "Cannot shop independently due to transportation and physical limitations."
+      },
+      "financialManagement": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "None",
+        "limitations": "Some difficulty with concentration and memory for complex financial tasks",
+        "currentMethod": "Uses online banking, creates reminders for bill payments",
+        "assistance": "Spouse double-checks important financial matters",
+        "notes": "Manages day-to-day finances but spouse taking more responsibility for complex decisions."
+      },
+      "medication": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Pill organizer",
+        "limitations": "Occasional memory lapses",
+        "currentMethod": "Uses weekly pill organizer, phone reminders",
+        "assistance": "Spouse verifies correct medications taken",
+        "notes": "No significant issues with medication management."
+      },
+      "communication": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "None",
+        "limitations": "Neck pain with prolonged phone use, concentration issues affect complex communication",
+        "currentMethod": "Uses speakerphone, takes breaks during longer calls, writes notes for important points",
+        "assistance": "Sometimes asks spouse to make important calls when fatigue or pain is high",
+        "notes": "Communication skills intact but endurance for sustained communication reduced."
+      },
+      "transportation": {
+        "independence": "Dependent",
+        "assistiveDevices": "None",
+        "limitations": "Unable to drive due to neck mobility limitations, pain, and anxiety post-accident",
+        "currentMethod": "Relies on others for all transportation needs",
+        "assistance": "Spouse, family members provide transportation",
+        "notes": "Loss of driving is significant barrier to independence and source of frustration."
+      }
+    },
+    "leisureAndRecreation": {
+      "priorInterests": [
+        {
+          "activity": "Gym workouts",
+          "frequency": "3 times weekly",
+          "importance": "High - key stress management and health maintenance",
+          "notes": "Focused on strength training and cardio"
+        },
+        {
+          "activity": "Hiking",
+          "frequency": "Weekend activity, most weekends in good weather",
+          "importance": "High - valued outdoor time and exercise",
+          "notes": "Often hiked with spouse or friends at local state park"
+        },
+        {
+          "activity": "Recreational volleyball league",
+          "frequency": "Once weekly during season",
+          "importance": "Moderate - enjoyed social aspects and competition",
+          "notes": "Played in community league for past 5 years"
+        },
+        {
+          "activity": "Woodworking",
+          "frequency": "Variable - projects several times monthly",
+          "importance": "Moderate - enjoyed creating items for home and gifts",
+          "notes": "Small workshop in garage for projects"
+        },
+        {
+          "activity": "Reading",
+          "frequency": "Daily",
+          "importance": "Moderate - enjoyed for relaxation",
+          "notes": "Preferred non-fiction, history"
+        },
+        {
+          "activity": "Social gatherings with friends",
+          "frequency": "2-3 times monthly",
+          "importance": "High - valued social connections",
+          "notes": "Regular game nights, dinners with close friend group"
+        }
+      ],
+      "currentParticipation": [
+        {
+          "activity": "Reading",
+          "frequency": "Daily but for shorter periods",
+          "modifications": "Uses reading stand to avoid neck flexion, takes frequent breaks",
+          "barriers": "Concentration issues, neck pain with reading position",
+          "notes": "Still able to enjoy but for limited periods"
+        },
+        {
+          "activity": "Television",
+          "frequency": "Daily",
+          "modifications": "Uses supportive recliner, proper neck support",
+          "barriers": "Eye fatigue, neck pain with positioning",
+          "notes": "More reliant on passive leisure due to limitations"
+        },
+        {
+          "activity": "Short walks",
+          "frequency": "2-3 times weekly, weather permitting",
+          "modifications": "Very short distance, slow pace, uses cane as needed",
+          "barriers": "Pain, limited endurance, transportation to walking locations",
+          "notes": "Attempting to maintain some physical activity but significantly limited"
+        }
+      ],
+      "inactiveLeisure": [
+        {
+          "activity": "Gym workouts",
+          "reason": "Physical limitations, transportation",
+          "potential": "May be able to return with modifications after further recovery and rehabilitation",
+          "notes": "Significant loss as this was primary exercise and stress management"
+        },
+        {
+          "activity": "Hiking",
+          "reason": "Physical limitations, transportation, terrain challenges",
+          "potential": "Long-term goal to return to modified hiking on level paths",
+          "notes": "Misses outdoor activity and connection with nature"
+        },
+        {
+          "activity": "Volleyball",
+          "reason": "Physical limitations, unable to perform required movements",
+          "potential": "Unclear if return will be possible",
+          "notes": "Misses social aspect of team sport"
+        },
+        {
+          "activity": "Woodworking",
+          "reason": "Physical limitations with tools, standing tolerance, lifting",
+          "potential": "May be able to return to modified projects in future",
+          "notes": "Creative outlet currently unavailable"
+        },
+        {
+          "activity": "Social gatherings",
+          "reason": "Transportation, fatigue, pain with sitting, cognitive overload in group settings",
+          "potential": "Could begin with short, small gatherings as condition improves",
+          "notes": "Social isolation is significant concern"
+        }
+      ],
+      "leisureGoals": [
+        "Resume modified gym routine with focus on rehabilitation exercises",
+        "Return to short, level hiking trails with proper supports",
+        "Develop alternative creative outlets that accommodate current limitations",
+        "Increase social participation through small, structured gatherings",
+        "Explore new leisure options that are compatible with current limitations (audiobooks, adaptive sports)"
+      ],
+      "communityResources": [
+        "Local recreation center has adaptive fitness programs (currently unavailable due to transportation)",
+        "Library offers home delivery service (not yet utilized)",
+        "Community center has virtual social events (could explore)",
+        "Local pool offers warm water therapy (physician clearance needed)",
+        "Peer support group for chronic pain available online (could explore)"
+      ]
+    }
+  },
+  "attendantCare": {
+    "currentSupport": {
+      "informalCare": {
+        "primaryCaregiver": {
+          "name": "Mary Smith",
+          "relationship": "Spouse",
+          "availabilitySchedule": "Works part-time (25 hours/week), Monday-Thursday 8:30am-2:30pm",
+          "hoursProvided": 20,
+          "tasksProvided": [
+            "Transportation to appointments",
+            "Meal preparation assistance",
+            "Laundry and housekeeping",
+            "Shopping",
+            "Occasional personal care assistance"
+          ],
+          "trainingReceived": "None formal, learned techniques through PT observation",
+          "stressLevel": "Moderate to high, balancing work, household, caregiving",
+          "notes": "Primary support person, demonstrates good understanding of needs but showing signs of caregiver strain."
+        },
+        "secondaryCaregiver": {
+          "name": "James Smith",
+          "relationship": "Son (17 years old)",
+          "availabilitySchedule": "After school and weekends, limited by school activities",
+          "hoursProvided": 5,
+          "tasksProvided": [
+            "Household chores",
+            "Yard work",
+            "Occasional transportation"
+          ],
+          "trainingReceived": "None",
+          "stressLevel": "Mild, some concern about increased responsibilities",
+          "notes": "Willing to help but has appropriate age-related limitations and own activities/responsibilities."
+        },
+        "additionalSupport": [
+          {
+            "name": "Sarah Parker",
+            "relationship": "Sister",
+            "availabilitySchedule": "Weekends only, lives 20 minutes away",
+            "hoursProvided": 3,
+            "tasksProvided": [
+              "Occasional transportation",
+              "Social support",
+              "Meal preparation (brings prepared meals weekly)"
+            ],
+            "notes": "Provides valuable support but limited by own family responsibilities."
+          },
+          {
+            "name": "Robert and Jean Smith",
+            "relationship": "Parents",
+            "availabilitySchedule": "Variable, live 1 hour away",
+            "hoursProvided": 2,
+            "tasksProvided": [
+              "Occasional transportation to appointments",
+              "Social support"
+            ],
+            "notes": "Limited by age (mid-70s) and distance but provide emotional support."
+          }
+        ],
+        "totalHoursProvided": 30,
+        "caregiversExcluded": "None identified",
+        "notes": "Current support system relies heavily on spouse with some supplemental assistance from family. Spouse showing signs of strain balancing multiple responsibilities."
+      },
+      "formalCare": {
+        "professionalsInvolved": [
+          {
+            "type": "Physical Therapist",
+            "frequency": "3 sessions weekly",
+            "services": "Rehabilitation, education on home exercise program and body mechanics",
+            "notes": "Provides treatment but not attendant care"
+          },
+          {
+            "type": "Primary Care Physician",
+            "frequency": "Monthly follow-up",
+            "services": "Medical monitoring, medication management",
+            "notes": "Provides treatment but not attendant care"
+          },
+          {
+            "type": "Pain Management Specialist",
+            "frequency": "Bi-weekly",
+            "services": "Pain control interventions, medication management",
+            "notes": "Provides treatment but not attendant care"
+          }
+        ],
+        "paidAttendants": "None currently in place",
+        "totalHoursProvided": 0,
+        "fundingSource": "N/A",
+        "notes": "No formal attendant care services currently in place."
+      }
+    },
+    "attendantCareNeeds": {
+      "personalCare": {
+        "bathing": {
+          "assistanceType": "Setup and Standby",
+          "frequency": "Every other day",
+          "timeRequired": 30,
+          "totalWeeklyMinutes": 105,
+          "personalPreferences": "Prefers shower to bath, mornings preferred",
+          "notes": "Primary need is safety monitoring and occasional assistance with hair washing"
+        },
+        "toileting": {
+          "assistanceType": "Independent",
+          "frequency": "N/A",
+          "timeRequired": 0,
+          "totalWeeklyMinutes": 0,
+          "personalPreferences": "N/A",
+          "notes": "No assistance needed"
+        },
+        "dressing": {
+          "assistanceType": "Minimal Assistance",
+          "frequency": "Daily",
+          "timeRequired": 10,
+          "totalWeeklyMinutes": 70,
+          "personalPreferences": "Prefers to do as much independently as possible",
+          "notes": "Primarily needs help with difficult fasteners and overhead garments"
+        },
+        "grooming": {
+          "assistanceType": "Setup and Standby",
+          "frequency": "Daily",
+          "timeRequired": 10,
+          "totalWeeklyMinutes": 70,
+          "personalPreferences": "Values maintaining appearance, limited by pain",
+          "notes": "Difficulty with hair care and extended arm positions for shaving, styling"
+        },
+        "feeding": {
+          "assistanceType": "Independent",
+          "frequency": "N/A",
+          "timeRequired": 0,
+          "totalWeeklyMinutes": 0,
+          "personalPreferences": "N/A",
+          "notes": "No assistance needed"
+        },
+        "mobility": {
+          "assistanceType": "Standby Assistance for Safety",
+          "frequency": "As needed for outdoor mobility",
+          "timeRequired": 15,
+          "totalWeeklyMinutes": 60,
+          "personalPreferences": "Prefers to be as independent as possible but acknowledges safety concerns",
+          "notes": "Primarily needs standby assistance for uneven surfaces or longer distances"
+        }
+      },
+      "homeMaking": {
+        "mealPreparation": {
+          "assistanceType": "Moderate Assistance",
+          "frequency": "3 times daily",
+          "timeRequired": 20,
+          "totalWeeklyMinutes": 420,
+          "personalPreferences": "Enjoys participating in meal planning and simple preparation tasks",
+          "notes": "Limited by standing tolerance, lifting, carrying, and reaching. Can assist with seated prep tasks."
+        },
+        "lightHousekeeping": {
+          "assistanceType": "Moderate Assistance",
+          "frequency": "Daily",
+          "timeRequired": 20,
+          "totalWeeklyMinutes": 140,
+          "personalPreferences": "Maintains organized environment, frustrated by limitations",
+          "notes": "Can perform minimal straightening but limited with most cleaning tasks due to pain, bending, reaching"
+        },
+        "laundry": {
+          "assistanceType": "Maximal Assistance",
+          "frequency": "3 times weekly",
+          "timeRequired": 30,
+          "totalWeeklyMinutes": 90,
+          "personalPreferences": "Can assist with folding when seated",
+          "notes": "Cannot load/unload machines or carry laundry due to bending, lifting limitations"
+        },
+        "shopping": {
+          "assistanceType": "Maximal Assistance",
+          "frequency": "2 times weekly",
+          "timeRequired": 60,
+          "totalWeeklyMinutes": 120,
+          "personalPreferences": "Prefers to participate in shopping when possible",
+          "notes": "Cannot drive to stores or carry items. Can create lists and assist with selection when present."
+        },
+        "heavyHousekeeping": {
+          "assistanceType": "Total Assistance",
+          "frequency": "Weekly",
+          "timeRequired": 120,
+          "totalWeeklyMinutes": 120,
+          "personalPreferences": "Values clean environment",
+          "notes": "Cannot perform any heavy housekeeping tasks due to physical limitations"
+        }
+      },
+      "healthRelated": {
+        "medicationManagement": {
+          "assistanceType": "Setup Assistance",
+          "frequency": "Weekly",
+          "timeRequired": 15,
+          "totalWeeklyMinutes": 15,
+          "personalPreferences": "Uses pill organizer",
+          "notes": "Needs assistance with organizing medications but can self-administer"
+        },
+        "exerciseProgram": {
+          "assistanceType": "Moderate Assistance",
+          "frequency": "Twice daily",
+          "timeRequired": 20,
+          "totalWeeklyMinutes": 280,
+          "personalPreferences": "Values rehabilitation and recovery",
+          "notes": "Needs setup, supervision, and occasional hands-on assistance with home exercise program"
+        },
+        "woundCare": {
+          "assistanceType": "Not Applicable",
+          "frequency": "N/A",
+          "timeRequired": 0,
+          "totalWeeklyMinutes": 0,
+          "personalPreferences": "N/A",
+          "notes": "No wounds requiring care"
+        },
+        "vitalsMonitoring": {
+          "assistanceType": "Setup Assistance",
+          "frequency": "Daily",
+          "timeRequired": 5,
+          "totalWeeklyMinutes": 35,
+          "personalPreferences": "Self-monitors blood pressure due to hypertension",
+          "notes": "Needs occasional setup assistance with blood pressure cuff"
+        }
+      },
+      "instrumentalActivities": {
+        "transportation": {
+          "assistanceType": "Total Assistance",
+          "frequency": "4-5 times weekly",
+          "timeRequired": 60,
+          "totalWeeklyMinutes": 300,
+          "personalPreferences": "Frustrated by dependence",
+          "notes": "Cannot drive due to physical limitations and post-accident anxiety"
+        },
+        "communicationManagement": {
+          "assistanceType": "Minimal Assistance",
+          "frequency": "As needed",
+          "timeRequired": 10,
+          "totalWeeklyMinutes": 50,
+          "personalPreferences": "Values independence in communication",
+          "notes": "Occasional assistance with complex communications, appointments, insurance issues"
+        },
+        "financialManagement": {
+          "assistanceType": "Minimal Assistance",
+          "frequency": "Weekly",
+          "timeRequired": 30,
+          "totalWeeklyMinutes": 30,
+          "personalPreferences": "Previously managed all finances",
+          "notes": "Needs assistance with complex financial tasks, verification of work due to cognitive issues"
+        },
+        "homeRepairs": {
+          "assistanceType": "Total Assistance",
+          "frequency": "As needed",
+          "timeRequired": 0,
+          "totalWeeklyMinutes": 0,
+          "personalPreferences": "Previously handled all home maintenance",
+          "notes": "Cannot perform any home repairs due to physical limitations"
+        }
+      },
+      "socialSupport": {
+        "companionship": {
+          "assistanceType": "Minimal Assistance",
+          "frequency": "Daily",
+          "timeRequired": 30,
+          "totalWeeklyMinutes": 210,
+          "personalPreferences": "Values social interaction",
+          "notes": "Increased social isolation due to limitations, benefits from companionship and support"
+        },
+        "communityIntegration": {
+          "assistanceType": "Moderate Assistance",
+          "frequency": "2-3 times weekly",
+          "timeRequired": 60,
+          "totalWeeklyMinutes": 180,
+          "personalPreferences": "Misses community involvement",
+          "notes": "Needs assistance with transportation and physical support to participate in community activities"
+        }
+      }
+    },
+    "attendantCareRecommendations": {
+      "summary": {
+        "totalHoursWeekly": 38.5,
+        "personalCare": 5.1,
+        "homeMaking": 15.2,
+        "healthRelated": 5.5,
+        "instrumentalActivities": 6.3,
+        "socialSupport": 6.4,
+        "caregiverRespite": "Recommended due to signs of caregiver strain",
+        "notes": "Assessment indicates need for formal attendant care services to supplement family support and reduce caregiver burden."
+      },
+      "scheduleRecommendations": {
+        "weekdayMornings": {
+          "timeFrame": "6:30 AM - 9:00 AM",
+          "hoursDaily": 2.5,
+          "tasks": [
+            "Standby assistance with morning routine (bathing, dressing, grooming)",
+            "Breakfast preparation",
+            "Setup assistance with morning exercises",
+            "Light housekeeping"
+          ],
+          "notes": "Morning assistance would allow spouse to maintain work schedule and reduce rush/stress"
+        },
+        "weekdayAfternoons": {
+          "timeFrame": "3:00 PM - 6:00 PM",
+          "hoursDaily": 3,
+          "tasks": [
+            "Transportation from appointments",
+            "Meal preparation",
+            "Laundry assistance",
+            "Setup assistance with afternoon exercises",
+            "Community integration activities"
+          ],
+          "notes": "Afternoon support fills gap when fatigue typically peaks and before spouse returns from work"
+        },
+        "weekends": {
+          "timeFrame": "Flexible 4 hours per weekend day",
+          "hoursDaily": 4,
+          "tasks": [
+            "Heavy housekeeping",
+            "Meal preparation",
+            "Shopping assistance",
+            "Community outings",
+            "Caregiver respite"
+          ],
+          "notes": "Weekend support provides respite for spouse and enables community participation"
+        }
+      },
+      "attendantQualifications": {
+        "education": "Home Health Aide certification recommended",
+        "experience": "Experience with musculoskeletal injuries and pain management preferred",
+        "skills": [
+          "Safe body mechanics for transfers and positioning",
+          "Basic understanding of pain management principles",
+          "Good organization and time management",
+          "Ability to provide appropriate level of assistance while promoting independence",
+          "Driver's license and clean driving record"
+        ],
+        "personalAttributes": [
+          "Patient and calm demeanor",
+          "Respectful of privacy and dignity",
+          "Reliable and punctual",
+          "Good communication skills",
+          "Positive attitude"
+        ],
+        "notes": "Client values independence and would benefit from attendant who provides appropriate support without unnecessary assistance"
+      },
+      "equipmentAndAdaptations": {
+        "currentAdaptations": [
+          "Shower bench",
+          "Handheld shower head",
+          "Grab bar in bathroom",
+          "Pill organizer"
+        ],
+        "recommendedAdaptations": [
+          "Additional grab bar for toilet area",
+          "Raised toilet seat",
+          "Long-handled reacher",
+          "Car transfer handle",
+          "Ergonomic kitchen tools"
+        ],
+        "notes": "Equipment recommendations focus on promoting independence in daily activities and improving safety"
+      },
+      "fundingSources": {
+        "potentialSources": [
+          "Auto insurance (MVA claim)",
+          "Short-term disability insurance",
+          "Employee benefits package",
+          "Community support services"
+        ],
+        "referrals": [
+          "Insurance adjuster for attendant care benefits assessment",
+          "Case manager through auto insurance",
+          "Employee benefits coordinator",
+          "Community care access center"
+        ],
+        "notes": "Primary funding likely through auto insurance claim. Referrals made to explore all potential funding options."
+      },
+      "reviewSchedule": {
+        "initialReview": "2 weeks after implementation",
+        "ongoingReviews": "Monthly for first 3 months, then quarterly",
+        "adjustmentProcess": "Care plan to be adjusted based on recovery progress, changing needs, and feedback from client and caregivers",
+        "notes": "Regular reviews will ensure appropriate level of care as recovery progresses"
+      }
+    }
+  },
+  "metadata": {
+    "generated": "2025-02-26T00:53:10.916Z",
+    "sections": 7,
+    "description": "Complete assessment data for John Smith - MVA case"
+  }
+}

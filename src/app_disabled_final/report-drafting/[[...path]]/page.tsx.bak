@@ -1,0 +1,25 @@
+import { redirect } from 'next/navigation';
+
+// This component handles redirection from App Router paths to the corresponding Pages Router paths
+export default function ReportDraftingRedirect({ params }: { params?: { path?: string[] } }) {
+  // Map App Router paths to Pages Router paths
+  const pathMappings: Record<string, string> = {
+    // Root report-drafting redirects to the report drafting dashboard
+    '': '/report-drafting',
+    // Sub-paths for report drafting
+    'templates': '/report-drafting/templates',
+    'generate': '/report-drafting/generate',
+    'edit': '/report-drafting/edit',
+    'preview': '/report-drafting/preview',
+    'export': '/report-drafting/export',
+  };
+
+  // Get the first path segment if it exists
+  const pathSegment = params?.path?.[0] || '';
+  
+  // Get the redirect target, default to report drafting dashboard if not found
+  const redirectTarget = pathMappings[pathSegment] || '/report-drafting';
+  
+  // Redirect to the appropriate Pages Router path
+  redirect(redirectTarget);
+}

@@ -1,0 +1,4 @@
+Need to install the following packages:
+jest@29.7.0
+Ok to proceed? (y) ^CTerminate batch job (Y/N)? 
+^C

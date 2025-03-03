@@ -1,67 +1,284 @@
-# Section Implementation Patterns
+# Section Development Patterns
 
-## Overview
-Each report section follows a standardized implementation pattern while accommodating specific needs.
+## Component Structure
 
-## Section Types
-1. **Narrative Sections** (using Anthropic API)
-   - Medical History
-   - Subjective Information
-   - Clinical Reasoning sections
+### Base Structure
+```javascript
+import React from 'react';
 
-2. **Structured Sections** (using Agents)
-   - Demographics
-   - Tables/Data presentation
-   - Title page elements
-
-## Implementation Pattern
-### File Structure
-```
-/src/sections/[section-name]/
-  ├── generate.ts        # Main generation logic
-  ├── generate.test.ts   # Tests
-  └── types.ts           # Section-specific types
+export const SectionComponent = () => {
+  return React.createElement('section',
+    {
+      role: 'region',
+      'aria-label': 'Section Name',
+      'data-testid': 'section-name'
+    },
+    // Section content...
+  );
+};
 ```
 
-### Code Pattern - Narrative Sections
-```typescript
-// generate.ts
-export async function generateNarrative(data: SectionData) {
-  const prompt = createPrompt(data);
-  return await generateWithClaude(prompt, {
-    cacheKey: `section-${JSON.stringify(data)}`
-  });
-}
+### Form Sections
+```javascript
+import { useFormContext } from 'react-hook-form';
 
-// generate.test.ts
-describe('generateNarrative', () => {
-  it('formats prompt correctly', async () => {
-    // Test prompt formatting
-  });
+export const FormSection = () => {
+  const { register, watch, setValue } = useFormContext();
   
-  it('handles empty data', async () => {
-    // Test empty data cases
+  return React.createElement('div',
+    {
+      role: 'form',
+      'aria-label': 'Form Section'
+    },
+    React.createElement('div',
+      { className: 'form-fields' },
+      React.createElement(Input, {
+        ...register('fieldName'),
+        'data-testid': 'field-name',
+        'aria-label': 'Field Description'
+      })
+    )
+  );
+};
+```
+
+### Tab-Based Sections
+```javascript
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+
+export const TabbedSection = () => {
+  return React.createElement(Tabs,
+    {
+      defaultValue: 'tab1',
+      'data-testid': 'tabbed-section'
+    },
+    React.createElement(TabsList, null,
+      React.createElement(TabsTrigger,
+        {
+          value: 'tab1',
+          'data-testid': 'tab1-trigger'
+        },
+        'Tab 1'
+      )
+    ),
+    React.createElement(TabsContent,
+      {
+        value: 'tab1',
+        'data-testid': 'tab1-content'
+      },
+      // Tab content...
+    )
+  );
+};
+```
+
+## State Management
+
+### Form State
+```javascript
+// Using react-hook-form
+const { register, watch, setValue } = useFormContext();
+
+// Watching state changes
+const value = watch('fieldName');
+
+// Updating state
+const updateValue = (newValue) => {
+  setValue('fieldName', newValue);
+};
+
+// Field registration
+React.createElement(Input, {
+  ...register('fieldName', {
+    required: true,
+    validate: value => validateField(value)
+  })
+});
+```
+
+### Component State
+```javascript
+// Local state
+const [state, setState] = React.useState(initialValue);
+
+// Effect hooks
+React.useEffect(() => {
+  // Effect logic
+}, [dependencies]);
+
+// Memoization
+const memoizedValue = React.useMemo(() => {
+  return computeExpensiveValue(value);
+}, [value]);
+```
+
+## Event Handling
+
+### Form Events
+```javascript
+// Form submission
+const onSubmit = (data) => {
+  // Handle form data
+};
+
+React.createElement('form',
+  {
+    onSubmit: handleSubmit(onSubmit),
+    'data-testid': 'form'
+  }
+);
+
+// Field change
+React.createElement(Input, {
+  onChange: (e) => handleChange(e.target.value),
+  'data-testid': 'input-field'
+});
+```
+
+### UI Events
+```javascript
+// Click handlers
+const handleClick = () => {
+  // Handle click
+};
+
+React.createElement(Button,
+  {
+    onClick: handleClick,
+    'data-testid': 'action-button'
+  },
+  'Action'
+);
+
+// Focus events
+React.createElement(Input, {
+  onFocus: handleFocus,
+  onBlur: handleBlur,
+  'data-testid': 'focus-field'
+});
+```
+
+## Validation Patterns
+
+### Form Validation
+```javascript
+// Field validation
+const validateField = (value) => {
+  if (!value) return 'Field is required';
+  return true;
+};
+
+React.createElement(Input, {
+  ...register('field', {
+    validate: validateField
+  }),
+  'aria-invalid': errors.field ? 'true' : 'false'
+});
+
+// Error display
+React.createElement('div',
+  {
+    role: 'alert',
+    'data-testid': 'error-message'
+  },
+  errors.field?.message
+);
+```
+
+### Data Validation
+```javascript
+// Type validation
+const validateData = (data: DataType): boolean => {
+  return checkDataConstraints(data);
+};
+
+// Schema validation
+const schema = {
+  field: {
+    required: true,
+    pattern: /pattern/
+  }
+};
+```
+
+## Testing Approach
+
+### Component Tests
+```javascript
+describe('SectionComponent', () => {
+  it('renders correctly', () => {
+    render(React.createElement(SectionComponent));
+    expect(screen.getByTestId('section-name')).toBeInTheDocument();
+  });
+
+  it('handles user interaction', async () => {
+    const { user } = renderWithUser(React.createElement(SectionComponent));
+    await user.click(screen.getByRole('button'));
+    expect(screen.getByTestId('result')).toBeVisible();
   });
 });
 ```
 
-### Code Pattern - Structured Sections
-```typescript
-// Agent implementation for structured data
-export class StructuredAgent extends BaseAgent {
-  formatData(data: SectionData): string {
-    // Format data according to section needs
-  }
-}
+### Form Tests
+```javascript
+describe('FormSection', () => {
+  it('validates fields', async () => {
+    render(React.createElement(FormSection));
+    
+    await act(async () => {
+      await user.type(screen.getByTestId('input'), 'value');
+    });
+
+    expect(screen.getByRole('alert')).toHaveTextContent('Valid');
+  });
+});
 ```
 
-## Testing Requirements
-1. Prompt formatting verification
-2. Empty/invalid data handling
-3. API response processing
-4. Error cases
+## Accessibility Guidelines
 
-## Examples
-See:
-- `/src/sections/medical-history/` - Narrative example
-- `/src/sections/demographics/` - Structured example
+### Required Attributes
+- role: Define component role
+- aria-label: Describe component purpose
+- aria-invalid: Indicate validation state
+- aria-expanded: Show expansion state
+- aria-hidden: Hide decorative elements
+
+### Focus Management
+```javascript
+// Focus handling
+const handleFocus = () => {
+  focusRef.current?.focus();
+};
+
+React.createElement('div', {
+  ref: focusRef,
+  tabIndex: -1,
+  'aria-label': 'Focusable element'
+});
+```
+
+## Best Practices
+
+1. Component Structure
+- Use semantic HTML elements
+- Include accessibility attributes
+- Add test IDs for selection
+- Maintain clear hierarchy
+
+2. State Management
+- Use appropriate hooks
+- Handle side effects properly
+- Implement proper cleanup
+- Manage form state consistently
+
+3. Testing
+- Write comprehensive tests
+- Test accessibility features
+- Cover error states
+- Verify user interactions
+
+4. Documentation
+- Document component API
+- Include usage examples
+- Explain test coverage
+- Maintain up-to-date docs

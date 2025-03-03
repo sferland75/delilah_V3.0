@@ -1,0 +1,208 @@
+import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert';
+import { 
+  FileText, 
+  ClipboardList, 
+  FileOutput,
+  ArrowRight,
+  FileUp,
+  ListChecks,
+  Users,
+  Calendar,
+  FileQuestion 
+} from 'lucide-react';
+
+export default function Home() {
+  const router = useRouter();
+
+  return (
+    <div className="container mx-auto py-10 space-y-8">
+      <div className="space-y-3">
+        <h1 className="text-3xl font-bold text-center">Delilah V3.0</h1>
+        <p className="text-muted-foreground text-center">In-Home Assessment and Report System</p>
+        <p className="text-center max-w-2xl mx-auto">
+          A comprehensive system for importing medical documents, conducting structured assessments, 
+          and generating detailed reports with intelligent assistance.
+        </p>
+      </div>
+      
+      {/* Workflow Section */}
+      <div className="bg-slate-50 p-6 rounded-lg">
+        <h2 className="text-xl font-semibold mb-6">Integrated Assessment Workflow</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card className="border-blue-200 bg-blue-50">
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center space-x-2">
+                <FileUp className="h-5 w-5" />
+                <span>1. Import Documents</span>
+              </CardTitle>
+              <CardDescription>
+                Upload medical documents to extract data
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm">
+              Upload PDFs and use pattern recognition to extract structured data automatically.
+            </CardContent>
+            <CardFooter>
+              <Link href="/import/assessment" className="w-full">
+                <Button variant="default" className="w-full bg-blue-600 hover:bg-blue-700">
+                  Start with Document Import
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+
+          <Card className="border-green-200 bg-green-50">
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center space-x-2">
+                <ClipboardList className="h-5 w-5" />
+                <span>2. Complete Assessment</span>
+              </CardTitle>
+              <CardDescription>
+                Fill out structured assessment forms
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm">
+              Complete assessment sections with pre-populated data from imports or start fresh.
+            </CardContent>
+            <CardFooter>
+              <Link href="/assessment" className="w-full">
+                <Button variant="default" className="w-full bg-green-600 hover:bg-green-700">
+                  Go to Assessments
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+
+          <Card className="border-purple-200 bg-purple-50">
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center space-x-2">
+                <FileOutput className="h-5 w-5" />
+                <span>3. Generate Reports</span>
+              </CardTitle>
+              <CardDescription>
+                Create professional reports
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm">
+              Generate comprehensive reports with intelligent content suggestions based on your assessment.
+            </CardContent>
+            <CardFooter>
+              <Link href="/report-drafting" className="w-full">
+                <Button variant="default" className="w-full bg-purple-600 hover:bg-purple-700">
+                  Create Reports
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        </div>
+
+        <div className="mt-4 flex justify-center">
+          <Button 
+            variant="outline" 
+            className="flex items-center space-x-2"
+            onClick={() => router.push('/integrated-workflow')}
+          >
+            <span>View Complete Workflow</span>
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+      
+      {/* Quick Access */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Quick Access</h2>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center space-x-2">
+                <ListChecks className="h-4 w-4" />
+                <span>Active Assessments</span>
+              </CardTitle>
+            </CardHeader>
+            <CardFooter className="pt-2">
+              <Link href="/assessment?filter=active" className="w-full">
+                <Button variant="outline" className="w-full">View Active</Button>
+              </Link>
+            </CardFooter>
+          </Card>
+          
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center space-x-2">
+                <Users className="h-4 w-4" />
+                <span>Patient Directory</span>
+              </CardTitle>
+            </CardHeader>
+            <CardFooter className="pt-2">
+              <Link href="/patients" className="w-full">
+                <Button variant="outline" className="w-full">View Patients</Button>
+              </Link>
+            </CardFooter>
+          </Card>
+          
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center space-x-2">
+                <Calendar className="h-4 w-4" />
+                <span>Recent Reports</span>
+              </CardTitle>
+            </CardHeader>
+            <CardFooter className="pt-2">
+              <Link href="/report-drafting/recent" className="w-full">
+                <Button variant="outline" className="w-full">View Reports</Button>
+              </Link>
+            </CardFooter>
+          </Card>
+          
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center space-x-2">
+                <FileQuestion className="h-4 w-4" />
+                <span>Templates</span>
+              </CardTitle>
+            </CardHeader>
+            <CardFooter className="pt-2">
+              <Link href="/templates" className="w-full">
+                <Button variant="outline" className="w-full">View Templates</Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        </div>
+      </div>
+      
+      {/* Development Options */}
+      <Alert className="bg-amber-50 border-amber-200">
+        <AlertTitle>Development Options</AlertTitle>
+        <AlertDescription>
+          <p className="mb-2">These options are available during development:</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">
+            <Link href="/full-access">
+              <Button variant="outline" size="sm" className="w-full">
+                Full Assessment (Static)
+              </Button>
+            </Link>
+            <Link href="/direct">
+              <Button variant="outline" size="sm" className="w-full">
+                Direct Component Access
+              </Button>
+            </Link>
+          </div>
+        </AlertDescription>
+      </Alert>
+    </div>
+  );
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delilah V3.0 - Emergency Navigation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+        .alert {
+            background-color: #fee2e2;
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.375rem;
+        }
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            color: #1e40af;
+        }
+        .card p {
+            margin-top: 0;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .section-title {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Delilah V3.0</h1>
+            <div class="subtitle">Emergency Navigation System</div>
+        </header>
+
+        <div class="alert">
+            <strong>Navigation Issue:</strong> We've detected routing issues with the main application. This page provides direct links to key sections.
+        </div>
+
+        <section>
+            <h2 class="section-title">Main Navigation</h2>
+            <div class="card-container">
+                <a href="/import-pdf" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <h3>Import PDF</h3>
+                        <p>Upload and process PDF documents</p>
+                    </div>
+                </a>
+                <a href="/assessment" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <h3>Assessment</h3>
+                        <p>View and manage assessments</p>
+                    </div>
+                </a>
+                <a href="/report-drafting" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <h3>Reports</h3>
+                        <p>Generate and edit reports</p>
+                    </div>
+                </a>
+                <a href="/full-assessment" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <h3>Full Assessment</h3>
+                        <p>Complete comprehensive assessment</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Assessment Sections</h2>
+            <div class="card-container">
+                <a href="/assessment-sections" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <h3>All Sections</h3>
+                        <p>View all assessment sections</p>
+                    </div>
+                </a>
+                <a href="/medical-full" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <h3>Medical History</h3>
+                        <p>Medical history assessment</p>
+                    </div>
+                </a>
+                <a href="/emergency-symptoms" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <h3>Symptoms</h3>
+                        <p>Symptoms assessment</p>
+                    </div>
+                </a>
+                <a href="/typical-day" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <h3>Typical Day</h3>
+                        <p>Typical day assessment</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Standalone Applications</h2>
+            <div class="card-container">
+                <a href="http://localhost:3002" style="text-decoration: none; color: inherit;" target="_blank">
+                    <div class="card">
+                        <h3>PDF Import App</h3>
+                        <p>Standalone PDF import application</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <div class="footer">
+            Delilah V3.0 Emergency Navigation &copy; 2025
+        </div>
+    </div>
+</body>
+</html>

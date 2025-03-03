@@ -1,0 +1,7 @@
+FAIL src/sections/4-FunctionalStatus/tests/unit/formState.test.ts (7.936 s)
+FAIL src/sections/4-FunctionalStatus/tests/unit/schema.test.ts (7.99 s)
+FAIL src/sections/4-FunctionalStatus/tests/integration/TabNavigation.test.tsx (8.815 s)
+    TestingLibraryElementError: Found multiple elements with the text: Range of Motion
+FAIL src/sections/4-FunctionalStatus/tests/components/PosturalTolerances.test.tsx (9.544 s)
+    TestingLibraryElementError: Found multiple elements with the text: Hours
+FAIL src/sections/4-FunctionalStatus/tests/integration/FormSubmission.test.tsx (10.525 s)

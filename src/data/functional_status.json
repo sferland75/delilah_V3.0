@@ -1,0 +1,250 @@
+{
+  "functionalStatus": {
+    "mobilityStatus": {
+      "bedMobility": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Uses additional pillows for positioning",
+        "painLimitations": "Significant pain with rolling, transitioning from lying to sitting",
+        "notes": "Requires 2-3 minutes to change positions in bed. Uses log-roll technique to minimize pain."
+      },
+      "transfers": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Uses arms of chairs for support",
+        "painLimitations": "Moderate pain with sit-to-stand transitions, especially from low surfaces",
+        "notes": "Moving slower than normal. Needs to brace for stability when rising from seated position."
+      },
+      "walking": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Occasionally uses cane for longer distances or on bad pain days",
+        "distance": "Up to 200 meters without rest",
+        "painLimitations": "Increasing back and neck pain with distance",
+        "notes": "Altered gait pattern noted - decreased stride length, reduced arm swing on right. Walks with increased caution."
+      },
+      "stairs": {
+        "independence": "Modified Independent",
+        "assistiveDevices": "Always uses handrail",
+        "painLimitations": "Significant back pain, especially descending",
+        "notes": "Takes one step at a time, leads with left leg ascending. Can manage the 3 steps into home but avoids full flight of stairs to second floor when possible."
+      },
+      "communityMobility": {
+        "independence": "Dependent",
+        "transportation": "Currently not driving, relies on spouse or family for transportation",
+        "barriers": "Unable to turn neck sufficiently for safe driving, anxiety about driving since accident",
+        "notes": "Previously independent with all community mobility. Currently limited in community access due to transportation dependence."
+      }
+    },
+    "upperExtremityFunction": {
+      "range": {
+        "cervical": {
+          "flexion": "Limited to 30° (normal 45°)",
+          "extension": "Limited to 30° (normal 45°)",
+          "rotation": "Limited to 50° bilaterally (normal 80°)",
+          "lateralFlexion": "Limited to 30° bilaterally (normal 45°)",
+          "painWithMovement": "Significant pain at end ranges of all movements"
+        },
+        "shoulder": {
+          "flexion": "Right: Limited to 120° (normal 180°), Left: WNL",
+          "abduction": "Right: Limited to 100° (normal 180°), Left: WNL",
+          "internalRotation": "Right: Limited to 60° (normal 90°), Left: WNL",
+          "externalRotation": "Right: Limited to 70° (normal 90°), Left: WNL",
+          "painWithMovement": "Moderate to severe pain with right shoulder at end ranges"
+        },
+        "elbow": {
+          "flexion": "WNL bilaterally",
+          "extension": "WNL bilaterally",
+          "supination": "WNL bilaterally",
+          "pronation": "WNL bilaterally",
+          "painWithMovement": "No significant pain"
+        },
+        "wrist": {
+          "flexion": "WNL bilaterally",
+          "extension": "WNL bilaterally",
+          "ulnarDeviation": "WNL bilaterally",
+          "radialDeviation": "WNL bilaterally",
+          "painWithMovement": "No significant pain"
+        },
+        "hand": {
+          "fingerROM": "WNL bilaterally",
+          "thumbROM": "WNL bilaterally",
+          "painWithMovement": "No significant pain"
+        }
+      },
+      "strength": {
+        "shoulder": {
+          "flexion": "Right: 3+/5, Left: 5/5",
+          "abduction": "Right: 3/5, Left: 5/5",
+          "internalRotation": "Right: 4/5, Left: 5/5",
+          "externalRotation": "Right: 3+/5, Left: 5/5",
+          "painWithResistance": "Moderate pain with resistance to right shoulder"
+        },
+        "elbow": {
+          "flexion": "Right: 4+/5, Left: 5/5",
+          "extension": "Right: 4+/5, Left: 5/5",
+          "painWithResistance": "Mild pain with resistance to right elbow"
+        },
+        "wrist": {
+          "flexion": "Right: 4+/5, Left: 5/5",
+          "extension": "Right: 4+/5, Left: 5/5",
+          "painWithResistance": "No significant pain"
+        },
+        "grip": {
+          "right": "65 pounds (previously 110 pounds)",
+          "left": "95 pounds (previously 100 pounds)",
+          "painWithGrip": "Mild pain with maximal grip on right"
+        },
+        "pinch": {
+          "right": "15 pounds (previously 22 pounds)",
+          "left": "20 pounds (previously 20 pounds)",
+          "painWithPinch": "No significant pain"
+        }
+      },
+      "coordination": {
+        "fineMotor": "WNL bilaterally",
+        "grossMotor": "Slightly impaired with right UE due to pain and compensatory movements",
+        "notes": "No tremors, able to perform rapid alternating movements. Some difficulty with precise movements of right arm due to pain."
+      },
+      "functionalLimitations": {
+        "reaching": "Difficulty with overhead reaching on right. Cannot maintain arms above shoulder height >30 seconds",
+        "lifting": "Limited to 10 pounds with right arm, 25 pounds bilaterally",
+        "carrying": "Prefers to carry items with left arm. Limited to 5-10 minutes of carrying with right",
+        "pushingPulling": "Limited to light resistance. Moderate pain with pushing/pulling motions",
+        "manipulation": "No significant limitations with fine manipulation",
+        "impact": "Affects ability to perform job duties involving lifting materials, using tools overhead, carrying supplies. Home limitations with laundry, meal preparation, yard work."
+      }
+    },
+    "lowerExtremityFunction": {
+      "range": {
+        "lumbosacral": {
+          "flexion": "Limited to 40° (normal 60°)",
+          "extension": "Limited to 15° (normal 25°)",
+          "rotation": "Limited to 20° bilaterally (normal 30°)",
+          "lateralFlexion": "Limited to 15° bilaterally (normal 25°)",
+          "painWithMovement": "Significant pain with all movements, especially flexion and right rotation"
+        },
+        "hip": {
+          "flexion": "Right: Limited to 100° (normal 120°), Left: WNL",
+          "extension": "Right: Limited to 10° (normal 30°), Left: WNL",
+          "abduction": "Right: WNL, Left: WNL",
+          "adduction": "Right: WNL, Left: WNL",
+          "painWithMovement": "Moderate pain with right hip flexion and extension"
+        },
+        "knee": {
+          "flexion": "WNL bilaterally",
+          "extension": "WNL bilaterally",
+          "painWithMovement": "No significant pain"
+        },
+        "ankle": {
+          "dorsiflexion": "WNL bilaterally",
+          "plantarflexion": "WNL bilaterally",
+          "inversion": "WNL bilaterally",
+          "eversion": "WNL bilaterally",
+          "painWithMovement": "No significant pain"
+        }
+      },
+      "strength": {
+        "hip": {
+          "flexion": "Right: 4/5, Left: 5/5",
+          "extension": "Right: 4-/5, Left: 5/5",
+          "abduction": "Right: 4/5, Left: 5/5",
+          "adduction": "Right: 4/5, Left: 5/5",
+          "painWithResistance": "Moderate pain with resistance to right hip"
+        },
+        "knee": {
+          "flexion": "Right: 4+/5, Left: 5/5",
+          "extension": "Right: 4+/5, Left: 5/5",
+          "painWithResistance": "Mild pain with resistance to right knee"
+        },
+        "ankle": {
+          "dorsiflexion": "WNL bilaterally",
+          "plantarflexion": "WNL bilaterally",
+          "inversion": "WNL bilaterally",
+          "eversion": "WNL bilaterally",
+          "painWithResistance": "No significant pain"
+        }
+      },
+      "coordination": {
+        "balance": {
+          "static": "Able to maintain standing balance on firm surface with eyes open and closed",
+          "dynamic": "Some difficulty with quick direction changes, hesitancy on uneven surfaces",
+          "singleLegStance": "Right: 10 seconds, Left: 20 seconds",
+          "notes": "Increased postural sway noted. Protective reactions intact."
+        },
+        "gait": {
+          "pattern": "Decreased stride length, slight antalgic pattern favoring right side",
+          "base": "Normal width",
+          "rhythm": "Somewhat irregular due to pain",
+          "armSwing": "Reduced on right side",
+          "notes": "Hesitancy with direction changes and uneven surfaces. Increased caution on stairs."
+        }
+      },
+      "functionalLimitations": {
+        "standing": "Limited to 15-20 minutes before needing to change position",
+        "walking": "Limited to 200 meters before needing rest",
+        "squatting": "Significant difficulty, limited to 25% of normal depth with support",
+        "kneeling": "Unable due to pain",
+        "impact": "Affects ability to perform job duties involving site inspections, climbing ladders, walking through construction sites. Home limitations with yard work, home maintenance, shopping."
+      }
+    },
+    "posturalControl": {
+      "sitting": {
+        "tolerance": "30-45 minutes before needing position change",
+        "alignment": "Tendency toward forward head posture and rounded shoulders",
+        "stability": "Good with proper support, moderate without support",
+        "notes": "Requires lumbar support and properly adjusted chair height. Needs to shift position frequently."
+      },
+      "standing": {
+        "tolerance": "15-20 minutes before needing to sit or change position",
+        "alignment": "Slight forward head posture, weight shifted to left side",
+        "stability": "Adequate on level surfaces, decreased on uneven terrain",
+        "notes": "Fatigues quickly in standing, especially on hard surfaces. Pain increases with prolonged standing."
+      },
+      "transitions": {
+        "sit_to_stand": "Modified independent, uses arms for support",
+        "stand_to_sit": "Modified independent, controlled lowering with hand support",
+        "supine_to_sit": "Modified independent, uses log roll technique",
+        "floor_to_stand": "Significant difficulty, requires support from furniture",
+        "notes": "All transitions are performed slowly and with deliberate movements to minimize pain."
+      }
+    },
+    "activityTolerances": {
+      "physicalActivity": {
+        "duration": "20-30 minutes of light activity before needing rest",
+        "limitations": "Pain, fatigue, decreased endurance",
+        "notes": "Needs to pace activities throughout day. Cannot sustain previous level of physical exertion."
+      },
+      "cognitiveActivity": {
+        "duration": "45-60 minutes before concentration significantly impaired",
+        "limitations": "Pain distraction, memory issues, fatigue",
+        "notes": "Better in morning. Difficulty with complex problem-solving tasks by afternoon."
+      },
+      "restRequirements": {
+        "frequency": "Every 30-60 minutes during daily activities",
+        "duration": "10-20 minutes per rest period",
+        "notes": "Often requires afternoon nap of 30-60 minutes to manage through evening."
+      }
+    },
+    "painImpact": {
+      "functionalLimitations": [
+        "Unable to drive due to neck pain and limited rotation",
+        "Cannot work in prior capacity due to physical and cognitive limitations",
+        "Limited in household tasks requiring lifting, bending, reaching",
+        "Difficulty with prolonged sitting needed for desk work, meetings",
+        "Cannot participate in previous recreational activities (gym workouts, hiking)"
+      ],
+      "compensatoryStrategies": [
+        "Using left arm preferentially for reaching and lifting",
+        "Taking frequent breaks during activities",
+        "Using written reminders to compensate for memory issues",
+        "Pacing activities throughout day",
+        "Modifying home environment for easier access to frequently used items"
+      ],
+      "coping": [
+        "Heat therapy for neck and back",
+        "Gentle stretching exercises as directed by PT",
+        "Meditation and breathing techniques",
+        "Pain medication as prescribed",
+        "Support from family members"
+      ]
+    }
+  }
+}

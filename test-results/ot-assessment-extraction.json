@@ -1,0 +1,61 @@
+{
+  "_documentType": "OT_ASSESSMENT",
+  "_documentConfidence": 0.8772727272727273,
+  "DEMOGRAPHICS": {
+    "confidence": {
+      "name": 0.9,
+      "dateOfLoss": 0.85,
+      "address": 0.85,
+      "telephone": 0.9,
+      "claimNumber": 0.85,
+      "dateOfAssessment": 0.9
+    },
+    "name": "Mr. Ali Al Naqeeb Date of Loss: 2013-08-27",
+    "dateOfLoss": "2013-08-27",
+    "address": "34 Kinetic Way, Ottawa ON",
+    "telephone": "819-918-8892",
+    "claimNumber": "105304327-3",
+    "dateOfAssessment": "2021-11-23"
+  },
+  "MEDICAL_HISTORY": {
+    "confidence": {}
+  },
+  "RECOMMENDATIONS": {
+    "confidence": {
+      "recommendationItems": 0.9,
+      "therapyRecommendations": 0.85
+    },
+    "recommendationItems": [
+      "care functions and not looking after",
+      "care tasks such as showering, grooming, and wearing clean clothes. A Form 1",
+      "accident housekeeping and home",
+      "care and foster engagement in meaningful activity. His",
+      "weekly treatment sessions is proposed with the",
+      "term treatment may be required pending a demonstrated level of engagement",
+      "Psychology; he would benefit from engagement in regular counselling sessions with a",
+      "Speech Language Pathology; given the presence of a traumatic brain injury and reports of",
+      "Physical Therapy; given his ongoing reports of physical pain, Mr. Al Naqeeb would",
+      "Kinesiology; given his lack of physical activity and his high levels of anxiety, the",
+      "hour sessions of exercise per"
+    ],
+    "therapyRecommendations": [
+      "Occupational Therapy Intervention",
+      "Occupational Therapy treatment",
+      "Psychology; he would benefit from engagement in regular counselling sessions",
+      "physical therapy (such as physiotherapy"
+    ]
+  },
+  "ATTENDANT_CARE": {
+    "confidence": {
+      "hoursPerWeek": 0.95,
+      "monthlyCost": 0.9,
+      "careType": 0.8
+    },
+    "hoursPerWeek": 8.35,
+    "monthlyCost": 550.3,
+    "careType": "Attendant Care for cueing to support his \ncompletion of self-care tasks such as showering, grooming, and wearing clean clothes"
+  },
+  "FUNCTIONAL_STATUS": {
+    "confidence": {}
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "medicalHistory": {
+    "pastMedicalHistory": {
+      "conditions": [
+        {
+          "condition": "Hypertension",
+          "diagnosisDate": "2018-03-15",
+          "status": "managed",
+          "treatment": "Lisinopril 10mg daily"
+        },
+        {
+          "condition": "Type 2 Diabetes",
+          "diagnosisDate": "2019-06-10",
+          "status": "managed",
+          "treatment": "Metformin 500mg twice daily, diet management"
+        },
+        {
+          "condition": "Mild Asthma",
+          "diagnosisDate": "2010-02-22",
+          "status": "managed",
+          "treatment": "Albuterol inhaler as needed"
+        }
+      ],
+      "surgeries": [
+        {
+          "procedure": "Appendectomy",
+          "date": "2005-11-20",
+          "surgeon": "Dr. Robert Taylor",
+          "facility": "Springfield General Hospital",
+          "outcome": "Full recovery, no complications"
+        },
+        {
+          "procedure": "Arthroscopic Knee Surgery",
+          "date": "2015-07-08",
+          "surgeon": "Dr. Amanda Chen",
+          "facility": "Sports Medicine Clinic",
+          "outcome": "Good recovery, occasional mild pain with activity"
+        }
+      ],
+      "allergies": [
+        "Penicillin - causes rash",
+        "Sulfa drugs - causes difficulty breathing",
+        "Shellfish - mild reaction"
+      ],
+      "medications": [
+        {
+          "name": "Lisinopril",
+          "dosage": "10mg",
+          "frequency": "Once daily",
+          "reason": "Hypertension",
+          "prescribedBy": "Dr. Lisa Wilson",
+          "startDate": "2018-04-01",
+          "status": "current"
+        },
+        {
+          "name": "Metformin",
+          "dosage": "500mg",
+          "frequency": "Twice daily",
+          "reason": "Type 2 Diabetes",
+          "prescribedBy": "Dr. Lisa Wilson",
+          "startDate": "2019-06-15",
+          "status": "current"
+        },
+        {
+          "name": "Albuterol",
+          "dosage": "90mcg",
+          "frequency": "As needed",
+          "reason": "Asthma",
+          "prescribedBy": "Dr. James Reed",
+          "startDate": "2010-03-01",
+          "status": "current"
+        },
+        {
+          "name": "Acetaminophen",
+          "dosage": "500mg",
+          "frequency": "As needed for pain",
+          "reason": "Pain management",
+          "status": "current"
+        }
+      ],
+      "familyHistory": "Father had cardiac disease (deceased at 68); Mother has Type 2 diabetes and hypertension (alive, 73); No family history of neurological disorders."
+    },
+    "injuryDetails": {
+      "injuryDate": "2025-01-15",
+      "injuryTime": "07:45",
+      "injuryType": "Motor Vehicle Accident",
+      "injuryDescription": "Patient was the driver of a sedan struck from behind while stopped at a traffic light. Moderate impact, vehicle sustained significant rear-end damage.",
+      "locationOfInjury": "Intersection of Main St. and Oak Rd., Springfield",
+      "initialSymptoms": "Immediate neck pain, headache, dizziness, and lower back pain",
+      "initialTreatment": "Evaluated at Springfield General ER, CT scans negative for fracture, diagnosed with whiplash and lumbar strain",
+      "subsequentTreatment": "Prescribed pain medication and muscle relaxants, referred to physical therapy"
+    },
+    "functionalHistory": {
+      "priorLevelOfFunction": "Independent in all ADLs and IADLs. Worked full-time as a construction project manager. Exercised regularly (gym 3x/week, weekend hiking). Active socially, no assistance required for daily activities.",
+      "recentChanges": "Significant reduction in mobility and independence since accident. Unable to return to work due to pain and limited function. Requires assistance with some household tasks and transportation.",
+      "priorLivingArrangement": "Lives in two-story home with spouse and teenage son. Master bedroom on main floor. Three steps to enter home.",
+      "priorMobilityStatus": "Independent in all mobility including driving, community access, and recreational activities."
+    },
+    "currentTreatments": [
+      {
+        "provider": "Dr. James Thompson",
+        "type": "Physical Therapy",
+        "facility": "Springfield Rehabilitation Center",
+        "startDate": "2025-01-20",
+        "frequency": "3 times per week",
+        "status": "ongoing",
+        "notes": "Initial focus on pain management, gentle ROM, postural training. Recent progression to light strengthening."
+      },
+      {
+        "provider": "Dr. Lisa Wilson",
+        "type": "Primary Care",
+        "facility": "Springfield Medical Center",
+        "startDate": "2025-01-25",
+        "frequency": "Monthly follow-up",
+        "status": "ongoing",
+        "notes": "Monitoring pain management, medication efficacy, and overall recovery."
+      },
+      {
+        "provider": "Dr. Marcus Chen",
+        "type": "Pain Management",
+        "facility": "Springfield Pain Clinic",
+        "startDate": "2025-02-05",
+        "frequency": "Bi-weekly",
+        "status": "ongoing",
+        "notes": "Evaluating for trigger point injections, medication management, and referrals as needed."
+      }
+    ]
+  }
+}

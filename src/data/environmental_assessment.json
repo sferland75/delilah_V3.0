@@ -1,0 +1,187 @@
+{
+  "environmentalAssessment": {
+    "homeEnvironment": {
+      "housingType": "Single-family home, two-story",
+      "ownership": "Own",
+      "yearsAtLocation": 8,
+      "entryAccess": {
+        "entranceSteps": 3,
+        "handrails": "One side only, right",
+        "doorWidth": "36 inches",
+        "thresholds": "Standard height, manageable with caution",
+        "notes": "Main entrance has 3 steps with handrail. Patient able to negotiate with support but moves slowly and cautiously."
+      },
+      "interiorAccess": {
+        "stairsToSecondFloor": 14,
+        "handrails": "Both sides",
+        "hallwayWidth": "48 inches",
+        "doorwayWidths": "Standard 32-36 inches",
+        "flooring": "Hardwood in main living areas, carpet in bedrooms, tile in bathrooms and kitchen",
+        "thresholds": "Minimal between rooms, small lip at bathroom and kitchen transitions",
+        "notes": "Patient avoids using stairs to second floor when possible. Master bedroom and full bathroom on main floor."
+      },
+      "bathroomAccess": {
+        "mainBathroom": {
+          "location": "Main floor, adjacent to master bedroom",
+          "tub": true,
+          "shower": true,
+          "combinationTubShower": true,
+          "separateShower": false,
+          "showerEntry": "Step over tub side, approximately 15 inches high",
+          "grabBars": "Recently installed grab bar on shower wall",
+          "showerSeat": "Portable bath bench used",
+          "toiletHeight": "Standard height",
+          "toiletGrabBars": "None",
+          "sinkAccessibility": "Standard height, no modifications",
+          "notes": "Patient uses shower bench and handheld shower head. Has difficulty with tub transfers but manages independently with caution."
+        },
+        "secondaryBathroom": {
+          "location": "Second floor",
+          "tub": false,
+          "shower": true,
+          "combinationTubShower": false,
+          "separateShower": true,
+          "showerEntry": "Small curb, approximately 4 inches",
+          "grabBars": "None",
+          "showerSeat": "None",
+          "toiletHeight": "Standard height",
+          "toiletGrabBars": "None",
+          "sinkAccessibility": "Standard height, no modifications",
+          "notes": "Patient rarely uses second floor bathroom due to difficulty with stairs."
+        }
+      },
+      "kitchenAccess": {
+        "counterHeight": "Standard 36 inches",
+        "upperCabinetHeight": "Standard, lowest shelf approximately 54 inches from floor",
+        "sinkAccessibility": "Standard height, no modifications",
+        "applianceAccessibility": "Standard arrangement, side-by-side refrigerator, standard range",
+        "storageAccessibility": "Frequently used items moved to lower shelves and drawers since injury",
+        "notes": "Patient has difficulty reaching upper cabinets due to right shoulder limitations and neck pain. Spouse has rearranged kitchen to place commonly used items within easy reach."
+      },
+      "bedroomAccess": {
+        "bedType": "King-size mattress, medium-firm",
+        "bedHeight": "25 inches from floor to top of mattress",
+        "transferAids": "Uses nightstand for support when getting in/out of bed",
+        "notes": "Patient sleeps with multiple pillows for positioning. Uses log-roll technique to get in and out of bed."
+      },
+      "generalSafety": {
+        "lighting": "Adequate throughout home. Night lights added in hallway and bathroom",
+        "floorSurfaces": "Generally good condition. Small area rug in living room secured with non-slip pad",
+        "clutter": "Minimal, family maintains clear pathways",
+        "electricalCords": "Well-managed, no trip hazards",
+        "notes": "Home is well-maintained with good attention to safety. No significant hazards identified."
+      },
+      "modifications": {
+        "existing": [
+          "Shower grab bar in main bathroom",
+          "Portable shower bench",
+          "Handheld shower head",
+          "Night lights in hallway and bathroom"
+        ],
+        "recommended": [
+          "Toilet grab bars for main bathroom",
+          "Additional grab bar for tub entry",
+          "Consider raised toilet seat",
+          "Improved lighting in stairwell",
+          "Non-slip treads for stairs"
+        ]
+      }
+    },
+    "workEnvironment": {
+      "occupation": "Construction Project Manager",
+      "status": "Currently on medical leave since accident (6 weeks)",
+      "workSchedule": "Typically 40-50 hours per week pre-injury",
+      "workplaceAccess": {
+        "entranceAccess": "Office building with elevator access",
+        "workstationSetup": "Private office with standard desk and office chair",
+        "computerSetup": "Desktop computer, dual monitors",
+        "notes": "Workplace has good accessibility, but patient cannot currently perform job duties due to physical and cognitive limitations."
+      },
+      "jobDemands": {
+        "physical": {
+          "sitting": "4-6 hours daily at desk for documentation, meetings, computer work",
+          "standing": "2-3 hours daily during site visits and inspections",
+          "walking": "Variable, up to 1-2 miles daily during site visits",
+          "lifting": "Occasionally up to 30 pounds (materials, samples)",
+          "carrying": "Frequently 5-10 pounds (tablet, plans, clipboard)",
+          "climbing": "Occasionally required to access construction areas, ladders",
+          "notes": "Job requires combination of office work and construction site visits."
+        },
+        "cognitive": {
+          "attention": "Sustained attention required for document review, meetings, and site inspections",
+          "multitasking": "High demands for managing multiple projects simultaneously",
+          "problemSolving": "Complex problem-solving required for construction issues",
+          "communication": "Regular communication with contractors, clients, team members",
+          "stressLevel": "Moderate to high, especially during critical project phases",
+          "notes": "Job requires high-level cognitive function, memory, and attention to detail."
+        },
+        "environmental": {
+          "noise": "Variable - quiet office environment to loud construction sites",
+          "lighting": "Controlled in office, variable on construction sites",
+          "temperature": "Controlled in office, variable on construction sites",
+          "hazards": "Construction sites require protective equipment",
+          "notes": "Job requires adaptation to varying environmental conditions."
+        }
+      },
+      "returnToWorkConsiderations": {
+        "barriers": [
+          "Cannot drive to work locations",
+          "Unable to tolerate sitting required for desk work",
+          "Neck pain limits computer use",
+          "Right shoulder limitations affect carrying plans, using tablet on site",
+          "Cannot negotiate construction site terrain safely",
+          "Memory and concentration issues affect ability to manage complex projects",
+          "Fatigue limits workday endurance"
+        ],
+        "accommodations": [
+          "Potential for gradual return with reduced hours",
+          "Temporary modification to office-only duties with ergonomic workstation",
+          "Scheduled rest breaks",
+          "Reduced meeting schedule",
+          "Project load reduction during recovery phase"
+        ],
+        "timelineEstimate": "Unknown at this time. Will require significant improvement in pain, mobility, and cognitive function."
+      }
+    },
+    "communityAccess": {
+      "transportation": {
+        "priorMethod": "Independent driving",
+        "currentMethod": "Dependent on spouse and family for transportation",
+        "publicTransport": "Available but patient unfamiliar with system and has anxiety about using",
+        "barriers": "Unable to drive due to neck mobility limitations and pain; anxiety about driving following accident",
+        "notes": "Transportation dependence significantly impacts independence and contributes to feelings of isolation."
+      },
+      "communityResources": {
+        "nearbyAmenities": {
+          "grocery": "2 miles",
+          "pharmacy": "1.5 miles",
+          "medicalFacilities": "Primary care 3 miles, PT clinic 4 miles",
+          "recreation": "Community park 0.5 miles, gym 3 miles",
+          "notes": "Most amenities within reasonable distance but not accessible without transportation."
+        },
+        "recreationalOptions": {
+          "priorActivities": [
+            "Local gym membership (3x weekly)",
+            "Weekend hiking in nearby state park",
+            "Community recreational sports league (volleyball)",
+            "Local theater events"
+          ],
+          "currentParticipation": "None due to physical limitations and transportation issues",
+          "potentialOptions": [
+            "Gentle walking in neighborhood when pain allows",
+            "Adapted pool program when cleared by physician",
+            "Online social groups during recovery"
+          ],
+          "notes": "Significant reduction in recreational activities contributing to decreased quality of life."
+        },
+        "socialSupport": {
+          "family": "Spouse and teenage son in home, parents live 1 hour away, sister in same city",
+          "friends": "Several close friends, limited visits since injury",
+          "healthcareTeam": "Primary care, physical therapist, pain management specialist",
+          "services": "No formal services currently in place",
+          "notes": "Strong family support system. Friends willing to help but patient sometimes reluctant to ask."
+        }
+      }
+    }
+  }
+}

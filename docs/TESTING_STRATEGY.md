@@ -1,146 +1,199 @@
 # Delilah V3.0 Testing Strategy
 
-## Core Testing Philosophy
-Keep tests simple, maintainable, and focused on user behavior. Prefer fewer, well-structured tests over comprehensive but brittle ones.
+[Previous content remains the same...]
 
-## Test Structure Guidelines
+## Symptoms Section Testing Strategy
 
-### 1. Mock Setup
+### 1. Component Testing Structure
+- Each symptom type (Cognitive, Physical, Emotional) has its own test suite
+- Tests follow a consistent pattern for state management
+- Mock component behavior consistently across suites
+
+### 2. Physical Symptoms Testing
 ```typescript
-// Global mock setup at top level
-const mockPersist = jest.fn();
-const mockSetMode = jest.fn();
-
-// Mock hooks and contexts before component imports
-jest.mock('@/hooks/useFormPersistence', () => ({
-  useFormPersistence: () => ({
-    persist: mockPersist,
-    loading: false,
-    error: null
-  })
-}));
-```
-
-### 2. Test Organization
-```typescript
-describe('Component Name', () => {
-  // Setup
-  const user = userEvent.setup();
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+describe('PhysicalSymptoms', () => {
+  // Common helper for expanding accordion
+  const expandAccordion = async (user, index = 0) => {
+    const trigger = screen.getByTestId(`accordion-trigger-${index}`);
+    await act(async () => {
+      await user.click(trigger);
+    });
+  };
 
   // Test cases
-  it('allows user interaction', async () => {
-    render(<Component />);
-    // Test steps
+  it('allows location selection', async () => {
+    // Setup with body location mock
+    render(<PhysicalSymptoms />);
+    
+    // Test location selection
+    await user.click(locationMap);
+    expect(selectedLocation).toBe('value');
+  });
+
+  it('handles pain type selection', async () => {
+    // Test pain type dropdown
+  });
+
+  it('persists location data', async () => {
+    // Test data persistence
   });
 });
 ```
 
-## Key Test Cases
-
-### 1. Basic User Interaction
+### 3. E2E Testing Approach
 ```typescript
-it('allows filling out the form', async () => {
-  render(<Component />);
-  
-  await user.type(screen.getByLabelText(/first name/i), 'John');
-  await user.click(screen.getByRole('button', { name: /save/i }));
-  
-  expect(mockSave).toHaveBeenCalled();
+describe('Symptoms Assessment Flow', () => {
+  it('completes full assessment', async () => {
+    // Start at symptoms page
+    cy.visit('/symptoms');
+
+    // Add cognitive symptom
+    cy.findByRole('button', { name: /add cognitive/i }).click();
+    cy.findByLabelText(/type of cognitive/i).select('Memory');
+    
+    // Add physical symptom
+    cy.findByRole('button', { name: /add physical/i }).click();
+    cy.findByTestId('body-map').click(200, 300);
+    
+    // Add emotional symptom
+    cy.findByRole('button', { name: /add emotional/i }).click();
+    
+    // Submit assessment
+    cy.findByRole('button', { name: /submit/i }).click();
+    
+    // Verify completion
+    cy.url().should('include', '/review');
+  });
+
+  it('saves progress between sections', async () => {
+    // Test navigation and state persistence
+  });
+
+  it('validates required fields', async () => {
+    // Test validation rules
+  });
 });
 ```
 
-### 2. Error Handling
+### 4. Common Test Patterns for Symptoms
+
+#### a. Accordion State Management
 ```typescript
-it('handles errors gracefully', async () => {
-  // Override mock for this test
-  mockHook.mockReturnValue({
-    error: new Error('Save failed')
-  });
+// Starting collapsed
+expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
 
-  render(<Component />);
-  expect(screen.getByText(/save failed/i)).toBeInTheDocument();
-});
+// After expansion
+await expandAccordion(user);
+expect(screen.getByRole('textbox')).toBeInTheDocument();
 ```
 
-## Best Practices
-
-### 1. Mocking
-- Mock at the module level before imports
-- Use simple, focused mocks
-- Clean up mocks in beforeEach
-- Avoid complex mock implementations
-
-### 2. Testing
-- Focus on user behavior
-- Use role-based queries when possible
-- Keep tests simple and readable
-- Test error states explicitly
-
-### 3. Component Organization
-- Group related functionality
-- Keep components focused
-- Extract reusable logic to hooks
-- Use proper context providers
-
-## Common Patterns
-
-### 1. Form Testing
-- Test field interaction
-- Test submission
-- Test validation
-- Test error states
-
-### 2. Navigation Testing
-- Test tab switching
-- Test view/edit modes
-- Test data persistence
-
-### 3. Error Testing
-- Test API errors
-- Test validation errors
-- Test boundary conditions
-
-## Avoid
-1. Over-mocking
-2. Testing implementation details
-3. Brittle selectors
-4. Complex test setups
-
-## Recommended Testing Tools
-1. React Testing Library
-2. Jest
-3. user-event
-4. jest.mock() for dependencies
-
-## Setup Example
+#### b. Form State Persistence
 ```typescript
-// Mock dependencies
-jest.mock('@/hooks/useHook', () => ({
-  useHook: () => ({
-    data: mockData,
-    error: null
-  })
-}));
-
-// Test suite
-describe('Component', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('works as expected', async () => {
-    render(<Component />);
-    // Test steps
-  });
+// Set value
+await act(async () => {
+  await user.type(input, 'value');
 });
+
+// Navigate away
+await user.click(otherTab);
+
+// Return and verify
+await user.click(originalTab);
+expect(input).toHaveValue('value');
 ```
 
-## Next Steps
-1. Convert existing tests to new pattern
-2. Improve error handling coverage
-3. Add accessibility tests
-4. Document common patterns
+#### c. Visual Selection Testing
+```typescript
+// Body map selection
+const bodyMap = screen.getByTestId('body-map');
+await user.click(bodyMap);
+expect(selectedPoint).toEqual({ x: 100, y: 200 });
+```
+
+### 5. Test Coverage Requirements
+
+#### a. Component Tests
+- All symptom type components have individual test suites
+- Each interaction pattern has corresponding tests
+- Error states and validation are covered
+- Accessibility is verified
+
+#### b. Integration Tests
+- Cross-component communication
+- State management between components
+- Navigation between sections
+- Data persistence across views
+
+#### c. E2E Tests
+- Complete assessment flow
+- Error handling and validation
+- Navigation patterns
+- Data persistence
+- Form submission
+
+### 6. Physical Symptoms Specific Tests
+
+#### a. Location Selection
+- Valid point selection
+- Multiple point selection
+- Point removal
+- Location persistence
+
+#### b. Pain Characteristics
+- Pain type selection
+- Intensity rating
+- Frequency selection
+- Impact description
+
+#### c. Visual Components
+- Body map rendering
+- Point rendering
+- Selection feedback
+- Hover states
+
+## Testing Guidelines
+
+### 1. Component Testing
+- Mock complex components consistently
+- Test accessibility
+- Verify visual feedback
+- Check validation rules
+
+### 2. Integration Testing
+- Test component communication
+- Verify state updates
+- Check navigation flows
+- Test error handling
+
+### 3. E2E Testing
+- Cover main user flows
+- Test form submission
+- Verify data persistence
+- Check validation feedback
+
+## Documentation
+
+### 1. Test File Structure
+```
+symptoms/
+├── components/
+│   ├── CognitiveSymptoms.test.tsx
+│   ├── PhysicalSymptoms.test.tsx
+│   └── EmotionalSymptoms.test.tsx
+├── integration/
+│   └── SymptomsFlow.test.tsx
+└── e2e/
+    └── SymptomAssessment.test.tsx
+```
+
+### 2. Common Issues
+- Async state updates
+- Component visibility
+- Event handling
+- Form state persistence
+
+### 3. Updates & Improvements
+- Ongoing test refinements
+- Pattern updates
+- Common solutions
+- Best practices

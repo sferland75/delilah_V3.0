@@ -1,0 +1,6 @@
+import { redirect } from 'next/navigation';
+
+// Direct redirect for /assessment-sections path
+export default function AssessmentSectionsRedirect() {
+  redirect('/assessment-sections');
+}

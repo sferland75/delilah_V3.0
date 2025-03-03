@@ -1,0 +1,124 @@
+import React from 'react';
+import { render, screen, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { MedicalHistorySection } from './index';
+import { FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { medicalHistorySchema, defaultFormState } from './schema';
+
+// Mock the icons
+jest.mock('lucide-react', () => ({
+  History: () => <div data-testid="icon-history">History Icon</div>,
+  Bone: () => <div data-testid="icon-bone">Bone Icon</div>,
+  Stethoscope: () => <div data-testid="icon-stethoscope">Stethoscope Icon</div>,
+  Pill: () => <div data-testid="icon-pill">Pill Icon</div>
+}));
+
+// Mock form persistence
+jest.mock('@/hooks/useFormPersistence', () => ({
+  useFormPersistence: () => ({})
+}));
+
+// Mock zod resolver to prevent validation issues
+jest.mock('@hookform/resolvers/zod', () => ({
+  zodResolver: () => async (values: any) => ({ values, errors: {} })
+}));
+
+function TestWrapper({ children }: { children: React.ReactNode }) {
+  const methods = useForm({
+    defaultValues: {
+      ...defaultFormState,
+      config: {
+        mode: 'edit',
+        activeTab: 'preExisting'
+      }
+    },
+    resolver: zodResolver(medicalHistorySchema),
+    mode: 'onChange'
+  });
+
+  return <FormProvider {...methods}>{children}</FormProvider>;
+}
+
+describe('MedicalHistorySection', () => {
+  const customRender = (ui: React.ReactElement) => {
+    return render(ui, { wrapper: TestWrapper });
+  };
+
+  beforeEach(() => {
+    // Clear any previous act warnings
+    jest.clearAllMocks();
+  });
+
+  it('renders all tab triggers', () => {
+    customRender(<MedicalHistorySection />);
+    
+    expect(screen.getByText('Pre-Existing')).toBeInTheDocument();
+    expect(screen.getByText('Injury Details')).toBeInTheDocument();
+    expect(screen.getByText('Treatment')).toBeInTheDocument();
+    expect(screen.getByText('Medications')).toBeInTheDocument();
+  });
+
+  it('shows correct icons for each tab', () => {
+    customRender(<MedicalHistorySection />);
+    
+    expect(screen.getByTestId('icon-history')).toBeInTheDocument();
+    expect(screen.getByTestId('icon-bone')).toBeInTheDocument();
+    expect(screen.getByTestId('icon-stethoscope')).toBeInTheDocument();
+    expect(screen.getByTestId('icon-pill')).toBeInTheDocument();
+  });
+
+  it('changes active tab on click', async () => {
+    const user = userEvent.setup();
+    customRender(<MedicalHistorySection />);
+    
+    const injuryTab = screen.getByRole('tab', { name: /injury details/i });
+    const treatmentTab = screen.getByRole('tab', { name: /treatment/i });
+    const medicationsTab = screen.getByRole('tab', { name: /medications/i });
+    const preExistingTab = screen.getByRole('tab', { name: /pre-existing/i });
+
+    await act(async () => {
+      await user.click(injuryTab);
+      await user.click(treatmentTab);
+      await user.click(medicationsTab);
+      await user.click(preExistingTab);
+    });
+  });
+
+  it('renders form fields correctly', () => {
+    customRender(<MedicalHistorySection />);
+    
+    // Check Pre-existing tab fields
+    const conditionInput = screen.getByTestId('input-preExistingConditions.0.condition');
+    const statusSelect = screen.getByTestId('select-preExistingConditions.0.status');
+    const detailsTextarea = screen.getByTestId('textarea-preExistingConditions.0.details');
+    
+    expect(conditionInput).toBeInTheDocument();
+    expect(statusSelect).toBeInTheDocument();
+    expect(detailsTextarea).toBeInTheDocument();
+  });
+
+  it('verifies tab switching by checking form fields', async () => {
+    const user = userEvent.setup();
+    customRender(<MedicalHistorySection />);
+
+    // Pre-existing tab
+    expect(screen.getByTestId('input-preExistingConditions.0.condition')).toBeInTheDocument();
+
+    // Switch to injury tab
+    await act(async () => {
+      const injuryTab = screen.getByRole('tab', { name: /injury details/i });
+      await user.click(injuryTab);
+    });
+
+    await screen.findByTestId('input-injury.date');
+
+    // Switch to medications tab
+    await act(async () => {
+      const medicationsTab = screen.getByRole('tab', { name: /medications/i });
+      await user.click(medicationsTab);
+    });
+
+    await screen.findByTestId('input-currentMedications.0.name');
+  });
+});

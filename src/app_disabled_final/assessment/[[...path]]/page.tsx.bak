@@ -1,0 +1,41 @@
+import { redirect } from 'next/navigation';
+
+// This component handles redirection from App Router paths to the corresponding Pages Router paths
+export default function AssessmentRedirect({ params }: { params?: { path?: string[] } }) {
+  // Map App Router paths to Pages Router paths
+  const pathMappings: Record<string, string> = {
+    // Root assessment path is explicitly handled by /pages/assessment/index.tsx,
+    // so don't redirect empty paths to avoid conflicts
+    
+    // Section-specific redirects
+    'initial': '/full-assessment?section=initial',
+    'symptoms': '/full-assessment?section=symptoms',
+    'medical': '/full-assessment?section=medical',
+    'purpose': '/full-assessment?section=purpose',
+    'functional': '/full-assessment?section=functional',
+    'typical-day': '/full-assessment?section=typical-day',
+    'environment': '/full-assessment?section=environment',
+    'adl': '/full-assessment?section=adl',
+    'attendant-care': '/full-assessment?section=attendant-care',
+    'ama-guides': '/full-assessment?section=ama-guides',
+    // Direct section access
+    'symptoms-direct': '/emergency-symptoms',
+    'medical-direct': '/medical-full',
+    'typical-day-direct': '/typical-day',
+  };
+
+  // If no path is provided (meaning we're at /assessment), redirect to assessment page
+  // but only if we have a path parameter to avoid conflicts with the explicit page
+  if (!params?.path || params.path.length === 0) {
+    return null; // Don't redirect - let the Pages Router handle it
+  }
+  
+  // Get the first path segment
+  const pathSegment = params.path[0];
+  
+  // Get the redirect target, default to assessment dashboard if not found
+  const redirectTarget = pathMappings[pathSegment] || '/assessment';
+  
+  // Redirect to the appropriate Pages Router path
+  redirect(redirectTarget);
+}

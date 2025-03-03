@@ -1,0 +1,173 @@
+{
+  "demographics": {
+    "personalInfo": {
+      "firstName": "Maria",
+      "lastName": "Garcia",
+      "dateOfBirth": "1957-11-23",
+      "gender": "female",
+      "address": "456 Elm Avenue, Apt 302, Riverside, CA 92507",
+      "phone": "555-987-6543",
+      "email": "maria.garcia@example.com"
+    },
+    "referralInfo": {
+      "referralSource": "Dr. Michael Chen, Neurologist",
+      "referralDate": "2025-01-05",
+      "primaryDiagnosis": "Left CVA with right-sided hemiparesis",
+      "secondaryDiagnosis": "Hypertension, Hyperlipidemia, Type 2 Diabetes",
+      "reasonForReferral": "Post-stroke rehabilitation assessment and home modification recommendations"
+    }
+  },
+  "medicalHistory": {
+    "pastMedicalHistory": {
+      "conditions": [
+        { "condition": "Hypertension", "diagnosisDate": "2015-04-12", "treatment": "Lisinopril 20mg daily" },
+        { "condition": "Type 2 Diabetes", "diagnosisDate": "2016-07-18", "treatment": "Metformin 1000mg twice daily" },
+        { "condition": "Hyperlipidemia", "diagnosisDate": "2015-04-12", "treatment": "Atorvastatin 40mg daily" }
+      ],
+      "surgeries": [
+        { "procedure": "Cholecystectomy", "date": "2010-03-10", "surgeon": "Dr. Sarah Johnson" }
+      ],
+      "allergies": "Penicillin (hives), Sulfa drugs (rash)",
+      "medications": [
+        { "name": "Lisinopril", "dosage": "20mg", "frequency": "Daily", "reason": "Hypertension" },
+        { "name": "Metformin", "dosage": "1000mg", "frequency": "Twice daily", "reason": "Type 2 Diabetes" },
+        { "name": "Atorvastatin", "dosage": "40mg", "frequency": "Daily", "reason": "Hyperlipidemia" },
+        { "name": "Aspirin", "dosage": "81mg", "frequency": "Daily", "reason": "Stroke prevention" },
+        { "name": "Clopidogrel", "dosage": "75mg", "frequency": "Daily", "reason": "Stroke prevention" }
+      ]
+    },
+    "functionalHistory": {
+      "priorLevelOfFunction": "Independent in all ADLs and IADLs. Retired elementary school teacher. Active with community senior center and church activities. Enjoyed cooking, gardening, and visiting with grandchildren.",
+      "priorLivingArrangement": "Lived alone in third-floor apartment with elevator access.",
+      "priorMobilityStatus": "Independent ambulation without assistive devices. Used public transportation or drove personal vehicle.",
+      "recentChanges": "Following CVA on December 28, 2024, experienced right-sided weakness, aphasia, and balance impairments. Hospitalized for 5 days followed by 2 weeks of inpatient rehabilitation. Daughter (45) has temporarily moved in to provide assistance."
+    }
+  },
+  "symptomsAssessment": {
+    "physicalSymptoms": [
+      {
+        "symptom": "Right arm weakness",
+        "intensity": "Moderate to severe",
+        "description": "Significant weakness in right arm with limited active range of motion",
+        "aggravatingFactors": "Fatigue, attempting fine motor tasks",
+        "alleviatingFactors": "Rest, supported positioning",
+        "impactOnFunction": "Unable to use right arm for functional activities including dressing, grooming, and meal preparation"
+      },
+      {
+        "symptom": "Right leg weakness",
+        "intensity": "Moderate",
+        "description": "Weakness most notable with hip flexion and ankle dorsiflexion",
+        "aggravatingFactors": "Extended walking, stair climbing, fatigue",
+        "alleviatingFactors": "Rest, elevation of leg",
+        "impactOnFunction": "Requires front-wheeled walker for ambulation, unable to navigate stairs independently"
+      },
+      {
+        "symptom": "Balance difficulties",
+        "intensity": "Moderate",
+        "description": "Unsteadiness with standing and walking",
+        "aggravatingFactors": "Uneven surfaces, crowded environments, quick movements",
+        "alleviatingFactors": "Using walker, moving slowly",
+        "impactOnFunction": "High fall risk, requires supervision for all mobility"
+      }
+    ],
+    "cognitiveSymptoms": [
+      {
+        "symptom": "Expressive aphasia",
+        "severity": "Moderate",
+        "description": "Difficulty finding words and forming complete sentences",
+        "frequency": "Constant",
+        "impactOnFunction": "Frustration with communication, unable to have complex conversations"
+      },
+      {
+        "symptom": "Mild memory issues",
+        "severity": "Mild",
+        "description": "Occasionally forgets recent conversations or misplaces items",
+        "frequency": "Several times daily",
+        "impactOnFunction": "Needs reminders for medications and appointments"
+      }
+    ]
+  },
+  "functionalStatus": {
+    "mobilityAssessment": {
+      "bedMobility": "Requires minimal assistance for rolling and supine-to-sit",
+      "transfers": "Moderate assistance for sit-to-stand transfers",
+      "ambulation": "Ambulates with front-wheeled walker with contact guard assistance for 100 feet before requiring rest",
+      "balance": "Poor standing balance with eyes closed, moderate sitting balance",
+      "endurance": "Fatigue after 5-10 minutes of activity",
+      "assistiveDevices": "Front-wheeled walker, bedside commode, shower chair"
+    },
+    "upperExtremityFunction": {
+      "dominance": "Right-handed (affected side)",
+      "rightShoulderROM": "Limited to 90° flexion and abduction due to weakness",
+      "leftShoulderROM": "Within normal limits",
+      "rightGripStrength": "2/5 strength (significantly impaired)",
+      "leftGripStrength": "Normal",
+      "fineMotorSkills": "Unable to perform fine motor tasks with right hand, learning to use left hand for basic activities"
+    }
+  },
+  "typicalDay": {
+    "morningRoutine": "Awakens at 6:30 AM. Daughter helps with transfer to bedside commode. Requires moderate assistance for dressing and grooming. Morning routine takes approximately 90 minutes with rest breaks.",
+    "daytimeActivities": "Spends majority of day in living room recliner with positioned right arm. Attends outpatient therapy three times weekly. Practices speech exercises and does simple arm and leg exercises as tolerated. Daughter prepares all meals.",
+    "eveningRoutine": "Evening routine begins at 8:00 PM with assistance for hygiene and changing into night clothes. Takes evening medications at 9:00 PM. Sleep is interrupted 2-3 times nightly for toileting needs."
+  },
+  "environmentalAssessment": {
+    "homeLayout": {
+      "typeOfResidence": "Third-floor apartment with elevator access",
+      "entryAccess": "No steps at building entrance, apartment has threshold at door",
+      "bedroomLocation": "Single-level apartment with bedroom adjacent to living room",
+      "bathroomLocation": "One bathroom off the main hallway with step-in shower/tub combination",
+      "kitchenAccess": "Galley-style kitchen with narrow clearance"
+    },
+    "safetyAssessment": {
+      "trippingHazards": "Multiple area rugs, cluttered pathways, electrical cords",
+      "lightingAdequacy": "Poor lighting in bathroom and hallway",
+      "bathroomSafety": "No grab bars installed in shower/tub or near toilet",
+      "smokeDetectors": "Present but battery needs replacement",
+      "emergencyPlan": "Daughter stays with client, has emergency contact list on refrigerator"
+    }
+  },
+  "activitiesDailyLiving": {
+    "basicADLs": {
+      "feeding": "Requires setup assistance, uses left hand for self-feeding",
+      "bathing": "Requires moderate assistance for shower with shower chair",
+      "grooming": "Moderate assistance for grooming tasks",
+      "dressing": "Moderate assistance for all dressing tasks",
+      "toileting": "Minimal assistance for transfers to/from toilet, needs help with clothing management"
+    },
+    "instrumentalADLs": {
+      "mealPreparation": "Unable to prepare meals independently due to weakness and balance issues",
+      "householdManagement": "Unable to perform household tasks independently",
+      "financialManagement": "Needs assistance with bill paying and banking due to cognitive and motor limitations",
+      "medicationManagement": "Requires setup and reminders for medications",
+      "communityMobility": "Unable to use public transportation or drive independently"
+    },
+    "leisureRecreation": {
+      "physicalActivities": "Limited to prescribed therapeutic exercises",
+      "socialActivities": "Phone calls with friends, limited visitors due to fatigue",
+      "hobbiesInterests": "Listening to audiobooks, watching television, short periods of looking at photo albums"
+    }
+  },
+  "attendantCare": {
+    "personalCare": {
+      "bathing": "Moderate assistance daily",
+      "dressing": "Moderate assistance twice daily",
+      "grooming": "Moderate assistance daily",
+      "toileting": "Minimal assistance with clothing management"
+    },
+    "homeManagement": {
+      "mealPreparation": "Maximum assistance three times daily",
+      "cleaning": "Maximum assistance for all household cleaning",
+      "laundry": "Maximum assistance weekly"
+    },
+    "communityAccess": {
+      "transportation": "Maximum assistance for medical appointments",
+      "shopping": "Maximum assistance for all shopping needs"
+    },
+    "recommendedHours": {
+      "personalCare": 14,
+      "homeManagement": 21,
+      "communityAccess": 8,
+      "total": 43
+    }
+  }
+}

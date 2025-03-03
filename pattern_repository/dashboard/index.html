@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern Recognition Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+    .dashboard-header {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #dee2e6;
+      padding-bottom: 15px;
+    }
+    .card {
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+      font-weight: 600;
+      background-color: #f1f4f9;
+    }
+    .stats-box {
+      text-align: center;
+      padding: 20px;
+      border-radius: 5px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .stats-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .stats-label {
+      color: #7b8a8b;
+      font-size: 14px;
+    }
+    .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .field-success-high {
+      background-color: #d4edda;
+    }
+    .field-success-medium {
+      background-color: #fff3cd;
+    }
+    .field-success-low {
+      background-color: #f8d7da;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="dashboard-header">
+      <h1>Pattern Recognition Dashboard</h1>
+      <p class="text-muted">Analysis of 91 documents - Generated on 2025-03-01, 7:19:01 p.m.</p>
+    </div>
+    
+    <!-- Stats Overview Row -->
+    <div class="row mb-4">
+      <div class="col-md-3">
+        <div class="stats-box">
+          <div class="stats-value">91</div>
+          <div class="stats-label">Documents Analyzed</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-box">
+          <div class="stats-value">8</div>
+          <div class="stats-label">Section Types</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-box">
+          <div class="stats-value">606.5 s</div>
+          <div class="stats-label">Total Processing Time</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-box">
+          <div class="stats-value">6.7 s</div>
+          <div class="stats-label">Avg. Time Per Document</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <!-- Section Confidence Chart -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Section Confidence Scores
+          </div>
+          <div class="card-body">
+            <canvas id="sectionConfidenceChart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Top Field Extraction Success -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Top Field Extraction Success Rates
+          </div>
+          <div class="card-body">
+            <canvas id="fieldExtractionChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <!-- Section Average Success Rates -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Section Average Success Rates
+          </div>
+          <div class="card-body">
+            <canvas id="sectionAverageChart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Processing Time Analysis -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Section Occurrences
+          </div>
+          <div class="card-body">
+            <canvas id="sectionOccurrencesChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Field Extraction Details Table -->
+    <div class="card mt-4">
+      <div class="card-header">
+        Field Extraction Details
+      </div>
+      <div class="card-body">
+        <div class="table-container">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Section</th>
+                <th>Successful Extractions</th>
+                <th>Success Rate</th>
+              </tr>
+            </thead>
+            <tbody id="fieldDetailsTable">
+              <!-- Field rows will be inserted here by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Section confidence chart
+    const sectionConfidenceData = {"sections":["DEMOGRAPHICS","FUNCTIONAL_STATUS","TYPICAL_DAY","ADLS","ENVIRONMENTAL","MEDICAL_HISTORY","ATTENDANT_CARE","SYMPTOMS"],"avgConfidence":["38.6","37.5","36.8","36.6","35.3","34.8","34.1","33.9"],"minConfidence":["33.3","33.3","33.3","33.3","33.3","33.3","33.3","33.3"],"maxConfidence":["50.0","86.7","66.7","86.7","53.3","66.7","66.7","86.7"]};
+    const fieldExtractionData = {"topFields":[{"field":"SYMPTOMS.symptomNotes","section":"SYMPTOMS","fieldName":"symptomNotes","count":1406,"successRate":"100.0","sectionCount":1406},{"field":"ENVIRONMENTAL.access","section":"ENVIRONMENTAL","fieldName":"access","count":121,"successRate":"100.0","sectionCount":121},{"field":"ENVIRONMENTAL.environmentalNotes","section":"ENVIRONMENTAL","fieldName":"environmentalNotes","count":121,"successRate":"100.0","sectionCount":121},{"field":"MEDICAL_HISTORY.medicalNotes","section":"MEDICAL_HISTORY","fieldName":"medicalNotes","count":165,"successRate":"100.0","sectionCount":165},{"field":"ATTENDANT_CARE.caregiverInfo","section":"ATTENDANT_CARE","fieldName":"caregiverInfo","count":439,"successRate":"100.0","sectionCount":439},{"field":"ATTENDANT_CARE.careNeeds","section":"ATTENDANT_CARE","fieldName":"careNeeds","count":439,"successRate":"100.0","sectionCount":439},{"field":"ATTENDANT_CARE.careHours","section":"ATTENDANT_CARE","fieldName":"careHours","count":439,"successRate":"100.0","sectionCount":439},{"field":"ATTENDANT_CARE.notes","section":"ATTENDANT_CARE","fieldName":"notes","count":439,"successRate":"100.0","sectionCount":439},{"field":"FUNCTIONAL_STATUS.safety","section":"FUNCTIONAL_STATUS","fieldName":"safety","count":111,"successRate":"100.0","sectionCount":111},{"field":"FUNCTIONAL_STATUS.notes","section":"FUNCTIONAL_STATUS","fieldName":"notes","count":111,"successRate":"100.0","sectionCount":111},{"field":"TYPICAL_DAY.routineNotes","section":"TYPICAL_DAY","fieldName":"routineNotes","count":140,"successRate":"100.0","sectionCount":140},{"field":"ADLS.selfCare","section":"ADLS","fieldName":"selfCare","count":197,"successRate":"100.0","sectionCount":197},{"field":"ADLS.mobility","section":"ADLS","fieldName":"mobility","count":197,"successRate":"100.0","sectionCount":197},{"field":"ADLS.instrumental","section":"ADLS","fieldName":"instrumental","count":197,"successRate":"100.0","sectionCount":197},{"field":"ADLS.adlNotes","section":"ADLS","fieldName":"adlNotes","count":197,"successRate":"100.0","sectionCount":197}],"sectionGroups":{"SYMPTOMS":[{"field":"SYMPTOMS.symptomNotes","section":"SYMPTOMS","fieldName":"symptomNotes","count":1406,"successRate":"100.0","sectionCount":1406},{"field":"SYMPTOMS.reportedSymptoms","section":"SYMPTOMS","fieldName":"reportedSymptoms","count":779,"successRate":"55.4","sectionCount":1406},{"field":"SYMPTOMS.functionalImpact","section":"SYMPTOMS","fieldName":"functionalImpact","count":440,"successRate":"31.3","sectionCount":1406},{"field":"SYMPTOMS.painLocation","section":"SYMPTOMS","fieldName":"painLocation","count":309,"successRate":"22.0","sectionCount":1406},{"field":"SYMPTOMS.symptomOnset","section":"SYMPTOMS","fieldName":"symptomOnset","count":307,"successRate":"21.8","sectionCount":1406},{"field":"SYMPTOMS.symptomProgression","section":"SYMPTOMS","fieldName":"symptomProgression","count":156,"successRate":"11.1","sectionCount":1406},{"field":"SYMPTOMS.painIntensity","section":"SYMPTOMS","fieldName":"painIntensity","count":97,"successRate":"6.9","sectionCount":1406},{"field":"SYMPTOMS.painDescription","section":"SYMPTOMS","fieldName":"painDescription","count":88,"successRate":"6.3","sectionCount":1406},{"field":"SYMPTOMS.relievingFactors","section":"SYMPTOMS","fieldName":"relievingFactors","count":76,"successRate":"5.4","sectionCount":1406},{"field":"SYMPTOMS.aggravatingFactors","section":"SYMPTOMS","fieldName":"aggravatingFactors","count":74,"successRate":"5.3","sectionCount":1406}],"ENVIRONMENTAL":[{"field":"ENVIRONMENTAL.access","section":"ENVIRONMENTAL","fieldName":"access","count":121,"successRate":"100.0","sectionCount":121},{"field":"ENVIRONMENTAL.environmentalNotes","section":"ENVIRONMENTAL","fieldName":"environmentalNotes","count":121,"successRate":"100.0","sectionCount":121},{"field":"ENVIRONMENTAL.homeType","section":"ENVIRONMENTAL","fieldName":"homeType","count":47,"successRate":"38.8","sectionCount":121},{"field":"ENVIRONMENTAL.livingArrangement","section":"ENVIRONMENTAL","fieldName":"livingArrangement","count":40,"successRate":"33.1","sectionCount":121},{"field":"ENVIRONMENTAL.homeLayout","section":"ENVIRONMENTAL","fieldName":"homeLayout","count":31,"successRate":"25.6","sectionCount":121},{"field":"ENVIRONMENTAL.barriers","section":"ENVIRONMENTAL","fieldName":"barriers","count":0,"successRate":"0.0","sectionCount":121},{"field":"ENVIRONMENTAL.recommendations","section":"ENVIRONMENTAL","fieldName":"recommendations","count":0,"successRate":"0.0","sectionCount":121},{"field":"ENVIRONMENTAL.safetyRisks","section":"ENVIRONMENTAL","fieldName":"safetyRisks","count":0,"successRate":"0.0","sectionCount":121}],"MEDICAL_HISTORY":[{"field":"MEDICAL_HISTORY.medicalNotes","section":"MEDICAL_HISTORY","fieldName":"medicalNotes","count":165,"successRate":"100.0","sectionCount":165},{"field":"MEDICAL_HISTORY.diagnoses","section":"MEDICAL_HISTORY","fieldName":"diagnoses","count":24,"successRate":"14.5","sectionCount":165},{"field":"MEDICAL_HISTORY.primaryDiagnosis","section":"MEDICAL_HISTORY","fieldName":"primaryDiagnosis","count":23,"successRate":"13.9","sectionCount":165},{"field":"MEDICAL_HISTORY.secondaryDiagnoses","section":"MEDICAL_HISTORY","fieldName":"secondaryDiagnoses","count":5,"successRate":"3.0","sectionCount":165},{"field":"MEDICAL_HISTORY.conditions","section":"MEDICAL_HISTORY","fieldName":"conditions","count":0,"successRate":"0.0","sectionCount":165},{"field":"MEDICAL_HISTORY.surgeries","section":"MEDICAL_HISTORY","fieldName":"surgeries","count":0,"successRate":"0.0","sectionCount":165},{"field":"MEDICAL_HISTORY.medications","section":"MEDICAL_HISTORY","fieldName":"medications","count":0,"successRate":"0.0","sectionCount":165},{"field":"MEDICAL_HISTORY.allergies","section":"MEDICAL_HISTORY","fieldName":"allergies","count":0,"successRate":"0.0","sectionCount":165}],"ATTENDANT_CARE":[{"field":"ATTENDANT_CARE.caregiverInfo","section":"ATTENDANT_CARE","fieldName":"caregiverInfo","count":439,"successRate":"100.0","sectionCount":439},{"field":"ATTENDANT_CARE.careNeeds","section":"ATTENDANT_CARE","fieldName":"careNeeds","count":439,"successRate":"100.0","sectionCount":439},{"field":"ATTENDANT_CARE.careHours","section":"ATTENDANT_CARE","fieldName":"careHours","count":439,"successRate":"100.0","sectionCount":439},{"field":"ATTENDANT_CARE.notes","section":"ATTENDANT_CARE","fieldName":"notes","count":439,"successRate":"100.0","sectionCount":439},{"field":"ATTENDANT_CARE.recommendations","section":"ATTENDANT_CARE","fieldName":"recommendations","count":0,"successRate":"0.0","sectionCount":439},{"field":"ATTENDANT_CARE.currentServices","section":"ATTENDANT_CARE","fieldName":"currentServices","count":0,"successRate":"0.0","sectionCount":439}],"FUNCTIONAL_STATUS":[{"field":"FUNCTIONAL_STATUS.safety","section":"FUNCTIONAL_STATUS","fieldName":"safety","count":111,"successRate":"100.0","sectionCount":111},{"field":"FUNCTIONAL_STATUS.notes","section":"FUNCTIONAL_STATUS","fieldName":"notes","count":111,"successRate":"100.0","sectionCount":111},{"field":"FUNCTIONAL_STATUS.assistiveDevices","section":"FUNCTIONAL_STATUS","fieldName":"assistiveDevices","count":49,"successRate":"44.1","sectionCount":111},{"field":"FUNCTIONAL_STATUS.mobilityStatus","section":"FUNCTIONAL_STATUS","fieldName":"mobilityStatus","count":29,"successRate":"26.1","sectionCount":111},{"field":"FUNCTIONAL_STATUS.functionalLimitations","section":"FUNCTIONAL_STATUS","fieldName":"functionalLimitations","count":26,"successRate":"23.4","sectionCount":111},{"field":"FUNCTIONAL_STATUS.endurance","section":"FUNCTIONAL_STATUS","fieldName":"endurance","count":19,"successRate":"17.1","sectionCount":111},{"field":"FUNCTIONAL_STATUS.transferStatus","section":"FUNCTIONAL_STATUS","fieldName":"transferStatus","count":15,"successRate":"13.5","sectionCount":111},{"field":"FUNCTIONAL_STATUS.balanceStatus","section":"FUNCTIONAL_STATUS","fieldName":"balanceStatus","count":6,"successRate":"5.4","sectionCount":111},{"field":"FUNCTIONAL_STATUS.functionalGoals","section":"FUNCTIONAL_STATUS","fieldName":"functionalGoals","count":0,"successRate":"0.0","sectionCount":111}],"TYPICAL_DAY":[{"field":"TYPICAL_DAY.routineNotes","section":"TYPICAL_DAY","fieldName":"routineNotes","count":140,"successRate":"100.0","sectionCount":140},{"field":"TYPICAL_DAY.morningRoutine","section":"TYPICAL_DAY","fieldName":"morningRoutine","count":74,"successRate":"52.9","sectionCount":140},{"field":"TYPICAL_DAY.eveningRoutine","section":"TYPICAL_DAY","fieldName":"eveningRoutine","count":26,"successRate":"18.6","sectionCount":140},{"field":"TYPICAL_DAY.afternoonRoutine","section":"TYPICAL_DAY","fieldName":"afternoonRoutine","count":21,"successRate":"15.0","sectionCount":140},{"field":"TYPICAL_DAY.nightRoutine","section":"TYPICAL_DAY","fieldName":"nightRoutine","count":20,"successRate":"14.3","sectionCount":140},{"field":"TYPICAL_DAY.dailyActivities","section":"TYPICAL_DAY","fieldName":"dailyActivities","count":1,"successRate":"0.7","sectionCount":140},{"field":"TYPICAL_DAY.weeklyActivities","section":"TYPICAL_DAY","fieldName":"weeklyActivities","count":0,"successRate":"0.0","sectionCount":140},{"field":"TYPICAL_DAY.leisureActivities","section":"TYPICAL_DAY","fieldName":"leisureActivities","count":0,"successRate":"0.0","sectionCount":140}],"ADLS":[{"field":"ADLS.selfCare","section":"ADLS","fieldName":"selfCare","count":197,"successRate":"100.0","sectionCount":197},{"field":"ADLS.mobility","section":"ADLS","fieldName":"mobility","count":197,"successRate":"100.0","sectionCount":197},{"field":"ADLS.instrumental","section":"ADLS","fieldName":"instrumental","count":197,"successRate":"100.0","sectionCount":197},{"field":"ADLS.adlNotes","section":"ADLS","fieldName":"adlNotes","count":197,"successRate":"100.0","sectionCount":197},{"field":"ADLS.summary","section":"ADLS","fieldName":"summary","count":39,"successRate":"19.8","sectionCount":197},{"field":"ADLS.recommendations","section":"ADLS","fieldName":"recommendations","count":0,"successRate":"0.0","sectionCount":197}],"DEMOGRAPHICS":[{"field":"DEMOGRAPHICS.name","section":"DEMOGRAPHICS","fieldName":"name","count":56,"successRate":"67.5","sectionCount":83},{"field":"DEMOGRAPHICS.insuranceInfo","section":"DEMOGRAPHICS","fieldName":"insuranceInfo","count":55,"successRate":"66.3","sectionCount":83},{"field":"DEMOGRAPHICS.address","section":"DEMOGRAPHICS","fieldName":"address","count":53,"successRate":"63.9","sectionCount":83},{"field":"DEMOGRAPHICS.dob","section":"DEMOGRAPHICS","fieldName":"dob","count":28,"successRate":"33.7","sectionCount":83},{"field":"DEMOGRAPHICS.phone","section":"DEMOGRAPHICS","fieldName":"phone","count":26,"successRate":"31.3","sectionCount":83},{"field":"DEMOGRAPHICS.referralSource","section":"DEMOGRAPHICS","fieldName":"referralSource","count":5,"successRate":"6.0","sectionCount":83},{"field":"DEMOGRAPHICS.gender","section":"DEMOGRAPHICS","fieldName":"gender","count":3,"successRate":"3.6","sectionCount":83},{"field":"DEMOGRAPHICS.age","section":"DEMOGRAPHICS","fieldName":"age","count":0,"successRate":"0.0","sectionCount":83}]},"sectionAverages":{"SYMPTOMS":"26.6","ENVIRONMENTAL":"37.2","MEDICAL_HISTORY":"16.4","ATTENDANT_CARE":"66.7","FUNCTIONAL_STATUS":"36.6","TYPICAL_DAY":"25.2","ADLS":"70.0","DEMOGRAPHICS":"34.0"},"allFields":[{"field":"SYMPTOMS.symptomNotes","section":"SYMPTOMS","fieldName":"symptomNotes","count":1406,"successRate":"100.0","sectionCount":1406},{"field":"ENVIRONMENTAL.access","section":"ENVIRONMENTAL","fieldName":"access","count":121,"successRate":"100.0","sectionCount":121},{"field":"ENVIRONMENTAL.environmentalNotes","section":"ENVIRONMENTAL","fieldName":"environmentalNotes","count":121,"successRate":"100.0","sectionCount":121},{"field":"MEDICAL_HISTORY.medicalNotes","section":"MEDICAL_HISTORY","fieldName":"medicalNotes","count":165,"successRate":"100.0","sectionCount":165},{"field":"ATTENDANT_CARE.caregiverInfo","section":"ATTENDANT_CARE","fieldName":"caregiverInfo","count":439,"successRate":"100.0","sectionCount":439},{"field":"ATTENDANT_CARE.careNeeds","section":"ATTENDANT_CARE","fieldName":"careNeeds","count":439,"successRate":"100.0","sectionCount":439},{"field":"ATTENDANT_CARE.careHours","section":"ATTENDANT_CARE","fieldName":"careHours","count":439,"successRate":"100.0","sectionCount":439},{"field":"ATTENDANT_CARE.notes","section":"ATTENDANT_CARE","fieldName":"notes","count":439,"successRate":"100.0","sectionCount":439},{"field":"FUNCTIONAL_STATUS.safety","section":"FUNCTIONAL_STATUS","fieldName":"safety","count":111,"successRate":"100.0","sectionCount":111},{"field":"FUNCTIONAL_STATUS.notes","section":"FUNCTIONAL_STATUS","fieldName":"notes","count":111,"successRate":"100.0","sectionCount":111},{"field":"TYPICAL_DAY.routineNotes","section":"TYPICAL_DAY","fieldName":"routineNotes","count":140,"successRate":"100.0","sectionCount":140},{"field":"ADLS.selfCare","section":"ADLS","fieldName":"selfCare","count":197,"successRate":"100.0","sectionCount":197},{"field":"ADLS.mobility","section":"ADLS","fieldName":"mobility","count":197,"successRate":"100.0","sectionCount":197},{"field":"ADLS.instrumental","section":"ADLS","fieldName":"instrumental","count":197,"successRate":"100.0","sectionCount":197},{"field":"ADLS.adlNotes","section":"ADLS","fieldName":"adlNotes","count":197,"successRate":"100.0","sectionCount":197},{"field":"DEMOGRAPHICS.name","section":"DEMOGRAPHICS","fieldName":"name","count":56,"successRate":"67.5","sectionCount":83},{"field":"DEMOGRAPHICS.insuranceInfo","section":"DEMOGRAPHICS","fieldName":"insuranceInfo","count":55,"successRate":"66.3","sectionCount":83},{"field":"DEMOGRAPHICS.address","section":"DEMOGRAPHICS","fieldName":"address","count":53,"successRate":"63.9","sectionCount":83},{"field":"SYMPTOMS.reportedSymptoms","section":"SYMPTOMS","fieldName":"reportedSymptoms","count":779,"successRate":"55.4","sectionCount":1406},{"field":"TYPICAL_DAY.morningRoutine","section":"TYPICAL_DAY","fieldName":"morningRoutine","count":74,"successRate":"52.9","sectionCount":140},{"field":"FUNCTIONAL_STATUS.assistiveDevices","section":"FUNCTIONAL_STATUS","fieldName":"assistiveDevices","count":49,"successRate":"44.1","sectionCount":111},{"field":"ENVIRONMENTAL.homeType","section":"ENVIRONMENTAL","fieldName":"homeType","count":47,"successRate":"38.8","sectionCount":121},{"field":"DEMOGRAPHICS.dob","section":"DEMOGRAPHICS","fieldName":"dob","count":28,"successRate":"33.7","sectionCount":83},{"field":"ENVIRONMENTAL.livingArrangement","section":"ENVIRONMENTAL","fieldName":"livingArrangement","count":40,"successRate":"33.1","sectionCount":121},{"field":"DEMOGRAPHICS.phone","section":"DEMOGRAPHICS","fieldName":"phone","count":26,"successRate":"31.3","sectionCount":83},{"field":"SYMPTOMS.functionalImpact","section":"SYMPTOMS","fieldName":"functionalImpact","count":440,"successRate":"31.3","sectionCount":1406},{"field":"FUNCTIONAL_STATUS.mobilityStatus","section":"FUNCTIONAL_STATUS","fieldName":"mobilityStatus","count":29,"successRate":"26.1","sectionCount":111},{"field":"ENVIRONMENTAL.homeLayout","section":"ENVIRONMENTAL","fieldName":"homeLayout","count":31,"successRate":"25.6","sectionCount":121},{"field":"FUNCTIONAL_STATUS.functionalLimitations","section":"FUNCTIONAL_STATUS","fieldName":"functionalLimitations","count":26,"successRate":"23.4","sectionCount":111},{"field":"SYMPTOMS.painLocation","section":"SYMPTOMS","fieldName":"painLocation","count":309,"successRate":"22.0","sectionCount":1406},{"field":"SYMPTOMS.symptomOnset","section":"SYMPTOMS","fieldName":"symptomOnset","count":307,"successRate":"21.8","sectionCount":1406},{"field":"ADLS.summary","section":"ADLS","fieldName":"summary","count":39,"successRate":"19.8","sectionCount":197},{"field":"TYPICAL_DAY.eveningRoutine","section":"TYPICAL_DAY","fieldName":"eveningRoutine","count":26,"successRate":"18.6","sectionCount":140},{"field":"FUNCTIONAL_STATUS.endurance","section":"FUNCTIONAL_STATUS","fieldName":"endurance","count":19,"successRate":"17.1","sectionCount":111},{"field":"TYPICAL_DAY.afternoonRoutine","section":"TYPICAL_DAY","fieldName":"afternoonRoutine","count":21,"successRate":"15.0","sectionCount":140},{"field":"MEDICAL_HISTORY.diagnoses","section":"MEDICAL_HISTORY","fieldName":"diagnoses","count":24,"successRate":"14.5","sectionCount":165},{"field":"TYPICAL_DAY.nightRoutine","section":"TYPICAL_DAY","fieldName":"nightRoutine","count":20,"successRate":"14.3","sectionCount":140},{"field":"MEDICAL_HISTORY.primaryDiagnosis","section":"MEDICAL_HISTORY","fieldName":"primaryDiagnosis","count":23,"successRate":"13.9","sectionCount":165},{"field":"FUNCTIONAL_STATUS.transferStatus","section":"FUNCTIONAL_STATUS","fieldName":"transferStatus","count":15,"successRate":"13.5","sectionCount":111},{"field":"SYMPTOMS.symptomProgression","section":"SYMPTOMS","fieldName":"symptomProgression","count":156,"successRate":"11.1","sectionCount":1406},{"field":"SYMPTOMS.painIntensity","section":"SYMPTOMS","fieldName":"painIntensity","count":97,"successRate":"6.9","sectionCount":1406},{"field":"SYMPTOMS.painDescription","section":"SYMPTOMS","fieldName":"painDescription","count":88,"successRate":"6.3","sectionCount":1406},{"field":"DEMOGRAPHICS.referralSource","section":"DEMOGRAPHICS","fieldName":"referralSource","count":5,"successRate":"6.0","sectionCount":83},{"field":"SYMPTOMS.relievingFactors","section":"SYMPTOMS","fieldName":"relievingFactors","count":76,"successRate":"5.4","sectionCount":1406},{"field":"FUNCTIONAL_STATUS.balanceStatus","section":"FUNCTIONAL_STATUS","fieldName":"balanceStatus","count":6,"successRate":"5.4","sectionCount":111},{"field":"SYMPTOMS.aggravatingFactors","section":"SYMPTOMS","fieldName":"aggravatingFactors","count":74,"successRate":"5.3","sectionCount":1406},{"field":"DEMOGRAPHICS.gender","section":"DEMOGRAPHICS","fieldName":"gender","count":3,"successRate":"3.6","sectionCount":83},{"field":"MEDICAL_HISTORY.secondaryDiagnoses","section":"MEDICAL_HISTORY","fieldName":"secondaryDiagnoses","count":5,"successRate":"3.0","sectionCount":165},{"field":"TYPICAL_DAY.dailyActivities","section":"TYPICAL_DAY","fieldName":"dailyActivities","count":1,"successRate":"0.7","sectionCount":140},{"field":"DEMOGRAPHICS.age","section":"DEMOGRAPHICS","fieldName":"age","count":0,"successRate":"0.0","sectionCount":83},{"field":"ENVIRONMENTAL.barriers","section":"ENVIRONMENTAL","fieldName":"barriers","count":0,"successRate":"0.0","sectionCount":121},{"field":"ENVIRONMENTAL.recommendations","section":"ENVIRONMENTAL","fieldName":"recommendations","count":0,"successRate":"0.0","sectionCount":121},{"field":"ENVIRONMENTAL.safetyRisks","section":"ENVIRONMENTAL","fieldName":"safetyRisks","count":0,"successRate":"0.0","sectionCount":121},{"field":"MEDICAL_HISTORY.conditions","section":"MEDICAL_HISTORY","fieldName":"conditions","count":0,"successRate":"0.0","sectionCount":165},{"field":"MEDICAL_HISTORY.surgeries","section":"MEDICAL_HISTORY","fieldName":"surgeries","count":0,"successRate":"0.0","sectionCount":165},{"field":"MEDICAL_HISTORY.medications","section":"MEDICAL_HISTORY","fieldName":"medications","count":0,"successRate":"0.0","sectionCount":165},{"field":"MEDICAL_HISTORY.allergies","section":"MEDICAL_HISTORY","fieldName":"allergies","count":0,"successRate":"0.0","sectionCount":165},{"field":"ATTENDANT_CARE.recommendations","section":"ATTENDANT_CARE","fieldName":"recommendations","count":0,"successRate":"0.0","sectionCount":439},{"field":"ATTENDANT_CARE.currentServices","section":"ATTENDANT_CARE","fieldName":"currentServices","count":0,"successRate":"0.0","sectionCount":439},{"field":"FUNCTIONAL_STATUS.functionalGoals","section":"FUNCTIONAL_STATUS","fieldName":"functionalGoals","count":0,"successRate":"0.0","sectionCount":111},{"field":"TYPICAL_DAY.weeklyActivities","section":"TYPICAL_DAY","fieldName":"weeklyActivities","count":0,"successRate":"0.0","sectionCount":140},{"field":"TYPICAL_DAY.leisureActivities","section":"TYPICAL_DAY","fieldName":"leisureActivities","count":0,"successRate":"0.0","sectionCount":140},{"field":"ADLS.recommendations","section":"ADLS","fieldName":"recommendations","count":0,"successRate":"0.0","sectionCount":197}]};
+    const patternData = {"patterns":[],"effectiveness":[]};
+    const processingData = {"totalFiles":91,"processingTime":"606.5","avgTimePerFile":"6.7"};
+    
+    // Create section confidence chart
+    const sectionCtx = document.getElementById('sectionConfidenceChart').getContext('2d');
+    new Chart(sectionCtx, {
+      type: 'bar',
+      data: {
+        labels: sectionConfidenceData.sections,
+        datasets: [
+          {
+            label: 'Average Confidence (%)',
+            data: sectionConfidenceData.avgConfidence,
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Min Confidence (%)',
+            data: sectionConfidenceData.minConfidence,
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Max Confidence (%)',
+            data: sectionConfidenceData.maxConfidence,
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            title: {
+              display: true,
+              text: 'Confidence (%)'
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Section Confidence Scores'
+          }
+        }
+      }
+    });
+    
+    // Create field extraction success chart
+    const fieldCtx = document.getElementById('fieldExtractionChart').getContext('2d');
+    new Chart(fieldCtx, {
+      type: 'bar',
+      data: {
+        labels: fieldExtractionData.topFields.map(f => f.field),
+        datasets: [{
+          label: 'Success Rate (%)',
+          data: fieldExtractionData.topFields.map(f => f.successRate),
+          backgroundColor: fieldExtractionData.topFields.map(f => {
+            const rate = parseFloat(f.successRate);
+            if (rate > 100) return 'rgba(40, 167, 69, 0.7)';
+            if (rate > 50) return 'rgba(23, 162, 184, 0.7)';
+            if (rate > 10) return 'rgba(255, 193, 7, 0.7)';
+            return 'rgba(220, 53, 69, 0.7)';
+          }),
+          borderWidth: 1
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        scales: {
+          x: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Success Rate (%)'
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Top 15 Field Extraction Success Rates'
+          }
+        }
+      }
+    });
+    
+    // Create section average chart
+    const sectionAvgCtx = document.getElementById('sectionAverageChart').getContext('2d');
+    const sectionLabels = Object.keys(fieldExtractionData.sectionAverages);
+    const sectionAvgs = sectionLabels.map(s => fieldExtractionData.sectionAverages[s]);
+    
+    new Chart(sectionAvgCtx, {
+      type: 'bar',
+      data: {
+        labels: sectionLabels,
+        datasets: [{
+          label: 'Average Success Rate (%)',
+          data: sectionAvgs,
+          backgroundColor: 'rgba(153, 102, 255, 0.7)',
+          borderColor: 'rgba(153, 102, 255, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Avg. Success Rate (%)'
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Section Average Field Extraction Success'
+          }
+        }
+      }
+    });
+    
+    // Create section occurrences chart
+    const occurrencesCtx = document.getElementById('sectionOccurrencesChart').getContext('2d');
+    
+    // Get section occurrences data from meta analysis
+    const sectionOccurrences = [["DEMOGRAPHICS",83],["SYMPTOMS",1406],["ENVIRONMENTAL",121],["MEDICAL_HISTORY",165],["ATTENDANT_CARE",439],["FUNCTIONAL_STATUS",111],["TYPICAL_DAY",140],["ADLS",197]];
+    
+    new Chart(occurrencesCtx, {
+      type: 'pie',
+      data: {
+        labels: sectionOccurrences.map(item => item[0]),
+        datasets: [{
+          data: sectionOccurrences.map(item => item[1]),
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(153, 102, 255, 0.7)',
+            'rgba(255, 159, 64, 0.7)',
+            'rgba(199, 199, 199, 0.7)',
+            'rgba(83, 102, 255, 0.7)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: 'Section Occurrences in Documents'
+          }
+        }
+      }
+    });
+    
+    // Populate field details table
+    const tableBody = document.getElementById('fieldDetailsTable');
+    fieldExtractionData.allFields.forEach(field => {
+      const row = document.createElement('tr');
+      
+      // Add CSS class based on success rate
+      const successRate = parseFloat(field.successRate);
+      if (successRate > 70) {
+        row.classList.add('field-success-high');
+      } else if (successRate > 20) {
+        row.classList.add('field-success-medium');
+      } else {
+        row.classList.add('field-success-low');
+      }
+      
+      row.innerHTML = `
+        <td>${field.fieldName}</td>
+        <td>${field.section}</td>
+        <td>${field.count}</td>
+        <td>${field.successRate}%</td>
+      `;
+      
+      tableBody.appendChild(row);
+    });
+  </script>
+</body>
+</html>

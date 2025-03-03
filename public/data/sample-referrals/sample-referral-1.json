@@ -1,0 +1,155 @@
+{
+  "metadata": {
+    "documentType": "REFERRAL",
+    "confidence": 0.85,
+    "extractorVersion": "1.0.0",
+    "sectionConfidence": {
+      "clientInfo": 0.9,
+      "assessmentRequirements": 0.8,
+      "schedulingInfo": 0.85,
+      "reportingRequirements": 0.7,
+      "referralSource": 0.9
+    }
+  },
+  "clientInfo": {
+    "name": {
+      "value": "John Smith",
+      "confidence": 0.95
+    },
+    "dateOfBirth": {
+      "value": "March 15, 1980",
+      "confidence": 0.9
+    },
+    "dateOfLoss": {
+      "value": "January 10, 2025",
+      "confidence": 0.9
+    },
+    "fileNumber": {
+      "value": "234567",
+      "confidence": 0.95
+    },
+    "language": {
+      "value": "English",
+      "confidence": 0.8
+    },
+    "phoneNumbers": {
+      "value": ["613-555-1234", "613-555-4321"],
+      "confidence": 0.85
+    },
+    "address": {
+      "value": "123 Main Street, Ottawa, ON K2P 1M2",
+      "confidence": 0.8
+    },
+    "email": {
+      "value": "john.smith@example.com",
+      "confidence": 0.9
+    }
+  },
+  "assessmentRequirements": {
+    "assessmentTypes": {
+      "value": ["In-home assessment", "Attendant Care Needs", "Functional assessment"],
+      "confidence": 0.9
+    },
+    "reportTypes": {
+      "value": [
+        {
+          "number": "1",
+          "description": "Attendant Care Needs Assessment"
+        },
+        {
+          "number": "2",
+          "description": "Functional Abilities Evaluation"
+        }
+      ],
+      "confidence": 0.85
+    },
+    "specificRequirements": {
+      "value": [
+        "Assess ability to perform self-care tasks",
+        "Evaluate need for home modifications",
+        "Determine if client can safely prepare meals",
+        "Assess mobility within the home environment"
+      ],
+      "confidence": 0.8
+    },
+    "criteria": {
+      "value": ["3"],
+      "confidence": 0.7
+    },
+    "domains": {
+      "value": [
+        "Personal care",
+        "Home management",
+        "Mobility and transfers",
+        "Safety in the home"
+      ],
+      "confidence": 0.75
+    }
+  },
+  "schedulingInfo": {
+    "assessors": {
+      "value": [
+        {
+          "name": "Sebastien Ferland",
+          "title": "OT Reg (ON)",
+          "specialization": "Occupational Therapist",
+          "email": "sebastien@ferlandassociates.com"
+        }
+      ],
+      "confidence": 0.9
+    },
+    "appointments": {
+      "value": [
+        {
+          "assessor": "Sebastien Ferland",
+          "type": "Attendant Care Needs Assessment",
+          "location": "123 Main Street, Ottawa, ON K2P 1M2",
+          "dateTime": "March 10, 2025 9:00 AM",
+          "duration": "11:00 AM"
+        }
+      ],
+      "confidence": 0.85
+    },
+    "location": {
+      "value": "123 Main Street, Ottawa, ON K2P 1M2",
+      "confidence": 0.9
+    },
+    "interpreterNeeded": {
+      "value": false,
+      "confidence": 0.95
+    }
+  },
+  "reportingRequirements": {
+    "dueDate": {
+      "value": "March 25, 2025",
+      "confidence": 0.85
+    },
+    "templates": {
+      "value": ["Attached template required"],
+      "confidence": 0.7
+    },
+    "guidelines": {
+      "value": [
+        "Use proper AMA citation format",
+        "Include all test results in appendices",
+        "Report must be submitted in PDF format",
+        "Submit invoice separately"
+      ],
+      "confidence": 0.75
+    }
+  },
+  "referralSource": {
+    "organization": {
+      "value": "Omega Medical Associates",
+      "confidence": 0.95
+    },
+    "contactPerson": {
+      "value": "Angelica McClimond",
+      "confidence": 0.9
+    },
+    "contactInfo": {
+      "value": "Angelica McClimond (angelica@omegamedical.ca)",
+      "confidence": 0.85
+    }
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "metadata": {
+    "documentType": "REFERRAL",
+    "confidence": 0.82,
+    "extractorVersion": "1.0.0",
+    "sectionConfidence": {
+      "clientInfo": 0.85,
+      "assessmentRequirements": 0.83,
+      "schedulingInfo": 0.8,
+      "reportingRequirements": 0.75,
+      "referralSource": 0.85
+    }
+  },
+  "clientInfo": {
+    "name": {
+      "value": "Maria Garcia",
+      "confidence": 0.9
+    },
+    "dateOfBirth": {
+      "value": "September 23, 1975",
+      "confidence": 0.9
+    },
+    "dateOfLoss": {
+      "value": "February 5, 2025",
+      "confidence": 0.85
+    },
+    "fileNumber": {
+      "value": "345678",
+      "confidence": 0.95
+    },
+    "language": {
+      "value": "Spanish",
+      "confidence": 0.9
+    },
+    "phoneNumbers": {
+      "value": ["416-555-9876"],
+      "confidence": 0.9
+    },
+    "address": {
+      "value": "456 Queen Street, Toronto, ON M5V 2A9",
+      "confidence": 0.85
+    },
+    "email": {
+      "value": "maria.garcia@example.com",
+      "confidence": 0.8
+    }
+  },
+  "assessmentRequirements": {
+    "assessmentTypes": {
+      "value": ["In-home assessment", "ADL/Community", "Neurological Assessment"],
+      "confidence": 0.85
+    },
+    "reportTypes": {
+      "value": [
+        {
+          "number": "1",
+          "description": "Neurological Assessment"
+        },
+        {
+          "number": "2",
+          "description": "Activities of Daily Living Assessment"
+        }
+      ],
+      "confidence": 0.8
+    },
+    "specificRequirements": {
+      "value": [
+        "Evaluate cognitive function and memory",
+        "Assess ability to navigate community spaces",
+        "Evaluate fine motor skills",
+        "Determine if client requires cognitive rehabilitation therapy"
+      ],
+      "confidence": 0.8
+    },
+    "criteria": {
+      "value": ["2", "4"],
+      "confidence": 0.75
+    },
+    "domains": {
+      "value": [
+        "Cognitive function",
+        "Community mobility",
+        "Fine motor skills",
+        "Self-care activities"
+      ],
+      "confidence": 0.8
+    }
+  },
+  "schedulingInfo": {
+    "assessors": {
+      "value": [
+        {
+          "name": "Dr. Robert Chen",
+          "title": "Ph.D.",
+          "specialization": "Neuropsychologist",
+          "email": "robert.chen@example.com"
+        },
+        {
+          "name": "Sebastien Ferland",
+          "title": "OT Reg (ON)",
+          "specialization": "Occupational Therapist",
+          "email": "sebastien@ferlandassociates.com"
+        }
+      ],
+      "confidence": 0.85
+    },
+    "appointments": {
+      "value": [
+        {
+          "assessor": "Dr. Robert Chen",
+          "type": "Neurological Assessment",
+          "location": "123 Health Avenue, Toronto, ON M5S 1A1",
+          "dateTime": "March 15, 2025 10:00 AM",
+          "duration": "12:00 PM"
+        },
+        {
+          "assessor": "Sebastien Ferland",
+          "type": "ADL Assessment",
+          "location": "456 Queen Street, Toronto, ON M5V 2A9",
+          "dateTime": "March 18, 2025 13:30 PM",
+          "duration": "15:30 PM"
+        }
+      ],
+      "confidence": 0.85
+    },
+    "location": {
+      "value": "456 Queen Street, Toronto, ON M5V 2A9",
+      "confidence": 0.85
+    },
+    "interpreterNeeded": {
+      "value": true,
+      "confidence": 0.9
+    }
+  },
+  "reportingRequirements": {
+    "dueDate": {
+      "value": "April 1, 2025",
+      "confidence": 0.85
+    },
+    "templates": {
+      "value": ["Attached template required"],
+      "confidence": 0.7
+    },
+    "guidelines": {
+      "value": [
+        "Reports must be completed separately for each assessment",
+        "Include interpretation of all standardized tests",
+        "Provide detailed recommendations for rehabilitation",
+        "Spanish translation to be provided by our office"
+      ],
+      "confidence": 0.8
+    }
+  },
+  "referralSource": {
+    "organization": {
+      "value": "Comprehensive Health Partners",
+      "confidence": 0.9
+    },
+    "contactPerson": {
+      "value": "Michael Thompson",
+      "confidence": 0.85
+    },
+    "contactInfo": {
+      "value": "Michael Thompson (mthompson@chpartners.ca)",
+      "confidence": 0.8
+    }
+  }
+}

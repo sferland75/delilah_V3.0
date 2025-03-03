@@ -1,0 +1,68 @@
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ErrorBoundary } from '@/components/ui/error-boundary/error-boundary';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { InfoIcon } from 'lucide-react';
+
+export default function MedicalHistoryPage() {
+  // Safer loading approach with error handling
+  let MedicalHistoryComponent;
+  let loadError = null;
+  
+  try {
+    // Use proper relative path for require
+    MedicalHistoryComponent = require('../sections/3-MedicalHistory/components/MedicalHistory.integrated.final.tsx').MedicalHistoryIntegratedFinal;
+    if (!MedicalHistoryComponent) {
+      loadError = "Component export not found";
+    }
+  } catch (error) {
+    console.error("Error loading MedicalHistory component:", error);
+    loadError = error.message;
+  }
+  
+  return (
+    <div className="container mx-auto py-8 px-4">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Medical History</h1>
+        <Link href="/">
+          <Button variant="outline">Return to Home</Button>
+        </Link>
+      </div>
+      
+      {!loadError && (
+        <Alert className="mb-6 bg-green-50 border-green-200">
+          <InfoIcon className="h-4 w-4 text-green-600" />
+          <AlertTitle className="text-green-800">Form Loaded Successfully</AlertTitle>
+          <AlertDescription className="text-green-700">
+            The full Medical History form is displayed below.
+          </AlertDescription>
+        </Alert>
+      )}
+      
+      <Card>
+        <CardContent className="p-6">
+          <ErrorBoundary>
+            {!loadError ? (
+              <MedicalHistoryComponent />
+            ) : (
+              <div className="p-6 border-2 border-red-200 bg-red-50 rounded-md">
+                <h3 className="text-lg font-medium text-red-800 mb-2">Component Loading Error</h3>
+                <p className="text-red-700">{loadError}</p>
+                <p className="mt-4 text-red-600">Please try one of the other links from the home page.</p>
+                <div className="mt-6">
+                  <Link href="/">
+                    <Button>Return to Home</Button>
+                  </Link>
+                </div>
+              </div>
+            )}
+          </ErrorBoundary>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

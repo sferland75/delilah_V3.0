@@ -1,110 +1,181 @@
 # Development Guide - Delilah V3.0
 
-## Git Setup
+## Project Overview
 
-1. Clone repository:
-```bash
-git clone https://github.com/YourOrg/delilah_V3.0.git
-cd delilah_V3.0
+Delilah V3.0 is a comprehensive in-home assessment system with the following core sections:
+1. Initial Assessment
+2. Purpose & Methodology
+3. Medical History
+4. Symptoms Assessment
+5. Functional Status
+6. Typical Day
+7. Environmental Assessment
+8. Activities of Daily Living
+9. Attendant Care
+
+## Technical Stack
+
+- Framework: Next.js 14
+- Forms: React Hook Form
+- Validation: Zod
+- UI: Tailwind CSS
+- State Management: React Context
+- Testing: Jest & React Testing Library
+
+## Project Structure
+
+```
+delilah_V3.0/
+├── src/
+│   ├── app/               # Next.js app router
+│   ├── components/        # Shared components
+│   │   └── ui/           # UI components
+│   ├── contexts/         # React contexts
+│   ├── hooks/           # Custom hooks
+│   └── sections/        # Assessment sections
+└── docs/               # Documentation
 ```
 
-2. Create feature branch from master:
-```bash 
-git checkout master
-git checkout -b feature/section-name
+## Core Features
+
+### Error Handling
+```tsx
+// Using Error Boundary
+import { ErrorBoundary } from '@/components/ui/error-boundary';
+
+<ErrorBoundary>
+  <AssessmentSection />
+</ErrorBoundary>
+
+// Async error handling
+try {
+  await saveData();
+} catch (error) {
+  showErrorAlert(error.message);
+}
 ```
 
-3. After changes:
-```bash
-git add .
-git commit -m "feat: add section implementation"
-git push origin feature/section-name
+### Loading States
+```tsx
+// Using loading components
+import { LoadingState } from '@/components/ui/loading';
+
+{isLoading ? (
+  <LoadingState message="Loading assessment..." />
+) : (
+  <AssessmentContent />
+)}
 ```
 
-4. Create PR to merge into master branch
+### Form Management
+```tsx
+// Form setup with validation
+const methods = useForm({
+  resolver: zodResolver(schema),
+  defaultValues
+});
 
-## Environment Setup
-
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Configure environment:
-```bash
-cp .env.example .env
-# Add your API keys to .env
-```
-
-3. Run tests:
-```bash
-npm test
+// Form persistence
+useFormPersistence(methods, 'section-key');
 ```
 
 ## Development Workflow
 
-1. Select section from CONFIG.SECTIONS
-2. Create section directory:
-```
-src/sections/[section-name]/
-├── index.tsx       # Main component
-├── schema.ts      # Type definitions
-├── generate.ts    # Generation logic
-└── tests/         # Test files
-```
+1. Section Implementation:
+   ```bash
+   # Create section structure
+   mkdir src/sections/new-section
+   touch src/sections/new-section/{index.ts,schema.ts}
+   mkdir src/sections/new-section/{components,tests}
+   ```
 
-3. Implement features:
-- Follow section patterns in docs/
-- Write tests first
-- Implement functionality
-- Verify tests pass
+2. Component Creation:
+   ```tsx
+   // Create component with error boundary
+   export function NewSection() {
+     return (
+       <ErrorBoundary>
+         <Card>
+           <SectionContent />
+         </Card>
+       </ErrorBoundary>
+     );
+   }
+   ```
 
-4. Submit PR:
-- Create PR to master
-- Ensure tests pass
-- Get code review
-- Merge when approved
-
-## Testing
-
-1. Run all tests:
-```bash
-npm test
-```
-
-2. Run specific tests:
-```bash
-npm test -- [test-file-path]
-```
-
-3. Update snapshots:
-```bash
-npm test -- -u
-```
-
-## Documentation
-
-1. Update docs for new features
-2. Follow documentation patterns
-3. Include code examples
-4. Document testing approach
+3. Testing:
+   ```bash
+   # Run tests
+   npm test src/sections/new-section
+   
+   # Update snapshots
+   npm test -- -u
+   ```
 
 ## Best Practices
 
-1. Follow TypeScript patterns
-2. Write tests first
-3. Keep components focused
-4. Document thoroughly
+### Error Handling
+1. Use ErrorBoundary for component errors
+2. Add error reporting
+3. Provide recovery options
+4. Maintain user context
+
+### Loading States
+1. Show appropriate loading indicators
+2. Maintain layout stability
+3. Provide progress feedback
+4. Handle timeout scenarios
+
+### Form Implementation
+1. Use Zod schemas
+2. Add form persistence
+3. Implement validation
+4. Handle async operations
+
+### Testing
+1. Write unit tests
+2. Add integration tests
+3. Test error scenarios
+4. Test loading states
+
+## Documentation
+
+1. Code Documentation:
+   ```tsx
+   /**
+    * AssessmentSection component
+    * @param {Props} props - Component props
+    * @returns {JSX.Element} Rendered component
+    */
+   ```
+
+2. README Updates:
+   - Document new features
+   - Update installation steps
+   - Add usage examples
+   - List dependencies
 
 ## Deployment
 
-1. Merge to master
-2. CI/CD handles deployment
-3. Monitor deployment status
+1. Build Process:
+   ```bash
+   # Production build
+   npm run build
+   
+   # Start production server
+   npm start
+   ```
 
-## Getting Help
+2. Verification:
+   - Check error handling
+   - Verify loading states
+   - Test form submissions
+   - Validate persistence
 
+## Support
+
+For additional help:
 1. Check documentation
-2. Review existing implementations
-3. Run relevant tests
-4. Ask for help in PR reviews
+2. Review examples
+3. Run test suites
+4. Create issues for bugs

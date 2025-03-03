@@ -1,3 +1,6 @@
-export const debounce = (fn: Function) => fn;
-export const cn = (...args: any[]) => args.join(' ');
-export const formatDate = (date: string) => date;
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}

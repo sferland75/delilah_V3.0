@@ -1,0 +1,48 @@
+{
+  "demographics": {
+    "personalInfo": {
+      "firstName": "John",
+      "lastName": "Smith",
+      "dateOfBirth": "1975-05-18",
+      "gender": "male",
+      "address": {
+        "street": "123 Maple Avenue",
+        "city": "Springfield",
+        "state": "IL",
+        "zipCode": "62704",
+        "country": "USA"
+      },
+      "contactInfo": {
+        "phone": "555-123-4567",
+        "email": "john.smith@example.com",
+        "preferredContact": "phone"
+      }
+    },
+    "referralInfo": {
+      "referralDate": "2025-02-01",
+      "referralSource": "Dr. Lisa Wilson",
+      "referringClinic": "Springfield Medical Center",
+      "referralReason": "Assessment following MVA with ongoing functional limitations",
+      "insuranceProvider": "Blue Cross Blue Shield",
+      "policyNumber": "BCBS-12345678",
+      "claimNumber": "INJ-987654321",
+      "adjuster": {
+        "name": "Michael Johnson",
+        "phone": "555-987-6543",
+        "email": "m.johnson@insuranceco.com"
+      },
+      "attorney": {
+        "name": "Sarah Parker",
+        "firm": "Parker & Associates",
+        "phone": "555-345-6789",
+        "email": "s.parker@parkerlaw.com"
+      }
+    },
+    "emergencyContact": {
+      "name": "Mary Smith",
+      "relationship": "Spouse",
+      "phone": "555-234-5678",
+      "email": "mary.smith@example.com"
+    }
+  }
+}

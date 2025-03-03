@@ -1,0 +1,4 @@
+Latest Test Run Output - First Section
+
+> delilah-v3@3.0.0 test
+> jest src/sections/3-SymptomsAssessment/tests

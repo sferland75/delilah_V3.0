@@ -1,0 +1,171 @@
+{
+  "demographics": {
+    "personalInfo": {
+      "firstName": "John",
+      "lastName": "Smith",
+      "dateOfBirth": "1980-05-15",
+      "gender": "male",
+      "address": "123 Main Street, Anytown, CA 90210",
+      "phone": "555-123-4567",
+      "email": "john.smith@example.com"
+    },
+    "referralInfo": {
+      "referralSource": "Dr. Jane Williams, Neurologist",
+      "referralDate": "2025-01-10",
+      "primaryDiagnosis": "Cervical strain, right rotator cuff tear, mild traumatic brain injury",
+      "secondaryDiagnosis": "Hypertension, Type 2 diabetes",
+      "reasonForReferral": "In-home assessment following motor vehicle accident"
+    }
+  },
+  "medicalHistory": {
+    "pastMedicalHistory": {
+      "conditions": [
+        { "condition": "Hypertension", "diagnosisDate": "2020-03-15", "treatment": "Lisinopril 10mg daily" },
+        { "condition": "Type 2 Diabetes", "diagnosisDate": "2018-11-02", "treatment": "Metformin 500mg twice daily" }
+      ],
+      "surgeries": [
+        { "procedure": "Arthroscopic repair of right shoulder", "date": "2025-02-01", "surgeon": "Dr. Robert Chen" }
+      ],
+      "allergies": "No known drug allergies",
+      "medications": [
+        { "name": "Lisinopril", "dosage": "10mg", "frequency": "Daily", "reason": "Hypertension" },
+        { "name": "Metformin", "dosage": "500mg", "frequency": "Twice daily", "reason": "Type 2 Diabetes" },
+        { "name": "Hydrocodone/Acetaminophen", "dosage": "5/325mg", "frequency": "As needed for pain", "reason": "Post-accident pain" },
+        { "name": "Cyclobenzaprine", "dosage": "5mg", "frequency": "At bedtime", "reason": "Muscle spasm" }
+      ]
+    },
+    "functionalHistory": {
+      "priorLevelOfFunction": "Independent in all ADLs and IADLs. Employed full-time as construction supervisor. Regular physical activity including gym 3x weekly and recreational soccer.",
+      "priorLivingArrangement": "Two-story home with spouse and two children (ages 10 and 12).",
+      "priorMobilityStatus": "Independent ambulation without assistive devices. Able to navigate stairs, uneven terrain, and drive without limitations.",
+      "recentChanges": "Since the motor vehicle accident (2025-01-15), unable to work, limited in ADLs due to right shoulder and neck pain, difficulty with stairs due to occasional dizziness, and limited in driving to short distances only."
+    }
+  },
+  "symptomsAssessment": {
+    "physicalSymptoms": [
+      {
+        "symptom": "Neck pain",
+        "intensity": "6/10",
+        "description": "Constant aching with intermittent sharp pain",
+        "aggravatingFactors": "Prolonged sitting or standing, looking up",
+        "alleviatingFactors": "Heat, gentle stretching, medication",
+        "impactOnFunction": "Limits computer use, driving, and overhead activities"
+      },
+      {
+        "symptom": "Right shoulder pain",
+        "intensity": "7/10",
+        "description": "Throbbing pain with limited range of motion",
+        "aggravatingFactors": "Overhead activities, lifting more than 5 pounds",
+        "alleviatingFactors": "Ice, rest, medication",
+        "impactOnFunction": "Unable to reach overhead shelves, difficulty with dressing upper body"
+      },
+      {
+        "symptom": "Headaches",
+        "intensity": "5/10",
+        "description": "Pressure across forehead and temples",
+        "aggravatingFactors": "Screen time, noise, stress",
+        "alleviatingFactors": "Dark room, cold compress, medication",
+        "impactOnFunction": "Difficulty concentrating for extended periods"
+      }
+    ],
+    "cognitiveSymptoms": [
+      {
+        "symptom": "Difficulty concentrating",
+        "severity": "Moderate",
+        "description": "Trouble maintaining focus on tasks",
+        "frequency": "Daily",
+        "impactOnFunction": "Reduced work productivity, difficulty reading for extended periods"
+      },
+      {
+        "symptom": "Short-term memory issues",
+        "severity": "Mild to moderate",
+        "description": "Forgets recent conversations or where items were placed",
+        "frequency": "Several times daily",
+        "impactOnFunction": "Needs to use reminder notes, misplaces items frequently"
+      }
+    ]
+  },
+  "functionalStatus": {
+    "mobilityAssessment": {
+      "bedMobility": "Independent",
+      "transfers": "Independent",
+      "ambulation": "Independent but with occasional dizziness on stairs",
+      "balance": "Occasional loss of balance with quick position changes",
+      "endurance": "Fatigue after 15-20 minutes of physical activity",
+      "assistiveDevices": "None currently"
+    },
+    "upperExtremityFunction": {
+      "dominance": "Right-handed",
+      "rightShoulderROM": "Flexion 110°, Abduction 90°, External rotation 45°",
+      "leftShoulderROM": "Within normal limits",
+      "rightGripStrength": "65% compared to left side",
+      "leftGripStrength": "Normal",
+      "fineMotorSkills": "Intact bilaterally, but limited endurance with right hand"
+    }
+  },
+  "typicalDay": {
+    "morningRoutine": "Wakes at 7:00 AM with increased pain and stiffness. Takes 10-15 minutes to loosen up before getting out of bed. Morning routines (shower, dressing, breakfast) take approximately 45 minutes, which is longer than pre-injury baseline of 20 minutes.",
+    "daytimeActivities": "Spends most mornings resting or doing light household activities with frequent breaks due to fatigue and pain. Afternoons typically include medical or therapy appointments. Takes a 1-2 hour rest period mid-afternoon due to increased pain and fatigue.",
+    "eveningRoutine": "Evenings spent with family with minimal participation in household management tasks. Takes evening medications around 9:00 PM and goes to bed by 10:00 PM. Sleep is disturbed by pain, requiring position changes 3-4 times per night."
+  },
+  "environmentalAssessment": {
+    "homeLayout": {
+      "typeOfResidence": "Two-story single family home",
+      "entryAccess": "Three steps to front door with handrail on left side. Ramp at back entrance.",
+      "bedroomLocation": "Master bedroom on second floor, 14 steps with handrail on right side",
+      "bathroomLocation": "Full bathrooms on both floors",
+      "kitchenAccess": "First floor, standard height countertops and cabinets"
+    },
+    "safetyAssessment": {
+      "trippingHazards": "Area rug in living room, cluttered children's toys",
+      "lightingAdequacy": "Good lighting throughout, nightlights in hallways",
+      "bathroomSafety": "Grab bars installed in first floor shower and beside toilet",
+      "smokeDetectors": "Present and functional",
+      "emergencyPlan": "Has medical alert system but not consistently worn"
+    }
+  },
+  "activitiesDailyLiving": {
+    "basicADLs": {
+      "feeding": "Independent",
+      "bathing": "Independent but requires increased time and experiences moderate pain",
+      "grooming": "Independent with modified techniques",
+      "dressing": "Independent with lower body; requires minimal assistance or adaptive techniques for upper body dressing",
+      "toileting": "Independent"
+    },
+    "instrumentalADLs": {
+      "mealPreparation": "Capable of simple meal preparation but avoids complex cooking due to fatigue and pain with prolonged standing",
+      "householdManagement": "Limited participation; spouse has assumed majority of household responsibilities",
+      "financialManagement": "Independent",
+      "medicationManagement": "Independent",
+      "communityMobility": "Independent for short distances; avoids driving during peak traffic hours due to concentration difficulties"
+    },
+    "leisureRecreation": {
+      "physicalActivities": "Short walks around neighborhood (15-20 minutes), light gardening with frequent breaks",
+      "socialActivities": "Reduced participation in community groups; maintains weekly dinner with friends",
+      "hobbiesInterests": "Reading (limited by concentration), listening to podcasts, watching TV"
+    }
+  },
+  "attendantCare": {
+    "personalCare": {
+      "bathing": "Setup assistance and standby supervision",
+      "dressing": "Minimal assistance with upper body clothing",
+      "grooming": "Setup for shaving and hair care",
+      "toileting": "Independent"
+    },
+    "homeManagement": {
+      "mealPreparation": "Assistance with complex meals and meal planning",
+      "cleaning": "Moderate assistance with heavy cleaning tasks",
+      "laundry": "Assistance with carrying laundry baskets"
+    },
+    "communityAccess": {
+      "transportation": "Accompaniment to medical appointments",
+      "shopping": "Assistance with grocery shopping"
+    },
+    "recommendedHours": {
+      "personalCare": 7,
+      "homeManagement": 4,
+      "communityAccess": 2,
+      "total": 13
+    }
+  }
+}

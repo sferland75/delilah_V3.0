@@ -1,0 +1,143 @@
+import React from 'react';
+import { render as rtlRender, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { render, mockMedicalHistory } from './utils';
+
+describe('Test Utils', () => {
+  describe('Mock UI Components', () => {
+    it('mocks Input component correctly', () => {
+      const { Input } = jest.requireMock('@/components/ui/input');
+      render(<Input name="test" placeholder="test input" />);
+      const input = screen.getByPlaceholderText('test input');
+      expect(input).toHaveAttribute('aria-labelledby', 'test-label');
+    });
+
+    it('mocks Select component correctly', () => {
+      const { Select } = jest.requireMock('@/components/ui/select');
+      render(<Select name="test" data-testid="select" />);
+      const select = screen.getByTestId('select');
+      expect(select).toHaveAttribute('aria-labelledby', 'test-label');
+    });
+
+    it('mocks Textarea component correctly', () => {
+      const { Textarea } = jest.requireMock('@/components/ui/textarea');
+      render(<Textarea name="test" placeholder="test area" />);
+      const textarea = screen.getByPlaceholderText('test area');
+      expect(textarea).toHaveAttribute('aria-labelledby', 'test-label');
+    });
+
+    it('mocks Card components correctly', () => {
+      const { Card, CardHeader, CardTitle, CardContent } = jest.requireMock('@/components/ui/card');
+      render(
+        <Card className="card-class">
+          <CardHeader className="header-class">
+            <CardTitle>Title</CardTitle>
+          </CardHeader>
+          <CardContent>Content</CardContent>
+        </Card>
+      );
+      expect(screen.getByText('Title')).toBeInTheDocument();
+      expect(screen.getByText('Content')).toBeInTheDocument();
+    });
+
+    it('mocks Form components correctly', () => {
+      const { Form, FormField, FormItem, FormLabel, FormControl } = jest.requireMock('@/components/ui/form');
+      render(
+        <Form>
+          <FormField
+            name="test"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor={field.name}>Label</FormLabel>
+                <FormControl>
+                  <input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </Form>
+      );
+      expect(screen.getByText('Label')).toBeInTheDocument();
+    });
+
+    it('mocks Tabs components correctly', () => {
+      const { Tabs, TabsList, TabsTrigger, TabsContent } = jest.requireMock('@/components/ui/tabs');
+      const onValueChange = jest.fn();
+      
+      render(
+        <Tabs defaultValue="tab1" onValueChange={onValueChange}>
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content</TabsContent>
+        </Tabs>
+      );
+
+      const tab = screen.getByRole('tab');
+      tab.click();
+      expect(onValueChange).toHaveBeenCalledWith('tab1');
+    });
+
+    it('mocks Alert components correctly', () => {
+      const { Alert, AlertDescription } = jest.requireMock('@/components/ui/alert');
+      render(
+        <Alert className="alert-class">
+          <AlertDescription>Alert text</AlertDescription>
+        </Alert>
+      );
+      expect(screen.getByRole('alert')).toHaveClass('alert-class');
+    });
+
+    it('mocks icons correctly', () => {
+      const { History, Bone, Stethoscope, Pill } = jest.requireMock('lucide-react');
+      render(
+        <div>
+          <History />
+          <Bone />
+          <Stethoscope />
+          <Pill />
+        </div>
+      );
+      ['history', 'bone', 'stethoscope', 'pill'].forEach(icon => {
+        expect(screen.getByTestId(`icon-${icon}`)).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('render function', () => {
+    it('renders with default form values', () => {
+      const TestComponent = () => <div>Test content</div>;
+      render(<TestComponent />);
+      expect(screen.getByText('Test content')).toBeInTheDocument();
+    });
+
+    it('renders with custom form values', () => {
+      const TestComponent = () => <div>Custom values</div>;
+      render(<TestComponent />, {
+        formValues: {
+          data: mockMedicalHistory,
+          config: { mode: 'edit', activeTab: 'preExisting' },
+          isDirty: false,
+          isValid: true
+        }
+      });
+      expect(screen.getByText('Custom values')).toBeInTheDocument();
+    });
+
+    it('handles form submission', async () => {
+      const onSubmit = jest.fn(e => e.preventDefault());
+      const user = userEvent.setup();
+      
+      render(<form onSubmit={onSubmit}><button type="submit">Submit</button></form>);
+      await user.click(screen.getByRole('button'));
+      expect(onSubmit).toHaveBeenCalled();
+    });
+
+    it('handles mock medical history data structure', () => {
+      expect(mockMedicalHistory.preExistingConditions).toBeDefined();
+      expect(mockMedicalHistory.injury).toBeDefined();
+      expect(mockMedicalHistory.currentMedications).toBeDefined();
+      expect(mockMedicalHistory.currentTreatments).toBeDefined();
+    });
+  });
+});

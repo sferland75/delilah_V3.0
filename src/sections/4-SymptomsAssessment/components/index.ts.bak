@@ -1,0 +1,4 @@
+export * from './SymptomsAssessment';
+export * from './SymptomsAssessment.updated';
+export * from './SymptomsAssessment.integrated';
+export { SymptomsAssessmentIntegratedFixed as SymptomsAssessmentIntegrated } from './SymptomsAssessment.integrated.fixed';

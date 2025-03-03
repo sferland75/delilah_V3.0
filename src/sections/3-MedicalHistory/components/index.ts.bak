@@ -1,0 +1,2 @@
+export * from './MedicalHistory';
+export { MedicalHistoryIntegratedFixed as MedicalHistoryIntegrated } from './MedicalHistory.integrated.fixed';

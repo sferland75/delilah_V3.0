@@ -1,0 +1,7 @@
+import { redirect } from 'next/navigation';
+
+// Redirect to the home page once, but with a way to avoid infinite loops
+export default function AppRouterRoot() {
+  // Add a parameter to indicate this is a direct redirect, not a loop
+  return redirect('/?direct=true');
+}

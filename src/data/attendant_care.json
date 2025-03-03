@@ -1,0 +1,377 @@
+{
+  "attendantCare": {
+    "currentSupport": {
+      "informalCare": {
+        "primaryCaregiver": {
+          "name": "Mary Smith",
+          "relationship": "Spouse",
+          "availabilitySchedule": "Works part-time (25 hours/week), Monday-Thursday 8:30am-2:30pm",
+          "hoursProvided": 20,
+          "tasksProvided": [
+            "Transportation to appointments",
+            "Meal preparation assistance",
+            "Laundry and housekeeping",
+            "Shopping",
+            "Occasional personal care assistance"
+          ],
+          "trainingReceived": "None formal, learned techniques through PT observation",
+          "stressLevel": "Moderate to high, balancing work, household, caregiving",
+          "notes": "Primary support person, demonstrates good understanding of needs but showing signs of caregiver strain."
+        },
+        "secondaryCaregiver": {
+          "name": "James Smith",
+          "relationship": "Son (17 years old)",
+          "availabilitySchedule": "After school and weekends, limited by school activities",
+          "hoursProvided": 5,
+          "tasksProvided": [
+            "Household chores",
+            "Yard work",
+            "Occasional transportation"
+          ],
+          "trainingReceived": "None",
+          "stressLevel": "Mild, some concern about increased responsibilities",
+          "notes": "Willing to help but has appropriate age-related limitations and own activities/responsibilities."
+        },
+        "additionalSupport": [
+          {
+            "name": "Sarah Parker",
+            "relationship": "Sister",
+            "availabilitySchedule": "Weekends only, lives 20 minutes away",
+            "hoursProvided": 3,
+            "tasksProvided": [
+              "Occasional transportation",
+              "Social support",
+              "Meal preparation (brings prepared meals weekly)"
+            ],
+            "notes": "Provides valuable support but limited by own family responsibilities."
+          },
+          {
+            "name": "Robert and Jean Smith",
+            "relationship": "Parents",
+            "availabilitySchedule": "Variable, live 1 hour away",
+            "hoursProvided": 2,
+            "tasksProvided": [
+              "Occasional transportation to appointments",
+              "Social support"
+            ],
+            "notes": "Limited by age (mid-70s) and distance but provide emotional support."
+          }
+        ],
+        "totalHoursProvided": 30,
+        "caregiversExcluded": "None identified",
+        "notes": "Current support system relies heavily on spouse with some supplemental assistance from family. Spouse showing signs of strain balancing multiple responsibilities."
+      },
+      "formalCare": {
+        "professionalsInvolved": [
+          {
+            "type": "Physical Therapist",
+            "frequency": "3 sessions weekly",
+            "services": "Rehabilitation, education on home exercise program and body mechanics",
+            "notes": "Provides treatment but not attendant care"
+          },
+          {
+            "type": "Primary Care Physician",
+            "frequency": "Monthly follow-up",
+            "services": "Medical monitoring, medication management",
+            "notes": "Provides treatment but not attendant care"
+          },
+          {
+            "type": "Pain Management Specialist",
+            "frequency": "Bi-weekly",
+            "services": "Pain control interventions, medication management",
+            "notes": "Provides treatment but not attendant care"
+          }
+        ],
+        "paidAttendants": "None currently in place",
+        "totalHoursProvided": 0,
+        "fundingSource": "N/A",
+        "notes": "No formal attendant care services currently in place."
+      }
+    },
+    "attendantCareNeeds": {
+      "personalCare": {
+        "bathing": {
+          "assistanceType": "Setup and Standby",
+          "frequency": "Every other day",
+          "timeRequired": 30,
+          "totalWeeklyMinutes": 105,
+          "personalPreferences": "Prefers shower to bath, mornings preferred",
+          "notes": "Primary need is safety monitoring and occasional assistance with hair washing"
+        },
+        "toileting": {
+          "assistanceType": "Independent",
+          "frequency": "N/A",
+          "timeRequired": 0,
+          "totalWeeklyMinutes": 0,
+          "personalPreferences": "N/A",
+          "notes": "No assistance needed"
+        },
+        "dressing": {
+          "assistanceType": "Minimal Assistance",
+          "frequency": "Daily",
+          "timeRequired": 10,
+          "totalWeeklyMinutes": 70,
+          "personalPreferences": "Prefers to do as much independently as possible",
+          "notes": "Primarily needs help with difficult fasteners and overhead garments"
+        },
+        "grooming": {
+          "assistanceType": "Setup and Standby",
+          "frequency": "Daily",
+          "timeRequired": 10,
+          "totalWeeklyMinutes": 70,
+          "personalPreferences": "Values maintaining appearance, limited by pain",
+          "notes": "Difficulty with hair care and extended arm positions for shaving, styling"
+        },
+        "feeding": {
+          "assistanceType": "Independent",
+          "frequency": "N/A",
+          "timeRequired": 0,
+          "totalWeeklyMinutes": 0,
+          "personalPreferences": "N/A",
+          "notes": "No assistance needed"
+        },
+        "mobility": {
+          "assistanceType": "Standby Assistance for Safety",
+          "frequency": "As needed for outdoor mobility",
+          "timeRequired": 15,
+          "totalWeeklyMinutes": 60,
+          "personalPreferences": "Prefers to be as independent as possible but acknowledges safety concerns",
+          "notes": "Primarily needs standby assistance for uneven surfaces or longer distances"
+        }
+      },
+      "homeMaking": {
+        "mealPreparation": {
+          "assistanceType": "Moderate Assistance",
+          "frequency": "3 times daily",
+          "timeRequired": 20,
+          "totalWeeklyMinutes": 420,
+          "personalPreferences": "Enjoys participating in meal planning and simple preparation tasks",
+          "notes": "Limited by standing tolerance, lifting, carrying, and reaching. Can assist with seated prep tasks."
+        },
+        "lightHousekeeping": {
+          "assistanceType": "Moderate Assistance",
+          "frequency": "Daily",
+          "timeRequired": 20,
+          "totalWeeklyMinutes": 140,
+          "personalPreferences": "Maintains organized environment, frustrated by limitations",
+          "notes": "Can perform minimal straightening but limited with most cleaning tasks due to pain, bending, reaching"
+        },
+        "laundry": {
+          "assistanceType": "Maximal Assistance",
+          "frequency": "3 times weekly",
+          "timeRequired": 30,
+          "totalWeeklyMinutes": 90,
+          "personalPreferences": "Can assist with folding when seated",
+          "notes": "Cannot load/unload machines or carry laundry due to bending, lifting limitations"
+        },
+        "shopping": {
+          "assistanceType": "Maximal Assistance",
+          "frequency": "2 times weekly",
+          "timeRequired": 60,
+          "totalWeeklyMinutes": 120,
+          "personalPreferences": "Prefers to participate in shopping when possible",
+          "notes": "Cannot drive to stores or carry items. Can create lists and assist with selection when present."
+        },
+        "heavyHousekeeping": {
+          "assistanceType": "Total Assistance",
+          "frequency": "Weekly",
+          "timeRequired": 120,
+          "totalWeeklyMinutes": 120,
+          "personalPreferences": "Values clean environment",
+          "notes": "Cannot perform any heavy housekeeping tasks due to physical limitations"
+        }
+      },
+      "healthRelated": {
+        "medicationManagement": {
+          "assistanceType": "Setup Assistance",
+          "frequency": "Weekly",
+          "timeRequired": 15,
+          "totalWeeklyMinutes": 15,
+          "personalPreferences": "Uses pill organizer",
+          "notes": "Needs assistance with organizing medications but can self-administer"
+        },
+        "exerciseProgram": {
+          "assistanceType": "Moderate Assistance",
+          "frequency": "Twice daily",
+          "timeRequired": 20,
+          "totalWeeklyMinutes": 280,
+          "personalPreferences": "Values rehabilitation and recovery",
+          "notes": "Needs setup, supervision, and occasional hands-on assistance with home exercise program"
+        },
+        "woundCare": {
+          "assistanceType": "Not Applicable",
+          "frequency": "N/A",
+          "timeRequired": 0,
+          "totalWeeklyMinutes": 0,
+          "personalPreferences": "N/A",
+          "notes": "No wounds requiring care"
+        },
+        "vitalsMonitoring": {
+          "assistanceType": "Setup Assistance",
+          "frequency": "Daily",
+          "timeRequired": 5,
+          "totalWeeklyMinutes": 35,
+          "personalPreferences": "Self-monitors blood pressure due to hypertension",
+          "notes": "Needs occasional setup assistance with blood pressure cuff"
+        }
+      },
+      "instrumentalActivities": {
+        "transportation": {
+          "assistanceType": "Total Assistance",
+          "frequency": "4-5 times weekly",
+          "timeRequired": 60,
+          "totalWeeklyMinutes": 300,
+          "personalPreferences": "Frustrated by dependence",
+          "notes": "Cannot drive due to physical limitations and post-accident anxiety"
+        },
+        "communicationManagement": {
+          "assistanceType": "Minimal Assistance",
+          "frequency": "As needed",
+          "timeRequired": 10,
+          "totalWeeklyMinutes": 50,
+          "personalPreferences": "Values independence in communication",
+          "notes": "Occasional assistance with complex communications, appointments, insurance issues"
+        },
+        "financialManagement": {
+          "assistanceType": "Minimal Assistance",
+          "frequency": "Weekly",
+          "timeRequired": 30,
+          "totalWeeklyMinutes": 30,
+          "personalPreferences": "Previously managed all finances",
+          "notes": "Needs assistance with complex financial tasks, verification of work due to cognitive issues"
+        },
+        "homeRepairs": {
+          "assistanceType": "Total Assistance",
+          "frequency": "As needed",
+          "timeRequired": 0,
+          "totalWeeklyMinutes": 0,
+          "personalPreferences": "Previously handled all home maintenance",
+          "notes": "Cannot perform any home repairs due to physical limitations"
+        }
+      },
+      "socialSupport": {
+        "companionship": {
+          "assistanceType": "Minimal Assistance",
+          "frequency": "Daily",
+          "timeRequired": 30,
+          "totalWeeklyMinutes": 210,
+          "personalPreferences": "Values social interaction",
+          "notes": "Increased social isolation due to limitations, benefits from companionship and support"
+        },
+        "communityIntegration": {
+          "assistanceType": "Moderate Assistance",
+          "frequency": "2-3 times weekly",
+          "timeRequired": 60,
+          "totalWeeklyMinutes": 180,
+          "personalPreferences": "Misses community involvement",
+          "notes": "Needs assistance with transportation and physical support to participate in community activities"
+        }
+      }
+    },
+    "attendantCareRecommendations": {
+      "summary": {
+        "totalHoursWeekly": 38.5,
+        "personalCare": 5.1,
+        "homeMaking": 15.2,
+        "healthRelated": 5.5,
+        "instrumentalActivities": 6.3,
+        "socialSupport": 6.4,
+        "caregiverRespite": "Recommended due to signs of caregiver strain",
+        "notes": "Assessment indicates need for formal attendant care services to supplement family support and reduce caregiver burden."
+      },
+      "scheduleRecommendations": {
+        "weekdayMornings": {
+          "timeFrame": "6:30 AM - 9:00 AM",
+          "hoursDaily": 2.5,
+          "tasks": [
+            "Standby assistance with morning routine (bathing, dressing, grooming)",
+            "Breakfast preparation",
+            "Setup assistance with morning exercises",
+            "Light housekeeping"
+          ],
+          "notes": "Morning assistance would allow spouse to maintain work schedule and reduce rush/stress"
+        },
+        "weekdayAfternoons": {
+          "timeFrame": "3:00 PM - 6:00 PM",
+          "hoursDaily": 3,
+          "tasks": [
+            "Transportation from appointments",
+            "Meal preparation",
+            "Laundry assistance",
+            "Setup assistance with afternoon exercises",
+            "Community integration activities"
+          ],
+          "notes": "Afternoon support fills gap when fatigue typically peaks and before spouse returns from work"
+        },
+        "weekends": {
+          "timeFrame": "Flexible 4 hours per weekend day",
+          "hoursDaily": 4,
+          "tasks": [
+            "Heavy housekeeping",
+            "Meal preparation",
+            "Shopping assistance",
+            "Community outings",
+            "Caregiver respite"
+          ],
+          "notes": "Weekend support provides respite for spouse and enables community participation"
+        }
+      },
+      "attendantQualifications": {
+        "education": "Home Health Aide certification recommended",
+        "experience": "Experience with musculoskeletal injuries and pain management preferred",
+        "skills": [
+          "Safe body mechanics for transfers and positioning",
+          "Basic understanding of pain management principles",
+          "Good organization and time management",
+          "Ability to provide appropriate level of assistance while promoting independence",
+          "Driver's license and clean driving record"
+        ],
+        "personalAttributes": [
+          "Patient and calm demeanor",
+          "Respectful of privacy and dignity",
+          "Reliable and punctual",
+          "Good communication skills",
+          "Positive attitude"
+        ],
+        "notes": "Client values independence and would benefit from attendant who provides appropriate support without unnecessary assistance"
+      },
+      "equipmentAndAdaptations": {
+        "currentAdaptations": [
+          "Shower bench",
+          "Handheld shower head",
+          "Grab bar in bathroom",
+          "Pill organizer"
+        ],
+        "recommendedAdaptations": [
+          "Additional grab bar for toilet area",
+          "Raised toilet seat",
+          "Long-handled reacher",
+          "Car transfer handle",
+          "Ergonomic kitchen tools"
+        ],
+        "notes": "Equipment recommendations focus on promoting independence in daily activities and improving safety"
+      },
+      "fundingSources": {
+        "potentialSources": [
+          "Auto insurance (MVA claim)",
+          "Short-term disability insurance",
+          "Employee benefits package",
+          "Community support services"
+        ],
+        "referrals": [
+          "Insurance adjuster for attendant care benefits assessment",
+          "Case manager through auto insurance",
+          "Employee benefits coordinator",
+          "Community care access center"
+        ],
+        "notes": "Primary funding likely through auto insurance claim. Referrals made to explore all potential funding options."
+      },
+      "reviewSchedule": {
+        "initialReview": "2 weeks after implementation",
+        "ongoingReviews": "Monthly for first 3 months, then quarterly",
+        "adjustmentProcess": "Care plan to be adjusted based on recovery progress, changing needs, and feedback from client and caregivers",
+        "notes": "Regular reviews will ensure appropriate level of care as recovery progresses"
+      }
+    }
+  }
+}
