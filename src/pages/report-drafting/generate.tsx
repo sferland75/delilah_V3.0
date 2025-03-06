@@ -17,7 +17,12 @@ import {
   AlertDescription,
   Progress,
   Separator,
-} from "../../components/ui";
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem
+} from "@/components/ui";
 import { 
   FileText, 
   Save, 
@@ -33,103 +38,125 @@ import {
   MessageSquare,
   Loader2
 } from 'lucide-react';
+import { useAssessmentContext } from '@/contexts/AssessmentContext';
+import { mapAssessmentToReportData, createReportConfigFromAssessment } from '@/services/report-assessment-integration';
+import { getAvailableTemplates, generateReport } from '@/lib/report-drafting/api-service';
+import { ReportTemplate } from '@/lib/report-drafting/types';
 
 export default function GenerateReport() {
   const router = useRouter();
+  const { data, currentAssessmentId } = useAssessmentContext();
+  
   const [activeTab, setActiveTab] = useState('content');
-  const [isGenerating, setIsGenerating] = useState(true);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isConfiguring, setIsConfiguring] = useState(true);
   const [progress, setProgress] = useState(0);
   const [reportData, setReportData] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   
-  // Simulate report generation
+  // Configuration options
+  const [templates, setTemplates] = useState<ReportTemplate[]>([]);
+  const [selectedTemplate, setSelectedTemplate] = useState('');
+  const [reportTitle, setReportTitle] = useState('');
+  const [reportStyle, setReportStyle] = useState('clinical');
+  
+  // Load templates on mount
   useEffect(() => {
-    if (!router.isReady) return;
-    
-    const { assessment, template, type } = router.query;
-    
-    // Start progress simulation
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          return 100;
+    const loadTemplates = async () => {
+      try {
+        const availableTemplates = await getAvailableTemplates();
+        setTemplates(availableTemplates);
+        
+        // Set default template if available
+        if (availableTemplates.length > 0) {
+          setSelectedTemplate(availableTemplates[0].id);
         }
-        return prev + 10;
-      });
-    }, 500);
+      } catch (error) {
+        console.error('Error loading templates:', error);
+      }
+    };
     
-    // Simulate completion after 5 seconds
-    setTimeout(() => {
-      clearInterval(interval);
-      setProgress(100);
-      setIsGenerating(false);
-      
-      // Set sample report data
-      setReportData({
-        title: 'Comprehensive In-Home Assessment Report',
-        patient: 'John Doe',
-        date: new Date().toISOString().split('T')[0],
-        type: type,
-        template: template,
-        sections: [
-          {
-            id: 'executive_summary',
-            title: 'Executive Summary',
-            content: 'Mr. John Doe was assessed on February 15, 2025 to evaluate his current functional status and care needs following a motor vehicle accident on January 5, 2025. The assessment reveals moderate to severe limitations in mobility, self-care, and household activities. The client demonstrates significant physical symptoms including chronic pain, reduced range of motion, and difficulty with balance. Cognitive symptoms include memory difficulties and reduced concentration. Based on the assessment findings, recommendations include continued physical therapy, home modifications, and attendant care services totaling 16 hours per week.'
-          },
-          {
-            id: 'background',
-            title: 'Assessment Background',
-            content: 'This assessment was conducted at the request of ABC Insurance Company to evaluate the client\'s functional status and care needs following a motor vehicle accident on January 5, 2025. The assessment was conducted at the client\'s home. Information was gathered through client interview, observation of functional activities, review of medical records, and standardized assessment tools.'
-          },
-          {
-            id: 'medical_history',
-            title: 'Medical History',
-            content: 'Mr. Doe sustained multiple injuries in a motor vehicle accident on January 5, 2025, including a concussion, whiplash, and fractured right radius. Prior to the accident, the client reports being in good health with no significant medical conditions. Current medications include Acetaminophen 500mg PRN for pain, Cyclobenzaprine 10mg at bedtime for muscle spasms, and Sertraline 50mg daily.'
-          },
-          {
-            id: 'symptoms',
-            title: 'Current Symptoms',
-            content: 'The client reports ongoing physical symptoms including neck and back pain rated 6/10, headaches, dizziness with position changes, reduced range of motion in the neck and right wrist, and fatigue. Cognitive symptoms include difficulty with short-term memory, reduced concentration, and word-finding difficulties. Emotional symptoms include irritability, anxiety regarding recovery, and mild depression.'
-          },
-          {
-            id: 'functional',
-            title: 'Functional Status',
-            content: 'Mr. Doe demonstrates moderate limitations in mobility, requiring a cane for ambulation outside the home. He is able to ambulate independently within the home with occasional steadying on furniture. He can ascend/descend stairs with a handrail and rest breaks. He requires minimal assistance with bathing below the waist and moderate assistance with lower body dressing. He is independent with feeding, grooming, and upper body dressing. He requires moderate assistance with meal preparation, housekeeping, and laundry due to pain, fatigue, and limited use of his right arm.'
-          },
-          {
-            id: 'daily_living',
-            title: 'Daily Living Impact',
-            content: 'Prior to the accident, Mr. Doe was fully independent in all activities of daily living and instrumental activities of daily living. He was employed full-time as an accountant and participated in recreational activities including golf and hiking. Currently, he is unable to work and requires assistance with household tasks. His typical day involves periods of rest between activities due to fatigue and pain. Environmental factors impacting function include stairs to access the home (5 steps with railing) and a second-floor bedroom with bathroom. The client has implemented several adaptive strategies but continues to have significant functional limitations.'
-          },
-          {
-            id: 'care_needs',
-            title: 'Care Needs Assessment',
-            content: 'Based on the assessment findings, Mr. Doe requires attendant care services to assist with bathing, dressing, meal preparation, housekeeping, laundry, and community mobility. The recommended level of support is 16 hours per week, distributed as follows: personal care (7 hours/week), homemaking (6 hours/week), and community access (3 hours/week). The client currently receives informal support from his spouse, who works full-time and is experiencing caregiver strain.'
-          },
-          {
-            id: 'recommendations',
-            title: 'Recommendations',
-            content: 'The following recommendations are made to address Mr. Doe\'s functional limitations and care needs:\n\n1. Continued physical therapy focusing on neck, back, and right wrist rehabilitation (2-3 sessions per week for 8 weeks)\n\n2. Occupational therapy for activities of daily living adaptations and energy conservation strategies (1-2 sessions per week for 6 weeks)\n\n3. Home modifications including installation of grab bars in the bathroom, a handheld shower, and a shower chair\n\n4. Attendant care services as outlined above (16 hours/week)\n\n5. Psychological support to address adjustment difficulties and mood symptoms\n\n6. Gradual return to work plan once physical status improves, with accommodations including reduced hours and ergonomic workstation setup\n\n7. Follow-up reassessment in 3 months to evaluate progress and adjust recommendations as needed'
+    loadTemplates();
+  }, []);
+  
+  // Set report title from assessment data
+  useEffect(() => {
+    if (data?.demographics?.personalInfo) {
+      const { firstName, lastName } = data.demographics.personalInfo;
+      if (firstName && lastName) {
+        setReportTitle(`Assessment Report: ${firstName} ${lastName}`);
+      }
+    }
+  }, [data]);
+  
+  // Function to generate report
+  const handleGenerateReport = async () => {
+    if (!selectedTemplate || !currentAssessmentId) {
+      return;
+    }
+    
+    setIsGenerating(true);
+    let progressInterval;
+    
+    try {
+      // Start progress simulation
+      progressInterval = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 95) {
+            return 95; // Cap at 95% until actual completion
           }
-        ]
+          return prev + 5;
+        });
+      }, 500);
+      
+      // Create report configuration
+      const config = await createReportConfigFromAssessment(
+        currentAssessmentId,
+        selectedTemplate
+      );
+      
+      // Override with user-selected options
+      config.reportTitle = reportTitle;
+      config.style = reportStyle;
+      
+      // Generate the report
+      const generatedReport = await generateReport(config);
+      
+      if (!generatedReport) {
+        throw new Error('Failed to generate report');
+      }
+      
+      // Complete progress
+      clearInterval(progressInterval);
+      setProgress(100);
+      
+      // Format report data for display
+      setReportData({
+        title: generatedReport.title,
+        patient: generatedReport.clientName,
+        date: new Date().toISOString().split('T')[0],
+        template: selectedTemplate,
+        sections: generatedReport.sections.map(section => ({
+          id: section.id,
+          title: section.title,
+          content: section.content
+        }))
       });
       
-      // Set sample suggestions
+      // Set intelligent suggestions (using mock data for now)
       setSuggestions([
         {
           id: 1,
           type: 'content',
-          section: 'symptoms',
+          section: 'symptoms-assessment',
           content: 'Consider adding details about sleep disturbances, as this was mentioned in the assessment notes.',
           confidence: 0.85
         },
         {
           id: 2,
           type: 'content',
-          section: 'care_needs',
+          section: 'attendant-care',
           content: 'The assessment data indicates possible need for medication management assistance, which is not currently mentioned in this section.',
           confidence: 0.72
         },
@@ -148,17 +175,135 @@ export default function GenerateReport() {
           confidence: 0.78
         }
       ]);
-    }, 5000);
+      
+      // Switch to report view
+      setIsConfiguring(false);
+      setIsGenerating(false);
+    } catch (error) {
+      console.error('Error generating report:', error);
+      clearInterval(progressInterval);
+      setIsGenerating(false);
+      
+      // Show error alert
+      alert('Error generating report: ' + error.message);
+    }
+  };
+  
+  // Function to handle template change
+  const handleTemplateChange = async (templateId) => {
+    setSelectedTemplate(templateId);
     
-    return () => {
-      clearInterval(interval);
-    };
-  }, [router.isReady, router.query]);
+    // Update report style from template
+    const template = templates.find(t => t.id === templateId);
+    if (template) {
+      setReportStyle(template.defaultStyle);
+    }
+  };
   
   if (!router.isReady) {
     return <div>Loading...</div>;
   }
   
+  // Show configuration screen
+  if (isConfiguring && !isGenerating) {
+    return (
+      <div className="container mx-auto py-8 max-w-3xl">
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold">Generate Report</h1>
+          <p className="text-muted-foreground mt-2">
+            Configure your report options and generate a professional assessment report.
+          </p>
+        </div>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Report Configuration</CardTitle>
+            <CardDescription>
+              Select a template and configure your report settings
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Report Template</label>
+              <Select value={selectedTemplate} onValueChange={handleTemplateChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a template" />
+                </SelectTrigger>
+                <SelectContent>
+                  {templates.map(template => (
+                    <SelectItem key={template.id} value={template.id}>
+                      {template.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {selectedTemplate && templates.find(t => t.id === selectedTemplate) && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  {templates.find(t => t.id === selectedTemplate).description}
+                </p>
+              )}
+            </div>
+            
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Report Title</label>
+              <input
+                type="text"
+                className="w-full p-2 border rounded-md"
+                value={reportTitle}
+                onChange={(e) => setReportTitle(e.target.value)}
+                placeholder="Enter report title"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Report Style</label>
+              <Select value={reportStyle} onValueChange={setReportStyle}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a style" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="clinical">Clinical</SelectItem>
+                  <SelectItem value="conversational">Conversational</SelectItem>
+                  <SelectItem value="simplified">Simplified</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground mt-1">
+                {reportStyle === 'clinical' && 'Formal language suitable for professional documentation'}
+                {reportStyle === 'conversational' && 'Natural, approachable language suitable for client communication'}
+                {reportStyle === 'simplified' && 'Clear, concise language with minimal technical terminology'}
+              </p>
+            </div>
+            
+            {!currentAssessmentId && (
+              <Alert variant="destructive">
+                <AlertTitle>No Assessment Selected</AlertTitle>
+                <AlertDescription>
+                  You need to select or create an assessment before generating a report.
+                </AlertDescription>
+              </Alert>
+            )}
+          </CardContent>
+          <CardFooter className="flex justify-between">
+            <Button 
+              variant="outline" 
+              onClick={() => router.push('/report-drafting')}
+            >
+              Cancel
+            </Button>
+            
+            <Button 
+              onClick={handleGenerateReport}
+              disabled={!selectedTemplate || !currentAssessmentId}
+            >
+              Generate Report
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
+  
+  // Show generation screen
   if (isGenerating) {
     return (
       <div className="container mx-auto py-8 max-w-3xl">
@@ -201,7 +346,10 @@ export default function GenerateReport() {
           
           <Button 
             variant="outline" 
-            onClick={() => router.push('/report-drafting')}
+            onClick={() => {
+              setIsGenerating(false);
+              setIsConfiguring(true);
+            }}
             className="mt-8"
           >
             Cancel
@@ -399,7 +547,7 @@ export default function GenerateReport() {
                           <select className="w-full p-2 border rounded-md text-sm">
                             <option value="10">10 pt</option>
                             <option value="11">11 pt</option>
-                            <option value="12" selected>12 pt</option>
+                            <option value="12">12 pt</option>
                             <option value="14">14 pt</option>
                           </select>
                         </div>
@@ -408,7 +556,7 @@ export default function GenerateReport() {
                           <select className="w-full p-2 border rounded-md text-sm">
                             <option value="arial">Arial</option>
                             <option value="times">Times New Roman</option>
-                            <option value="calibri" selected>Calibri</option>
+                            <option value="calibri">Calibri</option>
                             <option value="georgia">Georgia</option>
                           </select>
                         </div>
@@ -445,7 +593,10 @@ export default function GenerateReport() {
             
             <CardFooter className="bg-slate-50 p-4 flex justify-between">
               <div className="text-sm text-muted-foreground">
-                Generated with Template: <span className="font-medium">{router.query.template}</span>
+                Generated with Template: 
+                <span className="font-medium">
+                  {templates.find(t => t.id === selectedTemplate)?.name || selectedTemplate}
+                </span>
               </div>
               <div className="flex space-x-2">
                 <Button variant="outline" size="sm">Preview</Button>

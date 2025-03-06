@@ -6,7 +6,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { ErrorBoundary } from '@/components/ui/error-boundary/error-boundary';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import { InfoIcon, Home, LayoutDashboard } from 'lucide-react';
+import { InfoIcon, Home, LayoutDashboard, Save, FileText } from 'lucide-react';
+import { useAssessmentContext } from '@/contexts/AssessmentContext';
+import SaveAssessment from '@/components/SaveAssessment';
 
 // Define fallback components in case loading fails
 const FallbackComponent = ({ name }) => (
@@ -143,6 +145,9 @@ export default function FullAssessment() {
   // Start with medical history as the default tab
   const [activeTab, setActiveTab] = useState('medical');
   
+  // Get assessment context
+  const { data, currentAssessmentId, hasUnsavedChanges, saveCurrentAssessment } = useAssessmentContext();
+  
   // Set the active tab based on the query parameter if provided
   useEffect(() => {
     if (router.query.section && typeof router.query.section === 'string') {
@@ -159,20 +164,67 @@ export default function FullAssessment() {
 
   // Function to navigate to the main dashboard
   const goToDashboard = () => {
+    // Check for unsaved changes before leaving
+    if (hasUnsavedChanges) {
+      const shouldSave = window.confirm("You have unsaved changes. Would you like to save before leaving?");
+      if (shouldSave) {
+        saveCurrentAssessment();
+      }
+    }
     router.push('/');
+  };
+  
+  // Get client name from assessment data
+  const getClientName = () => {
+    if (data?.demographics?.personalInfo) {
+      const { firstName, lastName } = data.demographics.personalInfo;
+      if (firstName && lastName) {
+        return `${firstName} ${lastName}`;
+      }
+    }
+    return "Unnamed Client";
+  };
+  
+  // Function to navigate to report drafting with current assessment
+  const goToReportDrafting = () => {
+    // Save current assessment state first
+    if (hasUnsavedChanges) {
+      saveCurrentAssessment();
+    }
+    
+    // Then navigate to report drafting
+    router.push(`/report-drafting?assessment=${currentAssessmentId || 'current'}`);
   };
 
   return (
     <div className="container mx-auto py-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Delilah V3.0 Assessment</h1>
+        <div>
+          <h1 className="text-2xl font-bold">Assessment: {getClientName()}</h1>
+          {data?.metadata?.created && (
+            <p className="text-sm text-muted-foreground">
+              Created {new Date(data.metadata.created).toLocaleDateString()}
+            </p>
+          )}
+        </div>
         <div className="flex space-x-2">
-          <Link href="/assessment">
-            <Button variant="outline" className="flex items-center">
-              <LayoutDashboard className="h-4 w-4 mr-2" />
-              Assessment Dashboard
-            </Button>
-          </Link>
+          <Button 
+            variant="outline" 
+            className="flex items-center"
+            onClick={() => saveCurrentAssessment()}
+            disabled={!hasUnsavedChanges}
+          >
+            <Save className="h-4 w-4 mr-2" />
+            Save
+          </Button>
+          <Button 
+            variant="outline" 
+            className="flex items-center"
+            onClick={goToReportDrafting}
+          >
+            <FileText className="h-4 w-4 mr-2" />
+            Report
+          </Button>
           <Link href="/">
             <Button variant="outline" className="flex items-center">
               <Home className="h-4 w-4 mr-2" />
@@ -182,14 +234,21 @@ export default function FullAssessment() {
         </div>
       </div>
       
-      <Alert className="mb-6 bg-blue-50 border-blue-200">
-        <InfoIcon className="h-4 w-4 text-blue-600" />
-        <AlertTitle className="text-blue-800">Assessment Sections Integrated</AlertTitle>
-        <AlertDescription className="text-blue-700">
-          All available assessment sections have been integrated, including the fixed Typical Day component.
-          Some sections like Housekeeping Calculator and AMA Guides Assessment are still in development.
-        </AlertDescription>
-      </Alert>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div className="md:col-span-3">
+          <Alert className="bg-blue-50 border-blue-200">
+            <InfoIcon className="h-4 w-4 text-blue-600" />
+            <AlertTitle className="text-blue-800">Assessment in Progress</AlertTitle>
+            <AlertDescription className="text-blue-700">
+              Navigate through assessment sections using the tabs below. Your progress is automatically saved.
+              {hasUnsavedChanges && " You have unsaved changes."}
+            </AlertDescription>
+          </Alert>
+        </div>
+        <div className="md:col-span-1">
+          <SaveAssessment />
+        </div>
+      </div>
       
       <Card className="mb-6">
         <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
@@ -198,10 +257,10 @@ export default function FullAssessment() {
             <Button 
               variant="default" 
               className="flex items-center bg-blue-600 hover:bg-blue-700"
-              onClick={goToDashboard}
+              onClick={goToReportDrafting}
             >
-              <LayoutDashboard className="h-4 w-4 mr-2" />
-              Return to Main Dashboard
+              <FileText className="h-4 w-4 mr-2" />
+              Generate Report
             </Button>
           </div>
         </CardHeader>

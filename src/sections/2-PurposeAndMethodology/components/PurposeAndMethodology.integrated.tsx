@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Form } from '@/components/ui/form';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
@@ -192,54 +191,52 @@ export function PurposeAndMethodologyIntegrated() {
         </Alert>
       )}
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-          <FormProvider {...form}>
-            <Tabs defaultValue="referral" className="w-full border rounded-md">
-              <TabsList className="grid w-full grid-cols-4 p-0 h-auto border-b">
-                <TabsTrigger 
-                  className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
-                  value="referral"
-                >
-                  Referral Information
-                </TabsTrigger>
-                <TabsTrigger 
-                  className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
-                  value="objectives"
-                >
-                  Assessment Objectives
-                </TabsTrigger>
-                <TabsTrigger 
-                  className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
-                  value="methodology"
-                >
-                  Methodology
-                </TabsTrigger>
-                <TabsTrigger 
-                  className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
-                  value="additional"
-                >
-                  Additional Requirements
-                </TabsTrigger>
-              </TabsList>
+      <FormProvider {...form}>
+        <div className="w-full">
+          <Tabs defaultValue="referral" className="w-full border rounded-md">
+            <TabsList className="grid w-full grid-cols-4 p-0 h-auto border-b">
+              <TabsTrigger 
+                className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
+                value="referral"
+              >
+                Referral Information
+              </TabsTrigger>
+              <TabsTrigger 
+                className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
+                value="objectives"
+              >
+                Assessment Objectives
+              </TabsTrigger>
+              <TabsTrigger 
+                className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
+                value="methodology"
+              >
+                Methodology
+              </TabsTrigger>
+              <TabsTrigger 
+                className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
+                value="additional"
+              >
+                Additional Requirements
+              </TabsTrigger>
+            </TabsList>
 
-              <TabsContent value="referral" className="p-6">
-                <ReferralInfoSection />
-              </TabsContent>
-              
-              <TabsContent value="objectives" className="p-6">
-                <AssessmentObjectivesSection />
-              </TabsContent>
-              
-              <TabsContent value="methodology" className="p-6">
-                <MethodologySection />
-              </TabsContent>
-              
-              <TabsContent value="additional" className="p-6">
-                <AdditionalRequirementsSection />
-              </TabsContent>
-            </Tabs>
-          </FormProvider>
+            <TabsContent value="referral" className="p-6">
+              <ReferralInfoSection />
+            </TabsContent>
+            
+            <TabsContent value="objectives" className="p-6">
+              <AssessmentObjectivesSection />
+            </TabsContent>
+            
+            <TabsContent value="methodology" className="p-6">
+              <MethodologySection />
+            </TabsContent>
+            
+            <TabsContent value="additional" className="p-6">
+              <AdditionalRequirementsSection />
+            </TabsContent>
+          </Tabs>
 
           <div className="flex justify-end space-x-2 mt-4">
             <Button 
@@ -250,13 +247,14 @@ export function PurposeAndMethodologyIntegrated() {
               Reset
             </Button>
             <Button 
-              type="submit"
+              type="button"
+              onClick={form.handleSubmit(onSubmit)}
             >
               Save Purpose & Methodology
             </Button>
           </div>
-        </form>
-      </Form>
+        </div>
+      </FormProvider>
     </div>
   );
 }

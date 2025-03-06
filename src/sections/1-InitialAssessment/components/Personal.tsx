@@ -3,11 +3,12 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
-  FormField,
   FormItem,
   FormLabel,
   FormControl,
+  FormMessage
 } from '@/components/ui/form';
+import { FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
 
 export const Personal = () => {
@@ -21,14 +22,16 @@ export const Personal = () => {
           name="personal.firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name</FormLabel>
+              <FormLabel>First Name<span className="text-red-500">*</span></FormLabel>
               <FormControl>
                 <Input 
                   placeholder="Enter first name" 
                   {...field} 
                   className="w-full" 
+                  required
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -38,14 +41,16 @@ export const Personal = () => {
           name="personal.lastName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel>Last Name<span className="text-red-500">*</span></FormLabel>
               <FormControl>
                 <Input 
                   placeholder="Enter last name" 
                   {...field} 
                   className="w-full" 
+                  required
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -63,6 +68,7 @@ export const Personal = () => {
                   className="w-full"
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

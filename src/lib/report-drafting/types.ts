@@ -1,160 +1,124 @@
-/**
- * Report Drafting Module Types
- * 
- * This file contains type definitions for the Report Drafting Module.
- */
-
-// Template Types
+// Report templates
 export interface ReportTemplate {
   id: string;
   name: string;
   description: string;
-  defaultSections: SectionConfiguration[];
+  imageUrl?: string;
   defaultTitle: string;
   defaultStyle: ReportStyle;
+  category: string;
   isBuiltIn: boolean;
+  defaultSections: SectionConfiguration[];
   createdBy?: string;
   createdAt?: Date;
   lastModified?: Date;
+  tags?: string[];
 }
 
-// Template Management Types
-export interface SavedTemplate extends ReportTemplate {
-  version: number;
-  isShared: boolean;
-  parentTemplateId?: string; // Reference to template it was derived from
-  tags: string[];
-  category: string;
-}
-
-export interface TemplateLibrary {
-  userId: string;
-  personalTemplates: SavedTemplate[];
-  favoriteTemplates: string[]; // Template IDs
-  recentlyUsedTemplates: RecentTemplate[];
-}
-
-export interface RecentTemplate {
-  templateId: string;
-  lastUsed: Date;
-  useCount: number;
-}
-
-export interface TemplateVersion {
-  templateId: string;
-  version: number;
-  createdAt: Date;
-  createdBy: string;
-  template: SavedTemplate;
-}
-
-// Section Configuration
+// Section configuration
 export interface SectionConfiguration {
   id: string;
+  title: string;
   included: boolean;
   detailLevel: DetailLevel;
-  customOrder?: number;
 }
 
-// Report Configuration
+// Section data completeness
+export interface DataCompleteness {
+  status: 'complete' | 'incomplete' | 'missing';
+  percentage: number;
+}
+
+// Report configuration
 export interface ReportConfiguration {
-  id?: string;
-  name: string;
+  id: string;
   templateId: string;
   sections: SectionConfiguration[];
   style: ReportStyle;
-  clientId?: string;
-  createdBy: string;
+  reportTitle: string;
   createdAt: Date;
   lastModified: Date;
-  status: ReportStatus;
 }
 
-// Generated Report Content
+// Generated report
+export interface GeneratedReport {
+  id: string;
+  configId: string;
+  title: string;
+  style: ReportStyle;
+  sections: ReportSection[];
+  createdAt: Date;
+  lastModified: Date;
+  metadata: {
+    assessmentId: string;
+    templateId: string;
+    authorId: string;
+    version: number;
+  };
+}
+
+// Report section
 export interface ReportSection {
   id: string;
   title: string;
   content: string;
-  dataCompleteness: DataCompleteness;
-  dataSources: string[];
-  lastEdited?: Date;
-  editedBy?: string;
-}
-
-export interface GeneratedReport {
-  id: string;
-  title: string;
-  configurationId: string;
-  sections: ReportSection[];
-  metadata: ReportMetadata;
-  createdAt: Date;
-  lastModified: Date;
-  status: ReportStatus;
-  revisionHistory: RevisionHistoryEntry[];
-}
-
-export interface ReportMetadata {
-  clientName?: string;
-  clientId?: string;
-  assessmentDate?: Date;
-  authorName?: string;
-  authorId?: string;
-  organizationName?: string;
-  organizationId?: string;
-  customFields?: Record<string, string>;
-}
-
-export interface RevisionHistoryEntry {
-  timestamp: Date;
-  userId: string;
-  userName: string;
-  changes: RevisionChange[];
-}
-
-export interface RevisionChange {
-  sectionId: string;
-  type: 'add' | 'modify' | 'delete';
-  previousContent?: string;
-  newContent?: string;
-}
-
-// Data Completeness
-export interface DataCompleteness {
-  status: 'complete' | 'partial' | 'incomplete';
-  percentage: number;
-  missingFields?: string[];
-}
-
-// Enums
-export type DetailLevel = 'brief' | 'standard' | 'comprehensive';
-export type ReportStyle = 'clinical' | 'conversational' | 'simplified';
-export type ReportStatus = 'draft' | 'review' | 'approved' | 'finalized';
-
-// Prompt Types
-export interface PromptTemplate {
-  id: string;
-  sectionId: string;
   detailLevel: DetailLevel;
-  style: ReportStyle;
-  promptText: string;
 }
 
-// Export Types
-export type ExportFormat = 'pdf' | 'docx' | 'clientRecord';
-
+// Export options
 export interface ExportOptions {
-  format: ExportFormat;
-  filename?: string;
-  includeMetadata: boolean;
-  includeHeaders: boolean;
-  includeFooters: boolean;
-  customHeader?: string;
-  customFooter?: string;
+  format: 'PDF' | 'DOCX' | 'HTML' | 'TXT';
+  includeHeader: boolean;
+  includeFooter: boolean;
+  includePageNumbers: boolean;
+  includeTableOfContents: boolean;
+  includeAppendices: boolean;
+  emailRecipients?: string[];
+  emailSubject?: string;
+  emailBody?: string;
 }
 
+// Export result
 export interface ExportResult {
   success: boolean;
-  message: string;
-  url?: string;
-  recordId?: string;
+  fileName: string;
+  downloadUrl: string;
+  format: 'PDF' | 'DOCX' | 'HTML' | 'TXT';
+  error?: string;
 }
+
+// Saved template
+export interface SavedTemplate extends ReportTemplate {
+  version: number;
+  isShared: boolean;
+  parentTemplateId?: string;
+}
+
+// Template library
+export interface TemplateLibrary {
+  userTemplates: SavedTemplate[];
+  builtInTemplates: SavedTemplate[];
+  favoriteTemplates: string[];
+  recentlyUsedTemplates: RecentTemplateUsage[];
+}
+
+// Recent template usage
+export interface RecentTemplateUsage {
+  templateId: string;
+  lastUsed: Date;
+  usageCount: number;
+}
+
+// Template version
+export interface TemplateVersion {
+  id: string;
+  templateId: string;
+  version: number;
+  createdAt: Date;
+  createdBy: string;
+  changes: string;
+}
+
+// Type aliases
+export type DetailLevel = 'brief' | 'standard' | 'comprehensive';
+export type ReportStyle = 'clinical' | 'conversational' | 'simplified';

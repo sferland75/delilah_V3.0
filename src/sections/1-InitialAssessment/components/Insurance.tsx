@@ -3,11 +3,11 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
-  FormField,
   FormItem,
   FormLabel,
   FormControl,
 } from '@/components/ui/form';
+import { FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
 
 export const Insurance = () => {

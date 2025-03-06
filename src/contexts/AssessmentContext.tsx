@@ -1,6 +1,12 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { 
+  saveAssessment, 
+  loadAssessment, 
+  updateAssessmentSection as updateStoredSection,
+  createNewAssessment
+} from '@/services/assessment-storage-service';
 
 interface AssessmentData {
   demographics?: any;
@@ -11,66 +17,84 @@ interface AssessmentData {
   environmentalAssessment?: any;
   activitiesDailyLiving?: any;
   attendantCare?: any;
-  referral?: any; // Add referral data type
-  purposeAndMethodology?: any; // For purpose section
-  // Add other section data types as needed
+  referral?: any;
+  purposeAndMethodology?: any;
+  metadata?: {
+    id: string;
+    created: string;
+    lastSaved: string;
+    assessmentDate?: string;
+    title?: string;
+  };
 }
 
 interface AssessmentContextType {
   data: AssessmentData;
+  currentAssessmentId: string | null;
   updateSection: (section: keyof AssessmentData, data: any) => void;
   setAssessmentData: (data: AssessmentData) => void;
-  updateReferral: (data: any) => void; // Add specific referral updater
+  updateReferral: (data: any) => void;
+  saveCurrentAssessment: () => boolean;
+  loadAssessmentById: (assessmentId: string) => boolean;
+  createAssessment: () => string;
+  hasUnsavedChanges: boolean;
 }
 
 const AssessmentContext = React.createContext<AssessmentContextType>({
   data: {},
+  currentAssessmentId: null,
   updateSection: () => {},
   setAssessmentData: () => {},
   updateReferral: () => {},
+  saveCurrentAssessment: () => false,
+  loadAssessmentById: () => false,
+  createAssessment: () => "",
+  hasUnsavedChanges: false,
 });
 
 export function AssessmentProvider({ children }: { children: React.ReactNode }) {
   const [data, setData] = React.useState<AssessmentData>({});
-
-  console.log("*** ULTRA DEBUG *** AssessmentProvider initial data:", data);
+  const [currentAssessmentId, setCurrentAssessmentId] = React.useState<string | null>(null);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState<boolean>(false);
+  const [lastSavedData, setLastSavedData] = React.useState<string>("");
+  
+  // Auto-save effect when data changes
+  useEffect(() => {
+    if (!currentAssessmentId || !hasUnsavedChanges) return;
+    
+    // Create a debounced save function
+    const timeoutId = setTimeout(() => {
+      saveCurrentAssessment();
+    }, 2000); // Auto-save 2 seconds after changes stop
+    
+    return () => clearTimeout(timeoutId);
+  }, [data, hasUnsavedChanges, currentAssessmentId]);
+  
+  // Function to check for changes
+  const checkForChanges = (newData: AssessmentData) => {
+    try {
+      const currentDataString = JSON.stringify(newData);
+      const hasChanges = currentDataString !== lastSavedData;
+      setHasUnsavedChanges(hasChanges);
+    } catch (error) {
+      console.error("Error checking for changes:", error);
+      setHasUnsavedChanges(true); // Assume changes if we can't compare
+    }
+  };
 
   const updateSection = (section: keyof AssessmentData, newData: any) => {
-    console.log(`*** ULTRA DEBUG *** updateSection called for ${section}:`, newData);
-    
-    // Check if the data is being structured correctly
-    if (section === 'medicalHistory') {
-      console.log("*** ULTRA DEBUG *** Medical History keys:", Object.keys(newData));
-      if (newData.pastMedicalHistory) {
-        console.log("*** ULTRA DEBUG *** Past Medical History conditions:", 
-          newData.pastMedicalHistory.conditions || 'None found');
-      } else {
-        console.log("*** ULTRA DEBUG *** No pastMedicalHistory key!");
-      }
-    }
+    console.log(`Updating section ${String(section)}`);
     
     // Check for nested structure issue (typicalDay: {typicalDay: {...}})
     if (section === 'typicalDay' && newData.typicalDay) {
-      console.log("*** ULTRA DEBUG *** FOUND EXTRA NESTING IN typicalDay!");
-      console.log("*** ULTRA DEBUG *** typicalDay structure:", Object.keys(newData));
-      console.log("*** ULTRA DEBUG *** typicalDay.typicalDay structure:", Object.keys(newData.typicalDay));
-      
-      // Automatically fix the nesting issue
-      console.log("*** ULTRA DEBUG *** Auto-fixing nested typicalDay structure");
+      console.log("Fixed nested typicalDay structure");
       newData = newData.typicalDay;
-      console.log("*** ULTRA DEBUG *** Fixed structure:", Object.keys(newData));
     }
     
     // Check for nested structure issue (symptomsAssessment: {symptomsAssessment: {...}})
     if (section === 'symptomsAssessment' && newData.symptomsAssessment) {
-      console.log("*** ULTRA DEBUG *** FOUND EXTRA NESTING IN symptomsAssessment!");
-      console.log("*** ULTRA DEBUG *** symptomsAssessment structure:", Object.keys(newData));
-      console.log("*** ULTRA DEBUG *** symptomsAssessment.symptomsAssessment structure:", Object.keys(newData.symptomsAssessment));
-      
-      // Automatically fix the nesting issue
-      console.log("*** ULTRA DEBUG *** Auto-fixing nested symptomsAssessment structure");
+      console.log("Fixed nested symptomsAssessment structure");
       newData = newData.symptomsAssessment;
-      console.log("*** ULTRA DEBUG *** Fixed structure:", Object.keys(newData));
     }
     
     setData(prev => {
@@ -78,17 +102,25 @@ export function AssessmentProvider({ children }: { children: React.ReactNode }) 
         ...prev,
         [section]: newData
       };
-      console.log(`*** ULTRA DEBUG *** Updated data after ${section} update:`, updated);
+      
+      checkForChanges(updated);
       return updated;
     });
+    
+    // If we have a current assessment ID, update the section in storage
+    if (currentAssessmentId) {
+      try {
+        updateStoredSection(currentAssessmentId, section.toString(), newData);
+      } catch (error) {
+        console.error(`Error updating section ${String(section)}:`, error);
+      }
+    }
   };
 
   // Special handler for referral data that includes processing and mapping
   const updateReferral = (referralData: any) => {
-    console.log("*** ULTRA DEBUG *** updateReferral called with:", referralData);
-    
     if (!referralData || !referralData.referral) {
-      console.log("*** ULTRA DEBUG *** No valid referral data provided");
+      console.log("No valid referral data provided");
       return;
     }
     
@@ -105,17 +137,17 @@ export function AssessmentProvider({ children }: { children: React.ReactNode }) 
         import('@/services/referralMapper').then(({ syncClientToDemographics }) => {
           const demographicsData = syncClientToDemographics(referral);
           if (demographicsData) {
-            console.log("*** ULTRA DEBUG *** Syncing client info to demographics:", demographicsData);
+            console.log("Syncing client info to demographics");
             // Only update demographics if we don't already have data
             if (!data.demographics || Object.keys(data.demographics).length === 0) {
               updateSection('demographics', demographicsData);
             }
           }
         }).catch(err => {
-          console.error("*** ULTRA DEBUG *** Error importing referralMapper:", err);
+          console.error("Error importing referralMapper:", err);
         });
       } catch (error) {
-        console.error("*** ULTRA DEBUG *** Error syncing client info to demographics:", error);
+        console.error("Error syncing client info to demographics:", error);
       }
     }
     
@@ -126,7 +158,7 @@ export function AssessmentProvider({ children }: { children: React.ReactNode }) 
         import('@/services/referralMapper').then(({ getAssessmentRequirements }) => {
           const requirementsText = getAssessmentRequirements(referral);
           if (requirementsText) {
-            console.log("*** ULTRA DEBUG *** Adding assessment requirements to purpose section");
+            console.log("Adding assessment requirements to purpose section");
             // We'll append this to any existing purpose data
             const purposeData = data.purposeAndMethodology || {};
             const updatedPurpose = {
@@ -136,91 +168,178 @@ export function AssessmentProvider({ children }: { children: React.ReactNode }) 
             updateSection('purposeAndMethodology', updatedPurpose);
           }
         }).catch(err => {
-          console.error("*** ULTRA DEBUG *** Error importing referralMapper:", err);
+          console.error("Error importing referralMapper:", err);
         });
       } catch (error) {
-        console.error("*** ULTRA DEBUG *** Error adding requirements to purpose:", error);
+        console.error("Error adding requirements to purpose:", error);
       }
     }
   };
 
   const setAssessmentData = (newData: AssessmentData) => {
-    console.log("*** ULTRA DEBUG *** setAssessmentData called with:", newData);
-    
-    // Deep log each section for debugging
-    if (newData.medicalHistory) {
-      console.log("*** ULTRA DEBUG *** Medical History:", newData.medicalHistory);
-      if (newData.medicalHistory.pastMedicalHistory) {
-        console.log("*** ULTRA DEBUG *** Past Medical History:", newData.medicalHistory.pastMedicalHistory);
-        console.log("*** ULTRA DEBUG *** Conditions:", newData.medicalHistory.pastMedicalHistory.conditions);
-      }
-    } else {
-      console.log("*** ULTRA DEBUG *** No Medical History found in data!");
-    }
-    
-    if (newData.symptomsAssessment) {
-      console.log("*** ULTRA DEBUG *** Symptoms Assessment:", newData.symptomsAssessment);
-      console.log("*** ULTRA DEBUG *** Emotional Symptoms:", newData.symptomsAssessment.emotionalSymptoms);
-    } else {
-      console.log("*** ULTRA DEBUG *** No Symptoms Assessment found in data!");
-    }
-    
-    if (newData.typicalDay) {
-      console.log("*** ULTRA DEBUG *** Typical Day:", newData.typicalDay);
-      console.log("*** ULTRA DEBUG *** Morning Routine:", newData.typicalDay.morningRoutine);
-      
-      // Check for nested typicalDay (common issue)
-      if (newData.typicalDay.typicalDay) {
-        console.log("*** ULTRA DEBUG *** NESTED typicalDay FOUND! This is likely causing issues.");
-        console.log("*** ULTRA DEBUG *** Inner typicalDay:", newData.typicalDay.typicalDay);
-      }
-    } else {
-      console.log("*** ULTRA DEBUG *** No Typical Day found in data!");
-    }
-    
-    // Check for referral data
-    if (newData.referral) {
-      console.log("*** ULTRA DEBUG *** Referral data found:", newData.referral);
-    }
-    
-    // Check all top-level keys
-    console.log("*** ULTRA DEBUG *** All top-level keys:", Object.keys(newData));
+    console.log("Setting complete assessment data");
     
     // Make sure the data is not nested incorrectly
     const fixedData = { ...newData };
-    let anyFixes = false;
     
     // Check for double-nesting and fix
     if (fixedData.typicalDay && fixedData.typicalDay.typicalDay) {
-      console.log("*** ULTRA DEBUG *** Fixing double-nested typicalDay");
+      console.log("Fixing double-nested typicalDay");
       fixedData.typicalDay = fixedData.typicalDay.typicalDay;
-      anyFixes = true;
     }
     
     if (fixedData.medicalHistory && fixedData.medicalHistory.medicalHistory) {
-      console.log("*** ULTRA DEBUG *** Fixing double-nested medicalHistory");
+      console.log("Fixing double-nested medicalHistory");
       fixedData.medicalHistory = fixedData.medicalHistory.medicalHistory;
-      anyFixes = true;
     }
     
     if (fixedData.symptomsAssessment && fixedData.symptomsAssessment.symptomsAssessment) {
-      console.log("*** ULTRA DEBUG *** Fixing double-nested symptomsAssessment");
+      console.log("Fixing double-nested symptomsAssessment");
       fixedData.symptomsAssessment = fixedData.symptomsAssessment.symptomsAssessment;
-      anyFixes = true;
     }
     
-    if (anyFixes) {
-      console.log("*** ULTRA DEBUG *** Fixed nested data structure:", fixedData);
-      setData(fixedData);
-    } else {
-      setData(newData);
+    // Add metadata if not present
+    if (!fixedData.metadata && currentAssessmentId) {
+      fixedData.metadata = {
+        id: currentAssessmentId,
+        created: new Date().toISOString(),
+        lastSaved: new Date().toISOString(),
+        assessmentDate: new Date().toISOString()
+      };
     }
     
-    console.log("*** ULTRA DEBUG *** Assessment data loaded successfully");
+    setData(fixedData);
+    checkForChanges(fixedData);
+    
+    // If we have a current assessment ID, save the entire assessment
+    if (currentAssessmentId) {
+      try {
+        saveAssessment(currentAssessmentId, fixedData);
+        setLastSavedData(JSON.stringify(fixedData));
+        setHasUnsavedChanges(false);
+      } catch (error) {
+        console.error("Error saving assessment data:", error);
+      }
+    }
+  };
+  
+  const saveCurrentAssessment = () => {
+    if (!currentAssessmentId) {
+      console.error("Cannot save: No current assessment ID");
+      return false;
+    }
+    
+    try {
+      // Ensure we have metadata with updated lastSaved timestamp
+      const assessmentToSave = {
+        ...data,
+        metadata: {
+          ...(data.metadata || {}),
+          id: currentAssessmentId,
+          lastSaved: new Date().toISOString(),
+          assessmentDate: data.metadata?.assessmentDate || new Date().toISOString()
+        }
+      };
+      
+      // If we have demographics data, update the metadata title
+      if (assessmentToSave.demographics?.personalInfo) {
+        const firstName = assessmentToSave.demographics.personalInfo.firstName || '';
+        const lastName = assessmentToSave.demographics.personalInfo.lastName || '';
+        const clientName = `${lastName}, ${firstName}`.trim();
+        
+        if (clientName !== ',') {
+          assessmentToSave.metadata.title = clientName;
+        }
+      }
+      
+      console.log("Saving assessment:", assessmentToSave);
+      
+      const success = saveAssessment(currentAssessmentId, assessmentToSave);
+      
+      if (success) {
+        setLastSavedData(JSON.stringify(assessmentToSave));
+        setHasUnsavedChanges(false);
+        
+        // Force a context update to ensure components see the latest data
+        setData({...assessmentToSave});
+        
+        console.log("Assessment saved successfully");
+      } else {
+        console.error("Failed to save assessment");
+      }
+      
+      return success;
+    } catch (error) {
+      console.error("Error in saveCurrentAssessment:", error);
+      return false;
+    }
+  };
+  
+  const loadAssessmentById = (assessmentId: string) => {
+    try {
+      const loadedData = loadAssessment(assessmentId);
+      
+      if (!loadedData) {
+        console.error(`Failed to load assessment with ID: ${assessmentId}`);
+        return false;
+      }
+      
+      setData(loadedData);
+      setCurrentAssessmentId(assessmentId);
+      setLastSavedData(JSON.stringify(loadedData));
+      setHasUnsavedChanges(false);
+      console.log(`Assessment ${assessmentId} loaded successfully`);
+      return true;
+    } catch (error) {
+      console.error(`Error loading assessment ${assessmentId}:`, error);
+      return false;
+    }
+  };
+  
+  const createAssessment = () => {
+    try {
+      // Save any existing assessment first
+      if (currentAssessmentId && hasUnsavedChanges) {
+        saveCurrentAssessment();
+      }
+      
+      // Create a new assessment
+      const newAssessmentId = createNewAssessment();
+      setCurrentAssessmentId(newAssessmentId);
+      
+      // Reset the form
+      const initialData = {
+        metadata: {
+          id: newAssessmentId,
+          created: new Date().toISOString(),
+          lastSaved: new Date().toISOString(),
+          assessmentDate: new Date().toISOString()
+        }
+      };
+      
+      setData(initialData);
+      setLastSavedData(JSON.stringify(initialData));
+      setHasUnsavedChanges(false);
+      
+      return newAssessmentId;
+    } catch (error) {
+      console.error("Error creating new assessment:", error);
+      return "";
+    }
   };
 
   return (
-    <AssessmentContext.Provider value={{ data, updateSection, setAssessmentData, updateReferral }}>
+    <AssessmentContext.Provider value={{ 
+      data, 
+      currentAssessmentId,
+      updateSection, 
+      setAssessmentData, 
+      updateReferral,
+      saveCurrentAssessment,
+      loadAssessmentById,
+      createAssessment,
+      hasUnsavedChanges
+    }}>
       {children}
     </AssessmentContext.Provider>
   );

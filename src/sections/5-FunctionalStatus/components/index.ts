@@ -1,4 +1,4 @@
-export { FunctionalStatus } from './FunctionalStatus';
-export { PosturalTolerances } from './PosturalTolerances';
-export { TransfersAssessment } from './TransfersAssessment';
-export { BergBalance } from './BergBalance';
+export * from './SimpleROM';
+export * from './rom/EnhancedROM';
+export * from './rom/types';
+export * from './rom/mapper';

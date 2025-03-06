@@ -50,6 +50,8 @@ export function MedicalHistoryIntegrated() {
   const { data, updateSection } = useAssessment();
   const [dataLoaded, setDataLoaded] = useState(false);
   const fileInputRef = useRef(null);
+  const contextDataRef = useRef({});
+  const initialLoadRef = useRef(false);
   
   // Define form with the schema
   const form = useForm({
@@ -58,24 +60,33 @@ export function MedicalHistoryIntegrated() {
     mode: "onChange"
   });
   
-  // Access the medical history data from context
-  const contextData = data?.medicalHistory || {};
-  
-  // Map context data to form and update the form when context data changes
+  // Map context data to form and update the form only once on initial load
   useEffect(() => {
-    if (contextData && Object.keys(contextData).length > 0) {
+    // Get the medical history data from context
+    const medicalHistoryData = data?.medicalHistory || {};
+    
+    // Check if data has changed to avoid unnecessary re-renders
+    const dataChanged = JSON.stringify(medicalHistoryData) !== JSON.stringify(contextDataRef.current);
+    
+    if (dataChanged && !initialLoadRef.current && Object.keys(medicalHistoryData).length > 0) {
       try {
         console.log("MedicalHistory - Context data detected, mapping to form");
-        const { formData, hasData } = mapContextToForm(contextData, initialFormState);
+        const { formData, hasData } = mapContextToForm(medicalHistoryData, initialFormState);
         form.reset(formData);
         setDataLoaded(hasData);
+        
+        // Update the ref to track the latest data
+        contextDataRef.current = { ...medicalHistoryData };
+        initialLoadRef.current = true;
       } catch (error) {
         console.error("MedicalHistory - Error updating form from context:", error);
       }
-    } else {
+    } else if (!initialLoadRef.current) {
       console.log("MedicalHistory - No context data or empty object");
+      // Still mark as initialized to prevent further checks
+      initialLoadRef.current = true;
     }
-  }, [contextData, form]);
+  }, [data?.medicalHistory]); // Only depend on medical history changes
   
   // For form persistence
   const { persistForm } = useFormPersistence(form, 'medical-history');
@@ -86,10 +97,13 @@ export function MedicalHistoryIntegrated() {
       console.log('MedicalHistory - Form data being submitted:', formData);
       
       // Map form data to context structure
-      const medicalHistoryData = mapFormToContext(formData, contextData);
+      const medicalHistoryData = mapFormToContext(formData, contextDataRef.current);
       
       // Update the context with the mapped data
       updateSection('medicalHistory', medicalHistoryData);
+      
+      // Update our reference to the data
+      contextDataRef.current = { ...medicalHistoryData };
       
       // Also persist the form data
       persistForm(formData);
@@ -121,6 +135,9 @@ export function MedicalHistoryIntegrated() {
           // Update context with imported data
           updateSection('medicalHistory', importedData);
           
+          // Update our reference
+          contextDataRef.current = { ...importedData };
+          
           alert("Medical History data imported successfully!");
         }
       } catch (error) {
@@ -134,7 +151,7 @@ export function MedicalHistoryIntegrated() {
   // Handle export of form data to a downloadable file
   const handleDownloadJson = () => {
     const formData = form.getValues();
-    const contextFormattedData = mapFormToContext(formData, contextData);
+    const contextFormattedData = mapFormToContext(formData, contextDataRef.current);
     const jsonString = exportMedicalHistoryToJson(contextFormattedData);
     
     // Create a blob and download link
@@ -146,7 +163,7 @@ export function MedicalHistoryIntegrated() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    URL.revoObjectURL(url);
   };
   
   return (

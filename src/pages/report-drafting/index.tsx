@@ -1,10 +1,39 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, BookOpen, Clipboard, ArrowRight } from 'lucide-react';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { FileText, BookOpen, Clipboard, ArrowRight, AlertTriangle } from 'lucide-react';
+import { useAssessmentContext } from '@/contexts/AssessmentContext';
 
 export default function ReportDraftingIndex() {
+  const router = useRouter();
+  const { data, currentAssessmentId, hasUnsavedChanges, saveCurrentAssessment } = useAssessmentContext();
+  
+  // Get client name from assessment data
+  const getClientName = () => {
+    if (data?.demographics?.personalInfo) {
+      const { firstName, lastName } = data.demographics.personalInfo;
+      if (firstName && lastName) {
+        return `${firstName} ${lastName}`;
+      }
+    }
+    return "Unnamed Client";
+  };
+  
+  // Handle create report click
+  const handleCreateReport = () => {
+    // Check if we have unsaved changes
+    if (hasUnsavedChanges) {
+      // Save assessment first
+      saveCurrentAssessment();
+    }
+    
+    // Navigate to report generation page
+    router.push('/report-drafting/generate');
+  };
+
   return (
     <div>
       <div className="mb-8">
@@ -13,6 +42,41 @@ export default function ReportDraftingIndex() {
           Create professional assessment reports with intelligent content suggestions.
         </p>
       </div>
+      
+      {currentAssessmentId ? (
+        <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-md flex justify-between items-center">
+          <div>
+            <p className="font-medium text-blue-800">Current Assessment: {getClientName()}</p>
+            <p className="text-sm text-blue-700 mt-1">
+              {data?.metadata?.created && `Created: ${new Date(data.metadata.created).toLocaleDateString()}`}
+            </p>
+          </div>
+          <Button 
+            variant="outline" 
+            className="bg-white text-blue-600 border-blue-300 hover:bg-blue-50"
+            onClick={() => router.push('/full-assessment')}
+          >
+            Edit Assessment
+          </Button>
+        </div>
+      ) : (
+        <Alert variant="warning" className="mb-6">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>No Active Assessment</AlertTitle>
+          <AlertDescription>
+            You need to load or create an assessment before generating a report.
+            <div className="mt-2">
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => router.push('/')}
+              >
+                Go to Dashboard
+              </Button>
+            </div>
+          </AlertDescription>
+        </Alert>
+      )}
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
@@ -32,9 +96,13 @@ export default function ReportDraftingIndex() {
             </p>
           </CardContent>
           <CardFooter>
-            <Link href="/report-drafting/generate" className="w-full">
-              <Button className="w-full">Create New Report</Button>
-            </Link>
+            <Button 
+              className="w-full"
+              onClick={handleCreateReport}
+              disabled={!currentAssessmentId}
+            >
+              Create New Report
+            </Button>
           </CardFooter>
         </Card>
 
@@ -94,6 +162,19 @@ export default function ReportDraftingIndex() {
           <li>Save drafts frequently during the report creation process</li>
         </ul>
       </div>
+      
+      {!currentAssessmentId && (
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Button 
+            variant="outline" 
+            size="lg"
+            onClick={() => router.push('/')}
+            className="w-full sm:w-auto"
+          >
+            Return to Dashboard
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

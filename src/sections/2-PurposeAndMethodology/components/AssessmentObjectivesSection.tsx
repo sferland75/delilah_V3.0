@@ -3,13 +3,13 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
-  FormField,
   FormItem,
   FormLabel,
   FormControl,
   FormMessage,
   FormDescription,
 } from '@/components/ui/form';
+import { FormField } from '@/components/ui/form-field';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Checkbox } from '@/components/ui/checkbox';

@@ -1,21 +1,32 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  FormDescription,
-} from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export function ManualMuscle() {
-  const { control, watch } = useFormContext();
+  const form = useFormContext();
+  
+  if (!form) {
+    return (
+      <div className="p-4 border rounded-md bg-red-50 text-red-500">
+        Form context is missing. Please ensure this component is used within a FormProvider.
+      </div>
+    );
+  }
+  
+  const { getValues } = form;
+  
+  // Create a local state to manage the component data
+  const [localData, setLocalData] = useState({});
+  
+  // Initialize from form values
+  useEffect(() => {
+    // Get the current form values
+    const formValues = getValues();
+    if (formValues?.data?.manualMuscle) {
+      setLocalData(formValues.data.manualMuscle);
+    }
+  }, [getValues]);
   
   const muscleGroups = [
     {
@@ -105,6 +116,49 @@ export function ManualMuscle() {
     }
   ];
 
+  // Function to safely update form data without direct mutation
+  const updateFormData = (path, value) => {
+    try {
+      // Create a new form values object by cloning the current values
+      const currentValues = getValues();
+      const newValues = JSON.parse(JSON.stringify(currentValues));
+      
+      // Ensure data object exists
+      if (!newValues.data) {
+        newValues.data = {};
+      }
+      
+      // Ensure manualMuscle object exists
+      if (!newValues.data.manualMuscle) {
+        newValues.data.manualMuscle = {};
+      }
+      
+      // Parse the path and update the value
+      const pathParts = path.split('.');
+      let current = newValues;
+      
+      // Navigate to the parent object
+      for (let i = 0; i < pathParts.length - 1; i++) {
+        const part = pathParts[i];
+        if (!current[part]) {
+          current[part] = {};
+        }
+        current = current[part];
+      }
+      
+      // Set the value on the last part
+      current[pathParts[pathParts.length - 1]] = value;
+      
+      // Update the form with the modified values
+      form.reset(newValues);
+      
+      // Also update our local state
+      setLocalData(newValues.data.manualMuscle);
+    } catch (error) {
+      console.error(`Error updating form data at path ${path}:`, error);
+    }
+  };
+
   // Manual muscle test grading scale
   const mmtGrades = [
     { value: '0', label: '0 - No contraction' },
@@ -137,156 +191,119 @@ export function ManualMuscle() {
 
       {muscleGroups.map((muscleGroup) => {
         const groupKey = `data.manualMuscle.${muscleGroup.group}`;
-        const isExpanded = watch(`${groupKey}.isExpanded`);
+        const groupData = localData[muscleGroup.group] || {};
+        const isExpanded = groupData.isExpanded || false;
+        const checkboxId = `${groupKey}.isExpanded`;
         
         return (
           <div key={muscleGroup.group} className="border rounded-md p-4">
             <div className="flex items-center space-x-2 mb-4">
-              <FormField
-                control={control}
-                name={`${groupKey}.isExpanded`}
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center space-x-2">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <div className="space-y-0.5">
-                      <FormLabel className="text-lg font-semibold">
-                        {muscleGroup.title}
-                      </FormLabel>
-                      <FormDescription>
-                        Check to assess this muscle group
-                      </FormDescription>
-                    </div>
-                  </FormItem>
-                )}
-              />
+              <div className="flex flex-row items-center space-x-2">
+                <input 
+                  type="checkbox"
+                  id={checkboxId}
+                  checked={isExpanded}
+                  onChange={(e) => updateFormData(`${groupKey}.isExpanded`, e.target.checked)}
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <div className="space-y-0.5">
+                  <label htmlFor={checkboxId} className="text-lg font-semibold">
+                    {muscleGroup.title}
+                  </label>
+                  <p className="text-sm text-gray-500">
+                    Check to assess this muscle group
+                  </p>
+                </div>
+              </div>
             </div>
 
             {isExpanded && (
               <div className="mt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {muscleGroup.muscles.map((muscle) => (
-                    <div key={muscle.name} className="border rounded-md p-3">
-                      <h4 className="font-medium mb-3">{muscle.label}</h4>
-                      
-                      <div className="grid grid-cols-2 gap-4 mb-3">
-                        <FormField
-                          control={control}
-                          name={`${groupKey}.${muscle.name}.right`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-sm">Right Side</FormLabel>
-                              <Select 
-                                onValueChange={field.onChange} 
-                                defaultValue={field.value}
-                              >
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select grade" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {mmtGrades.map((grade) => (
-                                    <SelectItem key={grade.value} value={grade.value}>
-                                      {grade.label}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                  {muscleGroup.muscles.map((muscle) => {
+                    const musclePath = `${groupKey}.${muscle.name}`;
+                    const muscleData = groupData[muscle.name] || {};
+                    const rightPath = `${musclePath}.right`;
+                    const leftPath = `${musclePath}.left`;
+                    const painPath = `${musclePath}.painWithResistance`;
+                    const notesPath = `${musclePath}.notes`;
+                    
+                    return (
+                      <div key={muscle.name} className="border rounded-md p-3">
+                        <h4 className="font-medium mb-3">{muscle.label}</h4>
                         
-                        <FormField
-                          control={control}
-                          name={`${groupKey}.${muscle.name}.left`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-sm">Left Side</FormLabel>
-                              <Select 
-                                onValueChange={field.onChange} 
-                                defaultValue={field.value}
-                              >
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select grade" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {mmtGrades.map((grade) => (
-                                    <SelectItem key={grade.value} value={grade.value}>
-                                      {grade.label}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                        <div className="grid grid-cols-2 gap-4 mb-3">
+                          <div>
+                            <label className="text-sm block mb-2">Right Side</label>
+                            <select 
+                              value={muscleData.right || '5'}
+                              onChange={(e) => updateFormData(rightPath, e.target.value)}
+                              className="w-full p-2 border border-gray-300 rounded-md"
+                            >
+                              {mmtGrades.map((grade) => (
+                                <option key={grade.value} value={grade.value}>
+                                  {grade.label}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          
+                          <div>
+                            <label className="text-sm block mb-2">Left Side</label>
+                            <select 
+                              value={muscleData.left || '5'}
+                              onChange={(e) => updateFormData(leftPath, e.target.value)}
+                              className="w-full p-2 border border-gray-300 rounded-md"
+                            >
+                              {mmtGrades.map((grade) => (
+                                <option key={grade.value} value={grade.value}>
+                                  {grade.label}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center space-x-2 mb-2">
+                          <input
+                            type="checkbox"
+                            id={painPath}
+                            checked={muscleData.painWithResistance || false}
+                            onChange={(e) => updateFormData(painPath, e.target.checked)}
+                            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                          <label htmlFor={painPath} className="text-sm font-normal">
+                            Pain With Resistance
+                          </label>
+                        </div>
+                        
+                        <div>
+                          <label htmlFor={notesPath} className="text-sm block mb-2">Notes</label>
+                          <textarea
+                            id={notesPath}
+                            value={muscleData.notes || ''}
+                            onChange={(e) => updateFormData(notesPath, e.target.value)}
+                            placeholder="Additional observations..."
+                            className="min-h-[60px] text-sm w-full p-2 border border-gray-300 rounded-md"
+                          />
+                        </div>
                       </div>
-                      
-                      <FormField
-                        control={control}
-                        name={`${groupKey}.${muscle.name}.painWithResistance`}
-                        render={({ field }) => (
-                          <FormItem className="flex items-center space-x-2 mb-2">
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                            <FormLabel className="text-sm font-normal">
-                              Pain With Resistance
-                            </FormLabel>
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={control}
-                        name={`${groupKey}.${muscle.name}.notes`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-sm">Notes</FormLabel>
-                            <FormControl>
-                              <Textarea
-                                {...field}
-                                placeholder="Additional observations..."
-                                className="min-h-[60px] text-sm"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 
-                <FormField
-                  control={control}
-                  name={`${groupKey}.generalNotes`}
-                  render={({ field }) => (
-                    <FormItem className="mt-4">
-                      <FormLabel className="font-medium">General Notes for {muscleGroup.title}</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          placeholder="Add general observations for this muscle group..."
-                          className="min-h-[100px]"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="mt-4">
+                  <label htmlFor={`${groupKey}.generalNotes`} className="font-medium block mb-2">
+                    General Notes for {muscleGroup.title}
+                  </label>
+                  <textarea
+                    id={`${groupKey}.generalNotes`}
+                    value={groupData.generalNotes || ''}
+                    onChange={(e) => updateFormData(`${groupKey}.generalNotes`, e.target.value)}
+                    placeholder="Add general observations for this muscle group..."
+                    className="min-h-[100px] w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
               </div>
             )}
           </div>

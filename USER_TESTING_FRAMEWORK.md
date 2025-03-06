@@ -1,354 +1,205 @@
-# User Testing Framework for Delilah V3.0
+# Delilah V3.0 User Testing Framework
 
-This document outlines the framework for conducting user testing and gathering feedback on the Delilah V3.0 application, with a focus on recently implemented intelligence features.
+## Overview
+
+This document outlines the testing framework for the Delilah V3.0 platform following the implementation of core UI restoration, form completion with save capabilities, and the report drafting module. The framework provides structured guidelines for testing the application from a user perspective.
 
 ## Testing Objectives
 
-1. Validate the effectiveness and usefulness of new intelligence features:
-   - Contextual suggestions
-   - Data validation warnings
-   - Content improvement recommendations
-   - Section completeness indicators
-   - Terminology consistency checks
+1. Validate the core workflow functionality
+2. Identify usability issues in the interface
+3. Ensure data persistence works correctly
+4. Verify the report drafting capabilities
+5. Gather feedback for future improvements
 
-2. Assess overall usability and user experience:
-   - Navigation flow
-   - Interface clarity
-   - Performance
-   - Feature discoverability
+## Key User Workflows to Test
 
-3. Identify pain points and areas for improvement:
-   - Workflow obstacles
-   - Missing features
-   - Confusing elements
-   - Performance issues
+### 1. Assessment Creation and Management
 
-4. Validate compliance with regulatory requirements:
-   - Data privacy
-   - Accessibility
-   - Documentation standards
+#### 1.1 Creating a New Assessment
+- Navigate to the dashboard
+- Click "New Assessment" button
+- Verify initial assessment loads with empty fields
+- Check that a unique ID is assigned
 
-## Testing Methodology
+#### 1.2 Assessment List Management
+- View the list of assessments
+- Sort and filter assessments
+- Open an existing assessment
+- Delete an assessment (with confirmation)
 
-### 1. Participant Selection
+#### 1.3 Dashboard Navigation
+- Test all quick access links
+- Verify recent assessments display correctly
+- Check workflow cards for proper navigation
 
-- **Target Group**: Occupational Therapists (OTs) with varying experience levels
-  - 3-5 novice OTs (0-2 years experience)
-  - 3-5 experienced OTs (3+ years experience)
-  - 2-3 OT supervisors/managers who review reports
+### 2. Form Completion and Save Functionality
 
-- **Selection Criteria**:
-  - Experience with assessment report writing
-  - Varied comfort levels with technology
-  - Representation from different practice settings (hospitals, clinics, home health)
+#### 2.1 Demographics Form
+- Complete all fields in the demographics section
+- Test validation for required fields
+- Save the form and verify success message
+- Navigate away and return to verify data persistence
 
-### 2. Testing Scenarios
+#### 2.2 Medical History Form
+- Enter pre-existing conditions
+- Add injury details
+- Test adding and removing medications
+- Save and verify data persistence
 
-#### Scenario 1: Complete Assessment Using Intelligence Features
-Participants will be asked to complete a full assessment using the intelligence features as guidance.
+#### 2.3 Multi-Section Navigation
+- Navigate between different assessment tabs
+- Test section-to-section workflow
+- Verify data is retained when switching tabs
+- Test the "Save" button on different sections
 
-**Tasks**:
-- Create a new assessment for a hypothetical client
-- Complete each section of the assessment
-- Review and act on intelligence suggestions
-- Generate a final report
+#### 2.4 Form Validation
+- Test error messages for invalid inputs
+- Verify required field validation
+- Test field-specific validation rules
+- Check cross-field validations
 
-**Metrics**:
-- Time to complete assessment
-- Number of intelligence suggestions followed
-- Quality of final report (evaluated by expert reviewer)
-- Number of errors/omissions in final report
+### 3. Report Drafting Module
 
-#### Scenario 2: Review and Improve Existing Assessment
-Participants will be given a partially completed assessment with deliberate issues to test how well the intelligence features identify problems.
+#### 3.1 Template Selection
+- Navigate to report drafting
+- View available templates
+- Select different templates and verify preview
+- Test filtering and sorting templates
 
-**Tasks**:
-- Review an existing assessment
-- Identify and resolve issues using intelligence features
-- Rate the helpfulness of each intelligence feature
-- Document any missing suggestions that should have been identified
+#### 3.2 Report Configuration
+- Configure sections to include
+- Adjust detail levels for different sections
+- Test different report styles
+- Configure title and other metadata
 
-**Metrics**:
-- Number of issues correctly identified using intelligence features
-- Number of issues missed by intelligence features
-- Time spent reviewing and correcting assessment
-- User satisfaction with each intelligence feature
+#### 3.3 Report Preview and Editing
+- View the generated report preview
+- Edit different sections
+- Test AI-assisted suggestions
+- Verify content saves correctly
 
-#### Scenario 3: Real-World Usage
-Participants will use the system in their actual work environment for 1-2 weeks.
+#### 3.4 Report Export
+- Test different export formats
+- Verify generated files open correctly
+- Test email functionality if implemented
+- Check print preview
 
-**Tasks**:
-- Integrate Delilah V3.0 into daily workflow
-- Document experiences, challenges, and benefits
-- Participate in follow-up interview
+## Test Environment Setup
 
-**Metrics**:
-- Frequency of feature usage
-- Self-reported efficiency gains
-- Integration challenges
-- Overall satisfaction
+### Required Test Data
+- Sample assessment data for testing
+- Different client profiles
+- Various medical history scenarios
+- Sample report templates
 
-### 3. Data Collection Methods
+### Test Environment
+- Desktop: Chrome, Firefox, Safari, Edge
+- Mobile: iOS Safari, Android Chrome
+- Tablet: iPad Safari, Android Chrome
+- Screen readers: NVDA, VoiceOver
 
-#### Quantitative Methods:
-- **System Usage Analytics**:
-  - Feature usage frequency
-  - Time spent on each section
-  - Error rates
-  - Intelligence feature acceptance rates
+## Test Execution Guidelines
 
-- **Structured Surveys**:
-  - System Usability Scale (SUS)
-  - Feature-specific satisfaction ratings (1-5 scale)
-  - Comparative assessment (vs. previous workflow)
+### Test Documentation
+- Document each test with:
+  - Test ID
+  - Description
+  - Steps to reproduce
+  - Expected result
+  - Actual result
+  - Status (Pass/Fail)
+  - Comments
 
-#### Qualitative Methods:
-- **Think-Aloud Sessions**:
-  - Participants verbalize thoughts while completing tasks
-  - Facilitator observes and documents insights
+### Severity Classification
+- **Critical**: Prevents core functionality from working
+- **Major**: Significant impact on usability but has workarounds
+- **Minor**: Cosmetic issues or minor functional problems
+- **Enhancement**: Suggestions for improvement
 
-- **Semi-Structured Interviews**:
-  - Pre-test background and expectations
-  - Post-test experience and feedback
-  - Specific questions about intelligence features
+### Test Reporting
+- Provide daily test execution summaries
+- Report critical issues immediately
+- Create detailed bug reports with reproduction steps
+- Include screenshots/recordings for UI issues
 
-- **Feedback Journal**:
-  - Participants document thoughts during extended usage
-  - Specific prompts for intelligence feature feedback
+## Acceptance Criteria
 
-### 4. Testing Environment
+### General Criteria
+- All critical workflows function as expected
+- Data persists between sessions
+- UI renders correctly on supported browsers
+- Performance meets specified requirements
 
-#### Controlled Environment Testing:
-- Quiet, dedicated testing space
-- Standardized equipment and network conditions
-- Screen and audio recording
-- Facilitator present for observation and assistance
+### Specific Feature Criteria
 
-#### Field Testing:
-- Participants' actual work environments
-- Various devices and network conditions
-- Self-documented experiences
-- Remote support available
+#### Core UI
+- Navigation between all sections works correctly
+- UI components render properly
+- Responsive design functions on all screen sizes
+- Error messages are clear and helpful
 
-## Testing Schedule
+#### Form Completion
+- All forms save successfully
+- Validation prevents invalid submissions
+- Data loads correctly when reopening forms
+- Progress is tracked accurately
 
-1. **Preparation Phase** (1 week):
-   - Finalize testing materials and scenarios
-   - Recruit participants
-   - Set up testing environment and tools
+#### Report Drafting
+- Templates render correctly
+- Configuration options work as expected
+- AI suggestions are relevant and helpful
+- Exports generate valid documents
 
-2. **Controlled Testing Phase** (2 weeks):
-   - Conduct in-person testing sessions (2-3 hours each)
-   - Record sessions and collect immediate feedback
-   - Make rapid adjustments for critical issues
+## Post-Testing Activities
 
-3. **Field Testing Phase** (2 weeks):
-   - Deploy to participants' work environments
-   - Collect ongoing feedback
-   - Provide remote support
+### Feedback Collection
+- Conduct post-testing interviews
+- Gather structured feedback on specific features
+- Document improvement suggestions
+- Identify pain points in workflows
 
-4. **Analysis Phase** (1 week):
-   - Compile and analyze results
-   - Identify patterns and priorities
-   - Prepare recommendations report
+### Analysis and Prioritization
+- Analyze test results and feedback
+- Prioritize issues for resolution
+- Identify patterns in reported issues
+- Create improvement roadmap
 
-## Feedback Analysis Framework
+## Appendix: Test Case Templates
 
-### 1. Categorization
-Feedback will be categorized into:
-- **Usability Issues**: Interface problems, confusing workflows
-- **Feature Requests**: Missing functionality or enhancements
-- **Intelligence Accuracy**: False positives/negatives in suggestions
-- **Performance Issues**: Speed, resource usage, reliability
-- **Content Quality**: Helpfulness and clarity of suggestions
-- **Compliance Concerns**: Regulatory or standard adherence issues
-
-### 2. Prioritization
-Issues will be prioritized based on:
-- **Frequency**: Number of users experiencing the issue
-- **Severity**: Impact on workflow and outcomes
-- **Effort**: Estimated development time to address
-- **Strategic Alignment**: Alignment with product vision
-
-### 3. Action Planning
-For each significant finding:
-- Document specific issue or opportunity
-- Define success criteria for resolution
-- Assign priority level
-- Estimate development effort
-- Recommend implementation approach
-
-## Documentation Templates
-
-### 1. Test Session Guide
-
+### Form Testing Template
 ```
-Test Session Guide: Delilah V3.0 Intelligence Features
-
-Participant: [Name]
-Experience Level: [Novice/Experienced/Supervisor]
-Date: [Date]
-Facilitator: [Name]
-
-Introduction (5 minutes):
-- Welcome and introduction
-- Overview of testing purpose
-- Consent and recording confirmation
-
-Background Questions (10 minutes):
-- Current report writing process
-- Pain points in current workflow
-- Technology comfort level
-
-Task 1: [Specific scenario] (30 minutes)
-- Brief participant on task
-- Provide necessary materials
-- Remind about think-aloud protocol
-- [Specific success criteria]
-
-Task 2: [Specific scenario] (30 minutes)
-- [Details]
-
-Debrief (15 minutes):
-- Overall experience
-- Most helpful features
-- Most frustrating aspects
-- Suggestions for improvement
-
-System Usability Scale Survey (5 minutes)
-Feature-Specific Feedback (15 minutes)
+Test ID: FORM-001
+Section: Demographics
+Description: Test saving client information
+Steps:
+1. Navigate to Demographics section
+2. Fill in all fields
+3. Click Save button
+4. Navigate away and return
+Expected: All data is saved and displayed correctly
 ```
 
-### 2. Participant Feedback Form
-
+### Report Drafting Template
 ```
-Delilah V3.0 User Testing Feedback Form
-
-Name: ______________________
-Date: ______________________
-
-Overall System Rating (1-5): ___
-
-Intelligence Features Rating:
-- Contextual Suggestions (1-5): ___
-- Data Validation Warnings (1-5): ___
-- Content Improvements (1-5): ___
-- Section Completeness (1-5): ___
-- Terminology Consistency (1-5): ___
-
-Most Helpful Feature: ______________________
-Reason: ______________________
-
-Most Confusing Feature: ______________________
-Reason: ______________________
-
-What would you add? ______________________
-
-What would you remove? ______________________
-
-How would this impact your daily workflow? 
-______________________
-
-Additional Comments:
-______________________
+Test ID: REPORT-001
+Description: Generate report from template
+Steps:
+1. Navigate to Report Drafting
+2. Select "Comprehensive OT Assessment" template
+3. Configure all sections to "Standard" detail level
+4. Generate report
+Expected: Report is generated with all sections at standard detail level
 ```
 
-### 3. Issue Documentation Template
-
+### Navigation Testing Template
 ```
-Issue ID: [Automatic]
-Reported By: [User/Observer]
-Date: [Date]
-Severity: [Critical/High/Medium/Low]
-Type: [Usability/Feature/Intelligence/Performance/Content/Compliance]
-
-Description:
-[Detailed description of the issue]
-
-Steps to Reproduce:
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
-
-Expected Behavior:
-[What should happen]
-
-Actual Behavior:
-[What actually happened]
-
-User Impact:
-[How this affects the user's workflow]
-
-Screenshots/Recordings:
-[Links or attachments]
-
-Suggested Solution:
-[If provided by user]
-
-Technical Notes:
-[For development team]
-
-Priority:
-[Must Fix/Should Fix/Nice to Fix]
-
-Assigned To:
-[Team member]
+Test ID: NAV-001
+Description: Test section navigation
+Steps:
+1. Start at Demographics
+2. Navigate to Medical History
+3. Navigate to Symptoms
+4. Return to Demographics
+Expected: All navigation works, data persists between sections
 ```
-
-## Deliverables
-
-1. **Testing Plan Document**:
-   - Detailed scenarios and tasks
-   - Participant selection criteria
-   - Testing schedule and logistics
-
-2. **Usability Testing Report**:
-   - Executive summary
-   - Methodology overview
-   - Key findings and metrics
-   - Detailed analysis by feature
-   - Prioritized recommendations
-
-3. **Feature Refinement Roadmap**:
-   - Prioritized list of enhancements
-   - Implementation timeline
-   - Success metrics for each refinement
-
-4. **Intelligence Feature Accuracy Report**:
-   - False positive/negative rates
-   - User acceptance rates
-   - Suggestion quality analysis
-   - Training data recommendations
-
-## Next Steps
-
-1. **Prepare Testing Materials**:
-   - Finalize test scenarios
-   - Create prototype assessment cases
-   - Develop feedback collection tools
-
-2. **Recruit Participants**:
-   - Create recruitment criteria
-   - Reach out to potential participants
-   - Schedule testing sessions
-
-3. **Testing Environment Setup**:
-   - Prepare testing devices
-   - Configure recording equipment
-   - Set up analytics tracking
-
-4. **Conduct Testing**:
-   - Execute according to schedule
-   - Collect and organize feedback
-   - Provide regular updates to development team
-
-5. **Analysis and Reporting**:
-   - Compile testing results
-   - Identify patterns and priorities
-   - Create comprehensive report
-   - Present findings to stakeholders
-
-6. **Refinement Implementation**:
-   - Develop refinement plan based on findings
-   - Prioritize and schedule improvements
-   - Implement changes in iterative cycles

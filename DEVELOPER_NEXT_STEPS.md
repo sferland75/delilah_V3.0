@@ -1,148 +1,90 @@
-# Delilah Report Generation System - Development Guide
+# Developer Next Steps for Delilah V3.0
 
-## Current Focus (February 2025)
-Working on functional status section test stability, particularly focusing on form validation and state management.
+## Priority Issues (March 4, 2025)
 
-### Recent Progress
-- ✅ Form context initialization improvements
-- ✅ Schema validation enhancements
-- ✅ Test utilities standardization
-- ✅ Integration test stabilization
+The following issues require immediate attention in order of priority:
 
-### Current Test Status
-1. Schema Tests:
-   - Working on value range validation
-   - Fixed enum validation errors
-   - Improved error message checks
+### 1. UI State Management Fix
 
-2. Form State Tests:
-   - Fixed form initialization
-   - Improved dirty state tracking
-   - Addressed validation state issues
+**Problem:** The application suffers from UI state synchronization issues, particularly with client names not updating in the header after saving and form data not persisting properly between tab navigation.
 
-3. Component Integration:
-   - Fixed FormWrapper component
-   - Improved test utility functions
-   - Enhanced error handling
+**Recommended Actions:**
+- Review the comprehensive analysis in `PERSISTENT_UI_ISSUES.md`
+- Implement a global state management solution (Redux, Zustand, or Jotai recommended)
+- Replace the current Context API implementation with a more robust solution
+- Add proper state persistence with loading indicators
 
-### Remaining Issues (as of February 19, 2025)
+**Files to Focus On:**
+- `src/contexts/AssessmentContext.tsx`
+- `pages/full-assessment.tsx`
+- `src/sections/1-InitialAssessment/components/Demographics.tsx`
+- `src/services/assessment-storage-service.ts`
 
-#### 1. Schema Validation
-Currently fixing value range validation test:
-```typescript
-// Issue: Test data structure needs to maintain complete default data
-// Status: In Progress
-it('validates value ranges correctly', async () => {
-  // Need to include complete defaultFormState structure
-});
-```
+**Estimated Effort:** 3-4 days
 
-#### 2. Form State Management
-Fixed most issues but monitoring for:
-- Form state initialization
-- Dirty state tracking
-- Validation triggers
+### 2. Form Data Persistence
 
-#### 3. PosturalTolerances Component
-Outstanding issues:
-- Initial value type mismatch (string vs number)
-- Form state validation
-- React act() warnings
+**Problem:** Form data is lost when navigating between sections, even though it appears to be saved correctly.
 
-### Development Guidelines
+**Recommended Actions:**
+- Update the form handling to use the react-hook-form persist plugin or similar technology
+- Add automatic save on blur functionality for all form fields
+- Implement a more robust form validation system with visible feedback
+- Add data recovery mechanisms for unsaved changes
 
-#### Testing Form Components
-```typescript
-// Recommended pattern for form tests
-describe('FormComponent', () => {
-  const setupForm = () => {
-    return renderHook(() => useForm<FormState>({
-      defaultValues,
-      mode: 'onChange'
-    }));
-  };
+**Estimated Effort:** 2-3 days
 
-  it('handles form state', async () => {
-    const { result } = setupForm();
-    // Set values and check state
-  });
-});
-```
+### 3. Complete Assessment Workflow Finalization
 
-#### Schema Testing
-1. Always include complete data structure
-2. Test specific validations in isolation
-3. Use proper error checking
-4. Handle async validation properly
+**Problem:** Several assessment sections still have basic implementation issues, and transitions between sections could be smoother.
 
-### Next Steps
+**Recommended Actions:**
+- Test and ensure all form sections save data correctly
+- Add proper validation to all form sections
+- Implement consistent navigation between form sections
+- Add progress tracking and completion indicators
 
-1. Complete Schema Test Fixes:
-   - [x] Fixed type validation
-   - [x] Fixed enum validation
-   - [ ] Fix range validation
-   - [ ] Add edge case tests
+**Estimated Effort:** 3-4 days
 
-2. Form State Management:
-   - [x] Fixed initialization
-   - [x] Fixed dirty tracking
-   - [ ] Complete validation state
-   - [ ] Add error state tests
+### 4. Performance Optimization
 
-3. Component Integration:
-   - [x] Fixed basic rendering
-   - [x] Fixed form context
-   - [ ] Fix value type handling
-   - [ ] Add act() wrapping
+**Problem:** The application experiences noticeable lag when saving data or navigating between sections.
 
-4. Documentation Updates:
-   - [ ] Update test patterns
-   - [ ] Document form state management
-   - [ ] Add validation examples
-   - [ ] Update troubleshooting guide
+**Recommended Actions:**
+- Implement proper code splitting for each assessment section
+- Optimize localStorage operations with batching
+- Consider implementing a worker thread for heavy operations
+- Add performance monitoring
 
-### Build & Test Instructions
+**Estimated Effort:** 2-3 days
 
-1. Run Functional Status Tests:
-```bash
-npm test src/sections/4-FunctionalStatus/tests
-```
+## Backend Integration Path
 
-2. Run Specific Test Suite:
-```bash
-npm test schema.test.ts
-```
+Once the core UI and state management issues are resolved, the following backend integration steps are recommended:
 
-3. Update Test Output:
-```bash
-npm test -- --output test_output.txt
-```
+1. Replace localStorage with proper API endpoints
+2. Implement user authentication and authorization
+3. Add proper data synchronization with offline support
+4. Implement real-time collaboration features
 
-### Important Notes
-- Wait for test runs between changes
-- Check act() warnings
-- Verify form state completely
-- Monitor schema validation
-- Test all error states
+## Testing Recommendations
 
-## Current Tasks
-1. Fix schema range validation
-2. Address PosturalTolerances value type
-3. Complete form state validation
-4. Update documentation
+For the next development cycle, focus testing efforts on:
 
-## Technical Debt
-- Form state initialization pattern needs standardization
-- Value type handling needs consistency
-- Validation error handling needs improvement
-- Test utility functions need optimization
+1. **End-to-End Testing:** Add comprehensive Cypress tests for the entire assessment workflow
+2. **Unit Tests:** Add unit tests for all core data operations
+3. **Performance Testing:** Benchmark the application performance with large datasets
+4. **Cross-Browser Testing:** Ensure compatibility across major browsers
 
-## Resources
-- React Hook Form documentation
-- Zod schema validation guide
-- Testing utils reference
-- Form state management patterns
+## Documentation
 
-### Contact
-For questions about implementation details or testing approach:
-[Contact Info]
+The following documentation updates are needed:
+
+1. Update component documentation with state management patterns
+2. Create a comprehensive data flow diagram
+3. Document form validation rules and error messages
+4. Create user guides for each assessment section
+
+## Conclusion
+
+The application has good foundational structure but requires significant refactoring of its state management approach. The priority should be to stabilize the core functionality first, then proceed with feature enhancements. A comprehensive rewrite of the state management layer is recommended rather than incremental patches to the existing implementation.

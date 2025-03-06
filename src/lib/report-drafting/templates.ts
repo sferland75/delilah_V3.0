@@ -1,216 +1,178 @@
-/**
- * Report Templates
- * 
- * This module defines the standard report templates available in the system.
- * Each template specifies which sections are included by default and their
- * detail levels.
- */
+import { ReportTemplate } from './types';
 
-import { DetailLevel, ReportStyle, SectionConfiguration } from './types';
-
-/**
- * Standard report templates
- */
-export const reportTemplates = {
-  'initial-assessment': {
-    id: 'initial-assessment',
-    name: 'Initial Assessment Report',
-    description: 'Comprehensive initial evaluation report',
-    defaultTitle: 'Initial Assessment Report',
-    defaultStyle: 'clinical' as ReportStyle,
-    defaultSections: [
-      { id: 'initial-assessment', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'medical-history', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'symptoms-assessment', included: true, detailLevel: 'comprehensive' as DetailLevel },
-      { id: 'functional-status', included: true, detailLevel: 'comprehensive' as DetailLevel },
-      { id: 'environmental-assessment', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'activities-daily-living', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'typical-day', included: false, detailLevel: 'brief' as DetailLevel },
-      { id: 'attendant-care', included: false, detailLevel: 'brief' as DetailLevel }
-    ],
-    isBuiltIn: true
-  },
-  'progress-report': {
-    id: 'progress-report',
-    name: 'Progress Report',
-    description: 'Document client progress and current status',
-    defaultTitle: 'Progress Report',
-    defaultStyle: 'clinical' as ReportStyle,
-    defaultSections: [
-      { id: 'initial-assessment', included: true, detailLevel: 'brief' as DetailLevel },
-      { id: 'symptoms-assessment', included: true, detailLevel: 'comprehensive' as DetailLevel },
-      { id: 'functional-status', included: true, detailLevel: 'comprehensive' as DetailLevel },
-      { id: 'activities-daily-living', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'medical-history', included: false, detailLevel: 'brief' as DetailLevel },
-      { id: 'environmental-assessment', included: false, detailLevel: 'brief' as DetailLevel },
-      { id: 'typical-day', included: false, detailLevel: 'brief' as DetailLevel },
-      { id: 'attendant-care', included: false, detailLevel: 'brief' as DetailLevel }
-    ],
-    isBuiltIn: true
-  },
-  'discharge-summary': {
-    id: 'discharge-summary',
-    name: 'Discharge Summary',
-    description: 'Final assessment and recommendations',
-    defaultTitle: 'Discharge Summary',
-    defaultStyle: 'clinical' as ReportStyle,
-    defaultSections: [
-      { id: 'initial-assessment', included: true, detailLevel: 'brief' as DetailLevel },
-      { id: 'medical-history', included: true, detailLevel: 'brief' as DetailLevel },
-      { id: 'symptoms-assessment', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'functional-status', included: true, detailLevel: 'comprehensive' as DetailLevel },
-      { id: 'activities-daily-living', included: true, detailLevel: 'comprehensive' as DetailLevel },
-      { id: 'environmental-assessment', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'attendant-care', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'typical-day', included: false, detailLevel: 'brief' as DetailLevel }
-    ],
-    isBuiltIn: true
-  },
-  'equipment-recommendation': {
-    id: 'equipment-recommendation',
-    name: 'Equipment Recommendation',
-    description: 'Detailed equipment needs and justification',
-    defaultTitle: 'Equipment Recommendation Report',
-    defaultStyle: 'clinical' as ReportStyle,
-    defaultSections: [
-      { id: 'initial-assessment', included: true, detailLevel: 'brief' as DetailLevel },
-      { id: 'medical-history', included: true, detailLevel: 'brief' as DetailLevel },
-      { id: 'symptoms-assessment', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'functional-status', included: true, detailLevel: 'comprehensive' as DetailLevel },
-      { id: 'environmental-assessment', included: true, detailLevel: 'comprehensive' as DetailLevel },
-      { id: 'activities-daily-living', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'typical-day', included: false, detailLevel: 'brief' as DetailLevel },
-      { id: 'attendant-care', included: false, detailLevel: 'brief' as DetailLevel }
-    ],
-    isBuiltIn: true
-  },
-  'home-assessment': {
-    id: 'home-assessment',
-    name: 'Home Assessment Report',
-    description: 'Home environment evaluation and recommendations',
-    defaultTitle: 'Home Assessment Report',
-    defaultStyle: 'clinical' as ReportStyle,
-    defaultSections: [
-      { id: 'initial-assessment', included: true, detailLevel: 'brief' as DetailLevel },
-      { id: 'functional-status', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'environmental-assessment', included: true, detailLevel: 'comprehensive' as DetailLevel },
-      { id: 'activities-daily-living', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'medical-history', included: false, detailLevel: 'brief' as DetailLevel },
-      { id: 'symptoms-assessment', included: false, detailLevel: 'brief' as DetailLevel },
-      { id: 'typical-day', included: false, detailLevel: 'brief' as DetailLevel },
-      { id: 'attendant-care', included: false, detailLevel: 'brief' as DetailLevel }
-    ],
-    isBuiltIn: true
-  },
-  'custom-template': {
-    id: 'custom-template',
-    name: 'Custom Template',
-    description: 'Create a report with custom sections',
-    defaultTitle: 'Custom Report',
-    defaultStyle: 'clinical' as ReportStyle,
-    defaultSections: [
-      { id: 'initial-assessment', included: true, detailLevel: 'standard' as DetailLevel },
-      { id: 'medical-history', included: false, detailLevel: 'standard' as DetailLevel },
-      { id: 'symptoms-assessment', included: false, detailLevel: 'standard' as DetailLevel },
-      { id: 'functional-status', included: false, detailLevel: 'standard' as DetailLevel },
-      { id: 'environmental-assessment', included: false, detailLevel: 'standard' as DetailLevel },
-      { id: 'activities-daily-living', included: false, detailLevel: 'standard' as DetailLevel },
-      { id: 'typical-day', included: false, detailLevel: 'standard' as DetailLevel },
-      { id: 'attendant-care', included: false, detailLevel: 'standard' as DetailLevel }
-    ],
-    isBuiltIn: true
-  }
-};
-
-/**
- * Section metadata for display and organization
- */
+// Define section metadata for the application
 export const sectionMetadata = {
-  'initial-assessment': {
-    title: 'Client Information',
-    description: 'Demographics and basic client information',
-    order: 1,
+  'demographics': {
+    title: 'Demographics',
+    description: 'Client personal information and basic details',
+    category: 'assessment'
+  },
+  'purpose-methodology': {
+    title: 'Purpose & Methodology',
+    description: 'Assessment purpose and methodological approach',
     category: 'assessment'
   },
   'medical-history': {
     title: 'Medical History',
-    description: 'Client\'s medical background and conditions',
-    order: 2,
+    description: 'Client medical history and conditions',
     category: 'assessment'
   },
   'symptoms-assessment': {
     title: 'Symptoms Assessment',
-    description: 'Current symptoms and their impact',
-    order: 3,
+    description: 'Physical, cognitive, and emotional symptoms',
     category: 'assessment'
   },
   'functional-status': {
     title: 'Functional Status',
-    description: 'Client\'s functional abilities and limitations',
-    order: 4,
+    description: 'Current capabilities and limitations',
     category: 'functional'
   },
   'typical-day': {
     title: 'Typical Day',
-    description: 'Client\'s daily routine and activities',
-    order: 5,
+    description: 'Daily routines and activities',
     category: 'functional'
   },
   'environmental-assessment': {
     title: 'Environmental Assessment',
     description: 'Home and community environment evaluation',
-    order: 6,
     category: 'functional'
   },
   'activities-daily-living': {
     title: 'Activities of Daily Living',
-    description: 'Assessment of ADL performance and assistance needs',
-    order: 7,
+    description: 'Self-care and daily living activities',
     category: 'functional'
   },
   'attendant-care': {
     title: 'Attendant Care',
-    description: 'Care needs and recommendations',
-    order: 8,
+    description: 'Required assistance and caregiving needs',
     category: 'functional'
+  },
+  'executive-summary': {
+    title: 'Executive Summary',
+    description: 'Overview of key findings and recommendations',
+    category: 'report'
+  },
+  'recommendations': {
+    title: 'Recommendations',
+    description: 'Recommended interventions, equipment, and follow-up',
+    category: 'report'
+  },
+  'conclusion': {
+    title: 'Conclusion',
+    description: 'Summary of assessment findings and next steps',
+    category: 'report'
   }
 };
 
-/**
- * Get a template by ID
- */
-export function getTemplateById(templateId: string) {
-  return reportTemplates[templateId as keyof typeof reportTemplates] || null;
-}
-
-/**
- * Get default sections for a template
- */
-export function getDefaultSections(templateId: string): SectionConfiguration[] {
-  const template = getTemplateById(templateId);
-  return template?.defaultSections || [];
-}
-
-/**
- * Get all available templates
- */
-export function getAllTemplates() {
-  return Object.values(reportTemplates);
-}
-
-/**
- * Get section metadata by ID
- */
-export function getSectionMetadata(sectionId: string) {
-  return sectionMetadata[sectionId as keyof typeof sectionMetadata] || null;
-}
-
-/**
- * Get all section metadata
- */
-export function getAllSectionMetadata() {
-  return Object.entries(sectionMetadata).map(([id, metadata]) => ({
-    id,
-    ...metadata
-  }));
-}
+// Define template library
+export const templates: ReportTemplate[] = [
+  {
+    id: 'comprehensive-ot',
+    name: 'Comprehensive OT Assessment',
+    description: 'Complete occupational therapy assessment report with all sections',
+    imageUrl: '/templates/comprehensive.png',
+    defaultTitle: 'Comprehensive Occupational Therapy Assessment',
+    defaultStyle: 'clinical',
+    category: 'clinical',
+    isBuiltIn: true,
+    defaultSections: [
+      { id: 'executive-summary', title: 'Executive Summary', included: true, detailLevel: 'standard' },
+      { id: 'demographics', title: 'Demographics', included: true, detailLevel: 'brief' },
+      { id: 'purpose-methodology', title: 'Purpose & Methodology', included: true, detailLevel: 'standard' },
+      { id: 'medical-history', title: 'Medical History', included: true, detailLevel: 'standard' },
+      { id: 'symptoms-assessment', title: 'Symptoms Assessment', included: true, detailLevel: 'comprehensive' },
+      { id: 'functional-status', title: 'Functional Status', included: true, detailLevel: 'comprehensive' },
+      { id: 'typical-day', title: 'Typical Day', included: true, detailLevel: 'standard' },
+      { id: 'environmental-assessment', title: 'Environmental Assessment', included: true, detailLevel: 'standard' },
+      { id: 'activities-daily-living', title: 'Activities of Daily Living', included: true, detailLevel: 'comprehensive' },
+      { id: 'attendant-care', title: 'Attendant Care', included: true, detailLevel: 'comprehensive' },
+      { id: 'recommendations', title: 'Recommendations', included: true, detailLevel: 'comprehensive' },
+      { id: 'conclusion', title: 'Conclusion', included: true, detailLevel: 'standard' }
+    ]
+  },
+  {
+    id: 'insurance-report',
+    name: 'Insurance Assessment Report',
+    description: 'Focused report for insurance companies with emphasis on functional impacts',
+    imageUrl: '/templates/insurance.png',
+    defaultTitle: 'Occupational Therapy Insurance Assessment',
+    defaultStyle: 'clinical',
+    category: 'insurance',
+    isBuiltIn: true,
+    defaultSections: [
+      { id: 'executive-summary', title: 'Executive Summary', included: true, detailLevel: 'comprehensive' },
+      { id: 'demographics', title: 'Demographics', included: true, detailLevel: 'brief' },
+      { id: 'purpose-methodology', title: 'Purpose & Methodology', included: true, detailLevel: 'brief' },
+      { id: 'medical-history', title: 'Medical History', included: true, detailLevel: 'standard' },
+      { id: 'symptoms-assessment', title: 'Symptoms Assessment', included: true, detailLevel: 'standard' },
+      { id: 'functional-status', title: 'Functional Status', included: true, detailLevel: 'comprehensive' },
+      { id: 'typical-day', title: 'Typical Day', included: true, detailLevel: 'standard' },
+      { id: 'activities-daily-living', title: 'Activities of Daily Living', included: true, detailLevel: 'comprehensive' },
+      { id: 'attendant-care', title: 'Attendant Care', included: true, detailLevel: 'comprehensive' },
+      { id: 'recommendations', title: 'Recommendations', included: true, detailLevel: 'comprehensive' },
+      { id: 'conclusion', title: 'Conclusion', included: true, detailLevel: 'brief' }
+    ]
+  },
+  {
+    id: 'client-friendly',
+    name: 'Client-Friendly Report',
+    description: 'Simplified report written in conversational language for clients',
+    imageUrl: '/templates/client.png',
+    defaultTitle: 'Your Occupational Therapy Assessment',
+    defaultStyle: 'conversational',
+    category: 'client',
+    isBuiltIn: true,
+    defaultSections: [
+      { id: 'executive-summary', title: 'Summary', included: true, detailLevel: 'brief' },
+      { id: 'symptoms-assessment', title: 'Your Symptoms', included: true, detailLevel: 'standard' },
+      { id: 'functional-status', title: 'Your Abilities', included: true, detailLevel: 'standard' },
+      { id: 'typical-day', title: 'Your Daily Activities', included: true, detailLevel: 'standard' },
+      { id: 'environmental-assessment', title: 'Your Environment', included: true, detailLevel: 'brief' },
+      { id: 'recommendations', title: 'Recommendations for You', included: true, detailLevel: 'comprehensive' },
+      { id: 'conclusion', title: 'Next Steps', included: true, detailLevel: 'brief' }
+    ]
+  },
+  {
+    id: 'medical-legal',
+    name: 'Medicolegal Report',
+    description: 'Detailed report for legal proceedings with comprehensive documentation',
+    imageUrl: '/templates/legal.png',
+    defaultTitle: 'Occupational Therapy Assessment for Legal Purposes',
+    defaultStyle: 'clinical',
+    category: 'legal',
+    isBuiltIn: true,
+    defaultSections: [
+      { id: 'executive-summary', title: 'Executive Summary', included: true, detailLevel: 'comprehensive' },
+      { id: 'purpose-methodology', title: 'Purpose & Methodology', included: true, detailLevel: 'comprehensive' },
+      { id: 'demographics', title: 'Client Information', included: true, detailLevel: 'brief' },
+      { id: 'medical-history', title: 'Medical History', included: true, detailLevel: 'comprehensive' },
+      { id: 'symptoms-assessment', title: 'Symptoms Assessment', included: true, detailLevel: 'comprehensive' },
+      { id: 'functional-status', title: 'Functional Status', included: true, detailLevel: 'comprehensive' },
+      { id: 'typical-day', title: 'Typical Day', included: true, detailLevel: 'comprehensive' },
+      { id: 'activities-daily-living', title: 'Activities of Daily Living', included: true, detailLevel: 'comprehensive' },
+      { id: 'attendant-care', title: 'Attendant Care', included: true, detailLevel: 'comprehensive' },
+      { id: 'recommendations', title: 'Recommendations', included: true, detailLevel: 'comprehensive' },
+      { id: 'conclusion', title: 'Conclusion', included: true, detailLevel: 'comprehensive' }
+    ]
+  },
+  {
+    id: 'progress-report',
+    name: 'Progress Report',
+    description: 'Follow-up report focusing on changes since last assessment',
+    imageUrl: '/templates/progress.png',
+    defaultTitle: 'Occupational Therapy Progress Report',
+    defaultStyle: 'clinical',
+    category: 'clinical',
+    isBuiltIn: true,
+    defaultSections: [
+      { id: 'executive-summary', title: 'Progress Summary', included: true, detailLevel: 'standard' },
+      { id: 'demographics', title: 'Client Information', included: true, detailLevel: 'brief' },
+      { id: 'purpose-methodology', title: 'Purpose of Follow-up', included: true, detailLevel: 'brief' },
+      { id: 'symptoms-assessment', title: 'Changes in Symptoms', included: true, detailLevel: 'standard' },
+      { id: 'functional-status', title: 'Functional Progress', included: true, detailLevel: 'comprehensive' },
+      { id: 'activities-daily-living', title: 'ADL Progress', included: true, detailLevel: 'standard' },
+      { id: 'recommendations', title: 'Updated Recommendations', included: true, detailLevel: 'standard' },
+      { id: 'conclusion', title: 'Conclusion', included: true, detailLevel: 'brief' }
+    ]
+  }
+];

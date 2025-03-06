@@ -1,10 +1,13 @@
 'use client';
 
 import { FunctionalStatus } from './components/FunctionalStatus';
-import { FunctionalStatusIntegrated } from './components/FunctionalStatus.integrated';
+import { FunctionalStatusRedux } from './components/FunctionalStatus.redux';
+import { SimpleRangeOfMotion } from './components/SimpleRangeOfMotion';
 
-// Export both versions
-export { FunctionalStatus, FunctionalStatusIntegrated };
+// Export components
+export { FunctionalStatus, FunctionalStatusRedux, SimpleRangeOfMotion };
 
-// Default export the integrated version
-export default FunctionalStatusIntegrated;
+// Default export for page components
+export default function FunctionalStatusPage() {
+  return <FunctionalStatusRedux />;
+}

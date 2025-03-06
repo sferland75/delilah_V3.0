@@ -16,7 +16,8 @@ import {
   Users,
   Home,
   Briefcase,
-  Calculator 
+  Calculator,
+  BookOpen
 } from 'lucide-react';
 
 // Define section cards with proper links
@@ -108,6 +109,14 @@ const sections = [
     icon: <FileText className="h-8 w-8 text-gray-500" />,
     directLink: '/full-assessment?section=ama-guides',
     color: 'bg-gray-50 border-gray-200',
+  },
+  {
+    id: 'report-drafting',
+    title: 'Report Drafting',
+    description: 'Generate professional reports from assessment data',
+    icon: <BookOpen className="h-8 w-8 text-emerald-500" />,
+    directLink: '/report-drafting',
+    color: 'bg-emerald-50 border-emerald-200',
   }
 ];
 

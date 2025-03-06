@@ -1,119 +1,108 @@
 import React from 'react';
 import Link from 'next/link';
+import { useAssessmentContext } from '@/contexts/AssessmentContext';
 
-export default function SimpleFallbackHome() {
+export default function Home() {
+  // Access the assessment context for UI updates
+  const { currentAssessmentId, data, hasUnsavedChanges, saveCurrentAssessment } = useAssessmentContext || {};
+
+  // Get client name from assessment data
+  const getClientName = () => {
+    if (data?.demographics?.personalInfo) {
+      const { firstName, lastName } = data.demographics.personalInfo;
+      if (firstName && lastName) {
+        return `${firstName} ${lastName}`;
+      }
+    }
+    return currentAssessmentId ? "Unnamed Client" : null;
+  };
+
+  // Simple handler to save assessment data
+  const handleSave = () => {
+    if (saveCurrentAssessment) {
+      saveCurrentAssessment();
+      alert("Assessment saved successfully!");
+    } else {
+      alert("Save functionality not available");
+    }
+  };
+
   return (
-    <div style={{ 
-      padding: '2rem', 
-      maxWidth: '800px', 
-      margin: '0 auto',
-      fontFamily: 'system-ui, sans-serif'
-    }}>
-      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Delilah V3.0 - Simple Nav</h1>
-      <p style={{ marginBottom: '2rem' }}>This is a simple navigation page without any UI component dependencies.</p>
-      
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: '1rem',
-        marginBottom: '2rem'
-      }}>
-        <h2>Main Navigation</h2>
-        <div style={{ 
-          display: 'flex', 
-          gap: '1rem',
-          flexWrap: 'wrap' 
-        }}>
-          <Link href="/assessment">
-            <div style={{ 
-              padding: '0.5rem 1rem', 
-              background: '#4299e1', 
-              color: 'white',
-              borderRadius: '0.25rem',
-              textDecoration: 'none',
-              cursor: 'pointer'
-            }}>Dashboard</div>
+    <div className="container mx-auto py-8 px-4">
+      <h1 className="text-3xl font-bold mb-4">Delilah V3.0 - Simple Nav</h1>
+      <p className="mb-8">This is a simple navigation page without any UI component dependencies.</p>
+
+      {/* New Assessment Status */}
+      {currentAssessmentId && (
+        <div className="p-4 mb-6 bg-green-100 border border-green-500 rounded-md">
+          <h2 className="text-lg font-bold text-green-800">Current Assessment: {getClientName()}</h2>
+          <p className="mb-2 text-green-700">
+            Assessment data is loaded and ready.
+            {hasUnsavedChanges && " You have unsaved changes."}
+          </p>
+          <button 
+            onClick={handleSave}
+            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+            disabled={!hasUnsavedChanges}
+          >
+            Save Assessment
+          </button>
+        </div>
+      )}
+
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Main Navigation</h2>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+              Dashboard
+            </button>
           </Link>
-          
           <Link href="/import-pdf">
-            <div style={{ 
-              padding: '0.5rem 1rem', 
-              background: '#4299e1', 
-              color: 'white',
-              borderRadius: '0.25rem',
-              textDecoration: 'none',
-              cursor: 'pointer'
-            }}>Import PDF</div>
+            <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+              Import PDF
+            </button>
           </Link>
-          
           <Link href="/report-drafting">
-            <div style={{ 
-              padding: '0.5rem 1rem', 
-              background: '#4299e1', 
-              color: 'white',
-              borderRadius: '0.25rem',
-              textDecoration: 'none',
-              cursor: 'pointer'
-            }}>Reports</div>
+            <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+              Reports
+            </button>
           </Link>
-          
           <Link href="/full-assessment">
-            <div style={{ 
-              padding: '0.5rem 1rem', 
-              background: '#4299e1', 
-              color: 'white',
-              borderRadius: '0.25rem',
-              textDecoration: 'none',
-              cursor: 'pointer'
-            }}>Full Assessment</div>
+            <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+              Full Assessment
+            </button>
           </Link>
         </div>
       </div>
-      
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: '1rem' 
-      }}>
-        <h2>Assessment Sections</h2>
-        <div style={{ 
-          display: 'flex', 
-          gap: '1rem',
-          flexWrap: 'wrap'
-        }}>
+
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Assessment Sections</h2>
+        <div className="flex flex-wrap gap-2">
           <Link href="/assessment-sections">
-            <div style={{ 
-              padding: '0.5rem 1rem', 
-              background: '#e2e8f0', 
-              color: '#1a202c',
-              borderRadius: '0.25rem',
-              textDecoration: 'none',
-              cursor: 'pointer'
-            }}>All Sections</div>
+            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">
+              All Sections
+            </button>
           </Link>
-          
           <Link href="/medical-full">
-            <div style={{ 
-              padding: '0.5rem 1rem', 
-              background: '#e2e8f0', 
-              color: '#1a202c',
-              borderRadius: '0.25rem',
-              textDecoration: 'none',
-              cursor: 'pointer'
-            }}>Medical History</div>
+            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">
+              Medical History
+            </button>
           </Link>
-          
           <Link href="/emergency-symptoms">
-            <div style={{ 
-              padding: '0.5rem 1rem', 
-              background: '#e2e8f0', 
-              color: '#1a202c',
-              borderRadius: '0.25rem',
-              textDecoration: 'none',
-              cursor: 'pointer'
-            }}>Symptoms</div>
+            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">
+              Symptoms
+            </button>
           </Link>
         </div>
+      </div>
+
+      {/* Verification section to show that the code is updated */}
+      <div className="p-4 mt-8 bg-yellow-100 border border-yellow-500 rounded-md">
+        <h2 className="text-lg font-bold text-yellow-800">Code Updated: {new Date().toLocaleTimeString()}</h2>
+        <p className="text-yellow-700">
+          This section confirms the index.tsx file has been updated with new functionality.
+        </p>
       </div>
     </div>
   );

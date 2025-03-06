@@ -1,23 +1,33 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { 
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  FormDescription
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 export function PosturalTolerances() {
-  const { control, watch } = useFormContext();
+  const form = useFormContext();
+  
+  if (!form) {
+    return (
+      <div className="p-4 border rounded-md bg-red-50 text-red-500">
+        Form context is missing. Please ensure this component is used within a FormProvider.
+      </div>
+    );
+  }
+  
+  const { getValues, watch, register } = form;
+  
+  // Create a local state to manage the component data
+  const [localData, setLocalData] = useState({});
+  
+  // Initialize from form values
+  useEffect(() => {
+    // Get the current form values
+    const formValues = getValues();
+    if (formValues?.data?.posturalTolerances) {
+      setLocalData(formValues.data.posturalTolerances);
+    }
+  }, [getValues]);
   
   // Basic static postures
   const staticPostures = [
@@ -64,204 +74,210 @@ export function PosturalTolerances() {
     { value: 'unableToPerform', label: 'Unable to Perform - Cannot maintain/perform even with assistance' }
   ];
 
+  // Function to safely update form data without direct mutation
+  const updateFormData = (path, value) => {
+    try {
+      // Create a new form values object by cloning the current values
+      const currentValues = getValues();
+      const newValues = JSON.parse(JSON.stringify(currentValues));
+      
+      // Ensure data object exists
+      if (!newValues.data) {
+        newValues.data = {};
+      }
+      
+      // Ensure posturalTolerances object exists
+      if (!newValues.data.posturalTolerances) {
+        newValues.data.posturalTolerances = {};
+      }
+      
+      // Parse the path and update the value
+      const pathParts = path.split('.');
+      let current = newValues;
+      
+      // Navigate to the parent object
+      for (let i = 0; i < pathParts.length - 1; i++) {
+        const part = pathParts[i];
+        if (!current[part]) {
+          current[part] = {};
+        }
+        current = current[part];
+      }
+      
+      // Set the value on the last part
+      current[pathParts[pathParts.length - 1]] = value;
+      
+      // Update the form with the modified values
+      form.reset(newValues);
+      
+      // Also update our local state
+      setLocalData(newValues.data.posturalTolerances);
+    } catch (error) {
+      console.error(`Error updating form data at path ${path}:`, error);
+    }
+  };
+
   const renderPostureCategory = (category, title, items) => {
-    const isExpanded = watch(`data.posturalTolerances.${category}.isExpanded`);
+    // Get the expanded state from local data
+    const isExpanded = localData[category]?.isExpanded || false;
+    const checkboxId = `data.posturalTolerances.${category}.isExpanded`;
+    
+    const handleExpandChange = (e) => {
+      updateFormData(`data.posturalTolerances.${category}.isExpanded`, e.target.checked);
+    };
     
     return (
       <Card className="mb-6 border">
         <CardHeader className="pb-3">
           <div className="flex items-center space-x-2">
-            <FormField
-              control={control}
-              name={`data.posturalTolerances.${category}.isExpanded`}
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-2 m-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <CardTitle className="text-lg">{title}</CardTitle>
-                </FormItem>
-              )}
+            <input
+              type="checkbox"
+              id={checkboxId}
+              checked={isExpanded}
+              onChange={handleExpandChange}
+              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
             />
+            <CardTitle className="text-lg">{title}</CardTitle>
           </div>
-          <FormDescription>
+          <p className="text-sm text-gray-500 mt-1">
             Check to assess this category of postural tolerance
-          </FormDescription>
+          </p>
         </CardHeader>
         
         {isExpanded && (
           <CardContent>
             <div className="space-y-6">
-              {items.map((item) => (
-                <div key={item.id} className="border rounded-md p-4">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h4 className="font-medium text-md">{item.title}</h4>
-                      <p className="text-sm text-gray-500">{item.description}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <FormField
-                      control={control}
-                      name={`data.posturalTolerances.${category}.${item.id}.toleranceLevel`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Tolerance Level</FormLabel>
-                          <Select 
-                            onValueChange={field.onChange} 
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select tolerance level" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {toleranceLevels.map((level) => (
-                                <SelectItem key={level.value} value={level.value}>
-                                  {level.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <div className="space-y-2">
-                      <FormLabel>Limiting Factors</FormLabel>
-                      <div className="grid grid-cols-2 gap-2">
-                        {limitingFactors.map((factor) => (
-                          <FormField
-                            key={factor.id}
-                            control={control}
-                            name={`data.posturalTolerances.${category}.${item.id}.limitingFactors.${factor.id}`}
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-sm font-normal">
-                                  {factor.label}
-                                </FormLabel>
-                              </FormItem>
-                            )}
-                          />
-                        ))}
+              {items.map((item) => {
+                const itemBasePath = `data.posturalTolerances.${category}.${item.id}`;
+                
+                // Get values from local data
+                const itemData = localData[category]?.[item.id] || {};
+                
+                return (
+                  <div key={item.id} className="border rounded-md p-4">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h4 className="font-medium text-md">{item.title}</h4>
+                        <p className="text-sm text-gray-500">{item.description}</p>
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4">
-                      <FormField
-                        control={control}
-                        name={`data.posturalTolerances.${category}.${item.id}.duration`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Duration</FormLabel>
-                            <FormControl>
-                              <Input 
-                                {...field} 
-                                placeholder="Enter duration"
-                                className="w-full"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                    <div className="space-y-4">
+                      <div>
+                        <label htmlFor={`${itemBasePath}.toleranceLevel`} className="block mb-2">Tolerance Level</label>
+                        <select 
+                          id={`${itemBasePath}.toleranceLevel`}
+                          value={itemData.toleranceLevel || ''}
+                          onChange={(e) => updateFormData(`${itemBasePath}.toleranceLevel`, e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Select tolerance level</option>
+                          {toleranceLevels.map((level) => (
+                            <option key={level.value} value={level.value}>
+                              {level.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                       
-                      <FormField
-                        control={control}
-                        name={`data.posturalTolerances.${category}.${item.id}.unit`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Unit</FormLabel>
-                            <Select 
-                              onValueChange={field.onChange} 
-                              defaultValue={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select unit" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="seconds">Seconds</SelectItem>
-                                <SelectItem value="minutes">Minutes</SelectItem>
-                                <SelectItem value="hours">Hours</SelectItem>
-                                <SelectItem value="repetitions">Repetitions</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <div className="space-y-2">
+                        <label className="block mb-1">Limiting Factors</label>
+                        <div className="grid grid-cols-2 gap-2">
+                          {limitingFactors.map((factor) => {
+                            const factorPath = `${itemBasePath}.limitingFactors.${factor.id}`;
+                            const isChecked = itemData.limitingFactors?.[factor.id] || false;
+                            
+                            return (
+                              <div key={factor.id} className="flex items-center space-x-2">
+                                <input
+                                  type="checkbox"
+                                  id={factorPath}
+                                  checked={isChecked}
+                                  onChange={(e) => 
+                                    updateFormData(factorPath, e.target.checked)
+                                  }
+                                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                />
+                                <label htmlFor={factorPath} className="text-sm font-normal">
+                                  {factor.label}
+                                </label>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label htmlFor={`${itemBasePath}.duration`} className="block mb-2">Duration</label>
+                          <input 
+                            type="text"
+                            id={`${itemBasePath}.duration`}
+                            value={itemData.duration || ''}
+                            onChange={(e) => updateFormData(`${itemBasePath}.duration`, e.target.value)}
+                            placeholder="Enter duration"
+                            className="w-full p-2 border border-gray-300 rounded-md"
+                          />
+                        </div>
+                        
+                        <div>
+                          <label htmlFor={`${itemBasePath}.unit`} className="block mb-2">Unit</label>
+                          <select 
+                            id={`${itemBasePath}.unit`}
+                            value={itemData.unit || ''}
+                            onChange={(e) => updateFormData(`${itemBasePath}.unit`, e.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded-md"
+                          >
+                            <option value="">Select unit</option>
+                            <option value="seconds">Seconds</option>
+                            <option value="minutes">Minutes</option>
+                            <option value="hours">Hours</option>
+                            <option value="repetitions">Repetitions</option>
+                          </select>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label htmlFor={`${itemBasePath}.assistiveDevice`} className="block mb-2">
+                          Assistive Device / Modification Needed
+                        </label>
+                        <input 
+                          type="text"
+                          id={`${itemBasePath}.assistiveDevice`}
+                          value={itemData.assistiveDevice || ''}
+                          onChange={(e) => updateFormData(`${itemBasePath}.assistiveDevice`, e.target.value)}
+                          placeholder="e.g., walker, cane, chair modification, etc."
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor={`${itemBasePath}.notes`} className="block mb-2">Notes</label>
+                        <textarea
+                          id={`${itemBasePath}.notes`}
+                          value={itemData.notes || ''}
+                          onChange={(e) => updateFormData(`${itemBasePath}.notes`, e.target.value)}
+                          placeholder="Additional observations..."
+                          className="min-h-[80px] w-full p-2 border border-gray-300 rounded-md"
+                        />
+                      </div>
                     </div>
-                    
-                    <FormField
-                      control={control}
-                      name={`data.posturalTolerances.${category}.${item.id}.assistiveDevice`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Assistive Device / Modification Needed</FormLabel>
-                          <FormControl>
-                            <Input 
-                              {...field} 
-                              placeholder="e.g., walker, cane, chair modification, etc."
-                              className="w-full"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={control}
-                      name={`data.posturalTolerances.${category}.${item.id}.notes`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Notes</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              {...field}
-                              placeholder="Additional observations..."
-                              className="min-h-[80px]"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                   </div>
-                </div>
-              ))}
+                );
+              })}
               
-              <FormField
-                control={control}
-                name={`data.posturalTolerances.${category}.generalNotes`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium">General Notes for {title}</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder={`Add general observations about ${title.toLowerCase()}...`}
-                        className="min-h-[100px]"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div>
+                <label htmlFor={`data.posturalTolerances.${category}.generalNotes`} className="block font-medium mb-2">
+                  General Notes for {title}
+                </label>
+                <textarea
+                  id={`data.posturalTolerances.${category}.generalNotes`}
+                  value={localData[category]?.generalNotes || ''}
+                  onChange={(e) => updateFormData(`data.posturalTolerances.${category}.generalNotes`, e.target.value)}
+                  placeholder={`Add general observations about ${title.toLowerCase()}...`}
+                  className="min-h-[100px] w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
             </div>
           </CardContent>
         )}

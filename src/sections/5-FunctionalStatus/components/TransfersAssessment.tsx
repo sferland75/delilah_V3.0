@@ -1,23 +1,33 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { 
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  FormDescription
-} from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 
 export function TransfersAssessment() {
-  const { control, watch } = useFormContext();
+  const form = useFormContext();
+  
+  if (!form) {
+    return (
+      <div className="p-4 border rounded-md bg-red-50 text-red-500">
+        Form context is missing. Please ensure this component is used within a FormProvider.
+      </div>
+    );
+  }
+  
+  const { getValues, setValue, watch, register } = form;
+  
+  // Create a local state to manage the component data
+  const [localData, setLocalData] = useState({});
+  
+  // Initialize from form values
+  useEffect(() => {
+    // Get the current form values
+    const formValues = getValues();
+    if (formValues?.data?.transfers) {
+      setLocalData(formValues.data.transfers);
+    }
+  }, [getValues]);
   
   // Basic transfers
   const basicTransfers = [
@@ -67,175 +77,194 @@ export function TransfersAssessment() {
     { id: 'rangeOfMotion', label: 'Limited Range of Motion' }
   ];
 
+  // Function to safely update form data without direct mutation
+  const updateFormData = (path, value) => {
+    try {
+      // Create a new form values object by cloning the current values
+      const currentValues = getValues();
+      const newValues = JSON.parse(JSON.stringify(currentValues));
+      
+      // Ensure data object exists
+      if (!newValues.data) {
+        newValues.data = {};
+      }
+      
+      // Ensure transfers object exists
+      if (!newValues.data.transfers) {
+        newValues.data.transfers = {};
+      }
+      
+      // Parse the path and update the value
+      const pathParts = path.split('.');
+      let current = newValues;
+      
+      // Navigate to the parent object
+      for (let i = 0; i < pathParts.length - 1; i++) {
+        const part = pathParts[i];
+        if (!current[part]) {
+          current[part] = {};
+        }
+        current = current[part];
+      }
+      
+      // Set the value on the last part
+      current[pathParts[pathParts.length - 1]] = value;
+      
+      // Update the form with the modified values
+      form.reset(newValues);
+      
+      // Also update our local state
+      setLocalData(newValues.data.transfers);
+    } catch (error) {
+      console.error(`Error updating form data at path ${path}:`, error);
+    }
+  };
+
   const renderTransferCategory = (category, title, items) => {
-    const isExpanded = watch(`data.transfers.${category}.isExpanded`);
+    // Get the expanded state from local data
+    const isExpanded = localData[category]?.isExpanded || false;
+    const checkboxId = `data.transfers.${category}.isExpanded`;
+    
+    const handleExpandChange = (e) => {
+      updateFormData(`data.transfers.${category}.isExpanded`, e.target.checked);
+    };
     
     return (
       <Card className="mb-6 border">
         <CardHeader className="pb-3">
           <div className="flex items-center space-x-2">
-            <FormField
-              control={control}
-              name={`data.transfers.${category}.isExpanded`}
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-2 m-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <CardTitle className="text-lg">{title}</CardTitle>
-                </FormItem>
-              )}
+            <input
+              type="checkbox"
+              id={checkboxId}
+              checked={isExpanded}
+              onChange={handleExpandChange}
+              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
             />
+            <CardTitle className="text-lg">{title}</CardTitle>
           </div>
-          <FormDescription>
+          <p className="text-sm text-gray-500 mt-1">
             Check to assess this category of transfers
-          </FormDescription>
+          </p>
         </CardHeader>
         
         {isExpanded && (
           <CardContent>
             <div className="space-y-6">
-              {items.map((item) => (
-                <div key={item.id} className="border rounded-md p-4">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h4 className="font-medium text-md">{item.title}</h4>
-                      <p className="text-sm text-gray-500">{item.description}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <FormField
-                      control={control}
-                      name={`data.transfers.${category}.${item.id}.independence`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Level of Independence</FormLabel>
-                          <Select 
-                            onValueChange={field.onChange} 
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select level" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {independenceLevels.map((level) => (
-                                <SelectItem key={level.value} value={level.value}>
-                                  {level.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <div className="space-y-2">
-                      <FormLabel>Limiting Factors</FormLabel>
-                      <div className="grid grid-cols-2 gap-2">
-                        {limitingFactors.map((factor) => (
-                          <FormField
-                            key={factor.id}
-                            control={control}
-                            name={`data.transfers.${category}.${item.id}.limitingFactors.${factor.id}`}
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-sm font-normal">
-                                  {factor.label}
-                                </FormLabel>
-                              </FormItem>
-                            )}
-                          />
-                        ))}
+              {items.map((item) => {
+                const itemBasePath = `data.transfers.${category}.${item.id}`;
+                
+                // Get values from local data
+                const itemData = localData[category]?.[item.id] || {};
+                
+                return (
+                  <div key={item.id} className="border rounded-md p-4">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h4 className="font-medium text-md">{item.title}</h4>
+                        <p className="text-sm text-gray-500">{item.description}</p>
                       </div>
                     </div>
                     
-                    <FormField
-                      control={control}
-                      name={`data.transfers.${category}.${item.id}.assistiveDevice`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Assistive Device / Equipment Needed</FormLabel>
-                          <FormControl>
-                            <Input 
-                              {...field} 
-                              placeholder="e.g., grab bars, transfer board, etc."
-                              className="w-full"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={control}
-                      name={`data.transfers.${category}.${item.id}.assistRequired`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Assistance Required</FormLabel>
-                          <FormControl>
-                            <Input 
-                              {...field} 
-                              placeholder="Describe number of assistants and type of assistance"
-                              className="w-full"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={control}
-                      name={`data.transfers.${category}.${item.id}.notes`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Notes</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              {...field}
-                              placeholder="Technique used, safety concerns, etc."
-                              className="min-h-[80px]"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="space-y-4">
+                      <div>
+                        <label htmlFor={`${itemBasePath}.independence`} className="block mb-2">Level of Independence</label>
+                        <select 
+                          id={`${itemBasePath}.independence`}
+                          value={itemData.independence || ''}
+                          onChange={(e) => updateFormData(`${itemBasePath}.independence`, e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        >
+                          <option value="">Select level</option>
+                          {independenceLevels.map((level) => (
+                            <option key={level.value} value={level.value}>
+                              {level.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <label className="block mb-1">Limiting Factors</label>
+                        <div className="grid grid-cols-2 gap-2">
+                          {limitingFactors.map((factor) => {
+                            const factorPath = `${itemBasePath}.limitingFactors.${factor.id}`;
+                            const isChecked = itemData.limitingFactors?.[factor.id] || false;
+                            
+                            return (
+                              <div key={factor.id} className="flex items-center space-x-2">
+                                <input
+                                  type="checkbox"
+                                  id={factorPath}
+                                  checked={isChecked}
+                                  onChange={(e) => 
+                                    updateFormData(factorPath, e.target.checked)
+                                  }
+                                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                />
+                                <label htmlFor={factorPath} className="text-sm font-normal">
+                                  {factor.label}
+                                </label>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label htmlFor={`${itemBasePath}.assistiveDevice`} className="block mb-2">
+                          Assistive Device / Equipment Needed
+                        </label>
+                        <input 
+                          type="text"
+                          id={`${itemBasePath}.assistiveDevice`}
+                          value={itemData.assistiveDevice || ''}
+                          onChange={(e) => updateFormData(`${itemBasePath}.assistiveDevice`, e.target.value)}
+                          placeholder="e.g., grab bars, transfer board, etc."
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor={`${itemBasePath}.assistRequired`} className="block mb-2">
+                          Assistance Required
+                        </label>
+                        <input 
+                          type="text"
+                          id={`${itemBasePath}.assistRequired`}
+                          value={itemData.assistRequired || ''}
+                          onChange={(e) => updateFormData(`${itemBasePath}.assistRequired`, e.target.value)}
+                          placeholder="Describe number of assistants and type of assistance"
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor={`${itemBasePath}.notes`} className="block mb-2">Notes</label>
+                        <textarea
+                          id={`${itemBasePath}.notes`}
+                          value={itemData.notes || ''}
+                          onChange={(e) => updateFormData(`${itemBasePath}.notes`, e.target.value)}
+                          placeholder="Technique used, safety concerns, etc."
+                          className="min-h-[80px] w-full p-2 border border-gray-300 rounded-md"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
               
-              <FormField
-                control={control}
-                name={`data.transfers.${category}.generalNotes`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium">General Notes for {title}</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder={`Add general observations about ${title.toLowerCase()}...`}
-                        className="min-h-[100px]"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div>
+                <label htmlFor={`data.transfers.${category}.generalNotes`} className="block font-medium mb-2">
+                  General Notes for {title}
+                </label>
+                <textarea
+                  id={`data.transfers.${category}.generalNotes`}
+                  value={localData[category]?.generalNotes || ''}
+                  onChange={(e) => updateFormData(`data.transfers.${category}.generalNotes`, e.target.value)}
+                  placeholder={`Add general observations about ${title.toLowerCase()}...`}
+                  className="min-h-[100px] w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
             </div>
           </CardContent>
         )}

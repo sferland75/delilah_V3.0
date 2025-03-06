@@ -1,22 +1,76 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  FormDescription,
-} from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 
 export function BergBalance() {
-  const { control, watch } = useFormContext();
+  const form = useFormContext();
+  
+  if (!form) {
+    return (
+      <div className="p-4 border rounded-md bg-red-50 text-red-500">
+        Form context is missing. Please ensure this component is used within a FormProvider.
+      </div>
+    );
+  }
+  
+  const { getValues } = form;
+  
+  // Create a local state to manage the component data
+  const [localData, setLocalData] = useState({});
+  
+  // Initialize from form values
+  useEffect(() => {
+    // Get the current form values
+    const formValues = getValues();
+    if (formValues?.data?.bergBalance) {
+      setLocalData(formValues.data.bergBalance);
+    }
+  }, [getValues]);
+  
+  // Function to safely update form data without direct mutation
+  const updateFormData = (path, value) => {
+    try {
+      // Create a new form values object by cloning the current values
+      const currentValues = getValues();
+      const newValues = JSON.parse(JSON.stringify(currentValues));
+      
+      // Ensure data object exists
+      if (!newValues.data) {
+        newValues.data = {};
+      }
+      
+      // Ensure bergBalance object exists
+      if (!newValues.data.bergBalance) {
+        newValues.data.bergBalance = {};
+      }
+      
+      // Parse the path and update the value
+      const pathParts = path.split('.');
+      let current = newValues;
+      
+      // Navigate to the parent object
+      for (let i = 0; i < pathParts.length - 1; i++) {
+        const part = pathParts[i];
+        if (!current[part]) {
+          current[part] = {};
+        }
+        current = current[part];
+      }
+      
+      // Set the value on the last part
+      current[pathParts[pathParts.length - 1]] = value;
+      
+      // Update the form with the modified values
+      form.reset(newValues);
+      
+      // Also update our local state
+      setLocalData(newValues.data.bergBalance);
+    } catch (error) {
+      console.error(`Error updating form data at path ${path}:`, error);
+    }
+  };
   
   const bergItems = [
     {
@@ -193,7 +247,7 @@ export function BergBalance() {
   const calculateTotalScore = () => {
     let total = 0;
     bergItems.forEach(item => {
-      const score = watch(`data.bergBalance.${item.id}.score`);
+      const score = localData[item.id]?.score;
       if (score !== undefined && score !== null) {
         total += Number(score);
       }
@@ -250,107 +304,86 @@ export function BergBalance() {
       </Card>
 
       <div className="space-y-6">
-        {bergItems.map((item) => (
-          <Card key={item.id} className="border">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-md">{item.title}</CardTitle>
-              <FormDescription className="text-sm">
-                <strong>Instructions:</strong> {item.instructions}
-              </FormDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={control}
-                name={`data.bergBalance.${item.id}.score`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Score</FormLabel>
-                    <Select 
-                      onValueChange={(value) => field.onChange(Number(value))} 
-                      value={field.value?.toString() || undefined}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select score" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {item.scores.map((score) => (
-                          <SelectItem key={score.value} value={score.value}>
-                            {score.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        {bergItems.map((item) => {
+          const itemBasePath = `data.bergBalance.${item.id}`;
+          const scorePath = `${itemBasePath}.score`;
+          const notesPath = `${itemBasePath}.notes`;
+          const itemData = localData[item.id] || {};
 
-              <FormField
-                control={control}
-                name={`data.bergBalance.${item.id}.notes`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Notes</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder="Add observations or special considerations..."
-                        className="min-h-[60px]"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-        ))}
+          return (
+            <Card key={item.id} className="border">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-md">{item.title}</CardTitle>
+                <p className="text-sm text-gray-500">
+                  <strong>Instructions:</strong> {item.instructions}
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <label htmlFor={scorePath} className="block mb-2">Score</label>
+                  <select 
+                    id={scorePath}
+                    value={itemData.score?.toString() || ''}
+                    onChange={(e) => updateFormData(`${itemBasePath}.score`, Number(e.target.value))}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="">Select score</option>
+                    {item.scores.map((score) => (
+                      <option key={score.value} value={score.value}>
+                        {score.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor={notesPath} className="block mb-2">Notes</label>
+                  <textarea
+                    id={notesPath}
+                    value={itemData.notes || ''}
+                    onChange={(e) => updateFormData(`${itemBasePath}.notes`, e.target.value)}
+                    placeholder="Add observations or special considerations..."
+                    className="min-h-[60px] w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
       
-      <FormField
-        control={control}
-        name="data.bergBalance.completedItems"
-        render={({ field }) => (
-          <FormItem className="border p-4 rounded-md">
-            <div className="flex items-center space-x-2">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div className="space-y-0.5">
-                <FormLabel>
-                  Assessment Complete
-                </FormLabel>
-                <FormDescription>
-                  Check when the Berg Balance assessment has been fully completed
-                </FormDescription>
-              </div>
-            </div>
-          </FormItem>
-        )}
-      />
+      <div className="border p-4 rounded-md">
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="data.bergBalance.completedItems"
+            checked={localData.completedItems || false}
+            onChange={(e) => updateFormData("data.bergBalance.completedItems", e.target.checked)}
+            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          />
+          <div className="space-y-0.5">
+            <label htmlFor="data.bergBalance.completedItems" className="block font-medium">
+              Assessment Complete
+            </label>
+            <p className="text-sm text-gray-500">
+              Check when the Berg Balance assessment has been fully completed
+            </p>
+          </div>
+        </div>
+      </div>
       
-      <FormField
-        control={control}
-        name="data.bergBalance.generalNotes"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-medium">General Notes for Berg Balance Assessment</FormLabel>
-            <FormControl>
-              <Textarea
-                {...field}
-                placeholder="Add general observations about balance, testing conditions, etc..."
-                className="min-h-[100px]"
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <div>
+        <label htmlFor="data.bergBalance.generalNotes" className="block font-medium mb-2">
+          General Notes for Berg Balance Assessment
+        </label>
+        <textarea
+          id="data.bergBalance.generalNotes"
+          value={localData.generalNotes || ''}
+          onChange={(e) => updateFormData("data.bergBalance.generalNotes", e.target.value)}
+          placeholder="Add general observations about balance, testing conditions, etc..."
+          className="min-h-[100px] w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
     </div>
   );
 }
