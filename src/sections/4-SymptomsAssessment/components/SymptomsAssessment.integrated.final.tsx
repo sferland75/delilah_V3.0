@@ -247,54 +247,53 @@ export function SymptomsAssessmentIntegratedFinal() {
         </AlertDescription>
       </Alert>
 
-      <Form {...form}>
+      {/* Using FormProvider directly instead of nesting forms */}
+      <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-          <FormProvider {...form}>
-            <Tabs defaultValue="physical" className="w-full border rounded-md">
-              <TabsList className="grid w-full grid-cols-4 p-0 h-auto border-b">
-                <TabsTrigger 
-                  className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
-                  value="physical"
-                >
-                  Physical
-                </TabsTrigger>
-                <TabsTrigger 
-                  className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
-                  value="cognitive"
-                >
-                  Cognitive
-                </TabsTrigger>
-                <TabsTrigger 
-                  className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
-                  value="emotional"
-                >
-                  Emotional
-                </TabsTrigger>
-                <TabsTrigger 
-                  className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
-                  value="general"
-                >
-                  General
-                </TabsTrigger>
-              </TabsList>
+          <Tabs defaultValue="physical" className="w-full border rounded-md">
+            <TabsList className="grid w-full grid-cols-4 p-0 h-auto border-b">
+              <TabsTrigger 
+                className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
+                value="physical"
+              >
+                Physical
+              </TabsTrigger>
+              <TabsTrigger 
+                className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
+                value="cognitive"
+              >
+                Cognitive
+              </TabsTrigger>
+              <TabsTrigger 
+                className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
+                value="emotional"
+              >
+                Emotional
+              </TabsTrigger>
+              <TabsTrigger 
+                className="py-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=inactive]:border-b data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-600" 
+                value="general"
+              >
+                General
+              </TabsTrigger>
+            </TabsList>
 
-              <TabsContent value="physical" className="p-6">
-                <PhysicalSymptomsSectionUpdated />
-              </TabsContent>
-              
-              <TabsContent value="cognitive" className="p-6">
-                <CognitiveSymptomsSectionUpdated />
-              </TabsContent>
-              
-              <TabsContent value="emotional" className="p-6">
-                <EmotionalSymptomsSection />
-              </TabsContent>
-              
-              <TabsContent value="general" className="p-6">
-                <GeneralNotesSection />
-              </TabsContent>
-            </Tabs>
-          </FormProvider>
+            <TabsContent value="physical" className="p-6">
+              <PhysicalSymptomsSectionUpdated />
+            </TabsContent>
+            
+            <TabsContent value="cognitive" className="p-6">
+              <CognitiveSymptomsSectionUpdated />
+            </TabsContent>
+            
+            <TabsContent value="emotional" className="p-6">
+              <EmotionalSymptomsSection />
+            </TabsContent>
+            
+            <TabsContent value="general" className="p-6">
+              <GeneralNotesSection />
+            </TabsContent>
+          </Tabs>
 
           <div className="flex justify-end space-x-2 mt-4">
             <Button 
@@ -312,7 +311,7 @@ export function SymptomsAssessmentIntegratedFinal() {
             </Button>
           </div>
         </form>
-      </Form>
+      </FormProvider>
     </div>
   );
 }
