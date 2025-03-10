@@ -14,6 +14,26 @@ const dailyRoutineSchema = z.object({
   night: z.array(activitySchema)
 });
 
+// Sleep schedule schema to support both regular and irregular patterns
+const sleepScheduleSchema = z.object({
+  type: z.enum(['regular', 'irregular']),
+  regularSchedule: z.object({
+    wakeTime: z.string().optional(),
+    bedTime: z.string().optional(),
+    sleepQuality: z.string().optional()
+  }).optional(),
+  irregularScheduleDetails: z.string().optional()
+}).refine(data => {
+  // Validation logic to ensure either regular or irregular data is provided
+  if (data.type === 'regular') {
+    return !!data.regularSchedule?.wakeTime || !!data.regularSchedule?.bedTime;
+  } else {
+    return !!data.irregularScheduleDetails;
+  }
+}, {
+  message: "Please provide either regular sleep schedule details or irregular schedule information"
+});
+
 export const typicalDaySchema = z.object({
   config: z.object({
     activeTab: z.enum(['preAccident', 'postAccident']),
@@ -21,10 +41,12 @@ export const typicalDaySchema = z.object({
   }),
   data: z.object({
     preAccident: z.object({
-      dailyRoutine: dailyRoutineSchema
+      dailyRoutine: dailyRoutineSchema,
+      sleepSchedule: sleepScheduleSchema.optional()
     }),
     postAccident: z.object({
-      dailyRoutine: dailyRoutineSchema
+      dailyRoutine: dailyRoutineSchema,
+      sleepSchedule: sleepScheduleSchema.optional()
     })
   })
 });
@@ -41,6 +63,14 @@ export const defaultFormState = {
         afternoon: [],
         evening: [],
         night: []
+      },
+      sleepSchedule: {
+        type: 'regular',
+        regularSchedule: {
+          wakeTime: '',
+          bedTime: '',
+          sleepQuality: ''
+        }
       }
     },
     postAccident: {
@@ -49,6 +79,14 @@ export const defaultFormState = {
         afternoon: [],
         evening: [],
         night: []
+      },
+      sleepSchedule: {
+        type: 'regular',
+        regularSchedule: {
+          wakeTime: '',
+          bedTime: '',
+          sleepQuality: ''
+        }
       }
     }
   }

@@ -8,6 +8,25 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/ta
 export default function AssessmentDashboard() {
   const router = useRouter();
   const [assessments, setAssessments] = useState([]);
+  const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
+  const [lastSaved, setLastSaved] = useState(null);
+  const [autosaveEnabled, setAutosaveEnabled] = useState(true);
+  
+  // Monitor online/offline status
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleOnline = () => setIsOnline(true);
+      const handleOffline = () => setIsOnline(false);
+      
+      window.addEventListener('online', handleOnline);
+      window.addEventListener('offline', handleOffline);
+      
+      return () => {
+        window.removeEventListener('online', handleOnline);
+        window.removeEventListener('offline', handleOffline);
+      };
+    }
+  }, []);
   
   // If there's extracted data in the URL, it would be loaded here
   useEffect(() => {
@@ -43,6 +62,8 @@ export default function AssessmentDashboard() {
     ];
     
     setAssessments(dummyAssessments);
+    // Simulate initial save
+    setLastSaved(new Date());
   }, [router.query]);
   
   return (
@@ -61,6 +82,57 @@ export default function AssessmentDashboard() {
           >
             Import from PDF
           </Button>
+        </div>
+      </div>
+      
+      {/* Field Test Status Banner */}
+      <div style={{
+        padding: '10px 15px',
+        borderRadius: '5px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: isOnline ? '#d4edda' : '#fff3cd',
+        color: isOnline ? '#155724' : '#856404',
+        border: '1px solid',
+        borderColor: isOnline ? '#c3e6cb' : '#ffeeba'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ 
+            width: '10px', 
+            height: '10px', 
+            borderRadius: '50%', 
+            backgroundColor: isOnline ? '#28a745' : '#ffc107',
+            marginRight: '10px'
+          }}></div>
+          <span><strong>Field Testing:</strong> {isOnline ? 'Online - Data synced to server' : 'Offline - Changes saved locally'}</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          {lastSaved && (
+            <span style={{ fontSize: '14px' }}>Last saved: {lastSaved.toLocaleTimeString()}</span>
+          )}
+          <label style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '14px' }}>
+            <input 
+              type="checkbox" 
+              checked={autosaveEnabled} 
+              onChange={() => setAutosaveEnabled(!autosaveEnabled)}
+            />
+            Autosave
+          </label>
+          <button
+            style={{
+              backgroundColor: '#6c757d',
+              color: 'white',
+              border: 'none',
+              borderRadius: '3px',
+              padding: '5px 10px',
+              fontSize: '14px',
+              cursor: 'pointer'
+            }}
+            onClick={() => setLastSaved(new Date())}
+          >
+            Save Now
+          </button>
         </div>
       </div>
       

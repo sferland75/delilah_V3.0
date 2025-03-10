@@ -19,7 +19,7 @@ import { Level2Care } from "./Level2Care";
 import { Level3Care } from "./Level3Care";
 import { CostCalculation } from "./CostCalculation";
 import { calculateSummary } from "../utils/calculations";
-import { CARE_RATES } from "../constants";
+import { CARE_RATES, DEFAULT_ACTIVITY } from "../constants";
 import { useAssessment } from '@/contexts/AssessmentContext';
 import _ from 'lodash';
 
@@ -39,65 +39,80 @@ export function AttendantCareSection({ initialData, onDataChange }: AttendantCar
   const getInitialFormData = (): AttendantCareFormData => {
     if (contextData && Object.keys(contextData).length > 0) {
       try {
+        console.log("Mapping attendant care context data:", contextData);
+        
         // Create a basic mapping from context data to form data
-        // This is a simplified version - a complete implementation would map all fields
+        // This uses the actual schema structure with minutes, timesPerWeek, etc.
         const mappedData: Partial<AttendantCareFormData> = {
           level1: {
             personalCare: {
               bathing: {
-                assistance: mapAssistanceLevel(contextData.personalCare?.bathing),
-                hoursPerWeek: getHoursFromContext(contextData.recommendedHours?.personalCare, 7),
-                notes: `Context data: ${contextData.personalCare?.bathing}`
+                ...DEFAULT_ACTIVITY,
+                minutes: 15,
+                timesPerWeek: 7,
+                notes: contextData.personalCare?.bathing || "No data"
               },
               dressing: {
-                assistance: mapAssistanceLevel(contextData.personalCare?.dressing),
-                hoursPerWeek: getHoursFromContext(contextData.recommendedHours?.personalCare, 7),
-                notes: `Context data: ${contextData.personalCare?.dressing}`
+                ...DEFAULT_ACTIVITY,
+                minutes: 10,
+                timesPerWeek: 14,
+                notes: contextData.personalCare?.dressing || "No data"
               },
               grooming: {
-                assistance: mapAssistanceLevel(contextData.personalCare?.grooming),
-                hoursPerWeek: getHoursFromContext(contextData.recommendedHours?.personalCare, 7),
-                notes: `Context data: ${contextData.personalCare?.grooming}`
+                ...DEFAULT_ACTIVITY,
+                minutes: 10,
+                timesPerWeek: 7,
+                notes: contextData.personalCare?.grooming || "No data"
               },
               toileting: {
-                assistance: mapAssistanceLevel(contextData.personalCare?.toileting),
-                hoursPerWeek: getHoursFromContext(contextData.recommendedHours?.personalCare, 7),
-                notes: `Context data: ${contextData.personalCare?.toileting}`
+                ...DEFAULT_ACTIVITY,
+                minutes: 5,
+                timesPerWeek: 21,
+                notes: contextData.personalCare?.toileting || "No data"
               }
             }
           },
           level2: {
             householdManagement: {
               mealPreparation: {
-                assistance: mapAssistanceLevel(contextData.homeManagement?.mealPreparation),
-                hoursPerWeek: getHoursFromContext(contextData.recommendedHours?.homeManagement, 4),
-                notes: `Context data: ${contextData.homeManagement?.mealPreparation}`
+                ...DEFAULT_ACTIVITY,
+                minutes: 20,
+                timesPerWeek: 21,
+                notes: contextData.homeManagement?.mealPreparation || "No data"
               },
               cleaning: {
-                assistance: mapAssistanceLevel(contextData.homeManagement?.cleaning),
-                hoursPerWeek: getHoursFromContext(contextData.recommendedHours?.homeManagement, 4),
-                notes: `Context data: ${contextData.homeManagement?.cleaning}`
+                ...DEFAULT_ACTIVITY,
+                minutes: 30,
+                timesPerWeek: 3,
+                notes: contextData.homeManagement?.cleaning || "No data"
               },
               laundry: {
-                assistance: mapAssistanceLevel(contextData.homeManagement?.laundry),
-                hoursPerWeek: getHoursFromContext(contextData.recommendedHours?.homeManagement, 4),
-                notes: `Context data: ${contextData.homeManagement?.laundry}`
+                ...DEFAULT_ACTIVITY,
+                minutes: 45,
+                timesPerWeek: 2,
+                notes: contextData.homeManagement?.laundry || "No data"
               }
             }
           },
           level3: {
             communityAccess: {
               transportation: {
-                assistance: mapAssistanceLevel(contextData.communityAccess?.transportation),
-                hoursPerWeek: getHoursFromContext(contextData.recommendedHours?.communityAccess, 2),
-                notes: `Context data: ${contextData.communityAccess?.transportation}`
+                ...DEFAULT_ACTIVITY,
+                minutes: 60,
+                timesPerWeek: 2,
+                notes: contextData.communityAccess?.transportation || "No data"
               },
               shopping: {
-                assistance: mapAssistanceLevel(contextData.communityAccess?.shopping),
-                hoursPerWeek: getHoursFromContext(contextData.recommendedHours?.communityAccess, 2),
-                notes: `Context data: ${contextData.communityAccess?.shopping}`
+                ...DEFAULT_ACTIVITY,
+                minutes: 45,
+                timesPerWeek: 1,
+                notes: contextData.communityAccess?.shopping || "No data"
               }
             }
+          },
+          summary: {
+            notes: "Assessment data loaded from context",
+            reviewDate: new Date().toISOString().split('T')[0]
           }
         };
         
@@ -110,28 +125,6 @@ export function AttendantCareSection({ initialData, onDataChange }: AttendantCar
     }
     
     return initialData || {};
-  };
-  
-  // Helper functions to map context data to form format
-  const mapAssistanceLevel = (assistanceText: string | undefined): string => {
-    if (!assistanceText) return "none";
-    
-    const text = assistanceText.toLowerCase();
-    if (text.includes("moderate")) return "moderate";
-    if (text.includes("minimal")) return "minimal";
-    if (text.includes("maximal") || text.includes("maximum")) return "maximal";
-    if (text.includes("setup")) return "setup";
-    if (text.includes("standby")) return "standby";
-    if (text.includes("independent")) return "none";
-    
-    return "minimal"; // Default value
-  };
-  
-  const getHoursFromContext = (totalHours: number | undefined, defaultHours: number): number => {
-    if (!totalHours) return defaultHours;
-    
-    // Convert monthly hours to weekly
-    return Math.round((totalHours / 4) * 10) / 10;
   };
 
   const form = useForm<AttendantCareFormData>({
@@ -181,30 +174,36 @@ export function AttendantCareSection({ initialData, onDataChange }: AttendantCar
   const onSubmit = (formData: AttendantCareFormData) => {
     console.log('Form data:', formData);
     
+    // Calculate the totals to get monthly hours
+    const calculations = calculateSummary(formData);
+    
     // Convert form data to the structure expected by the context
     const attendantCareData = {
       personalCare: {
-        bathing: formData.level1?.personalCare?.bathing?.notes || "Setup assistance and standby supervision",
-        dressing: formData.level1?.personalCare?.dressing?.notes || "Minimal assistance with upper body clothing",
-        grooming: formData.level1?.personalCare?.grooming?.notes || "Setup for shaving and hair care",
-        toileting: formData.level1?.personalCare?.toileting?.notes || "Independent"
+        bathing: formData.level1?.personalCare?.bathing?.notes || "No data provided",
+        dressing: formData.level1?.personalCare?.dressing?.notes || "No data provided",
+        grooming: formData.level1?.personalCare?.grooming?.notes || "No data provided",
+        toileting: formData.level1?.personalCare?.toileting?.notes || "No data provided"
       },
       homeManagement: {
-        mealPreparation: formData.level2?.householdManagement?.mealPreparation?.notes || "Assistance with complex meals and meal planning",
-        cleaning: formData.level2?.householdManagement?.cleaning?.notes || "Moderate assistance with heavy cleaning tasks",
-        laundry: formData.level2?.householdManagement?.laundry?.notes || "Assistance with carrying laundry baskets"
+        mealPreparation: formData.level2?.householdManagement?.mealPreparation?.notes || "No data provided",
+        cleaning: formData.level2?.householdManagement?.cleaning?.notes || "No data provided",
+        laundry: formData.level2?.householdManagement?.laundry?.notes || "No data provided"
       },
       communityAccess: {
-        transportation: formData.level3?.communityAccess?.transportation?.notes || "Accompaniment to medical appointments",
-        shopping: formData.level3?.communityAccess?.shopping?.notes || "Assistance with grocery shopping"
+        transportation: formData.level3?.communityAccess?.transportation?.notes || "No data provided",
+        shopping: formData.level3?.communityAccess?.shopping?.notes || "No data provided"
       },
       recommendedHours: {
-        personalCare: getTotalHoursForLevel("level1", formData),
-        homeManagement: getTotalHoursForLevel("level2", formData), 
-        communityAccess: getTotalHoursForLevel("level3", formData),
-        total: getTotalHoursForLevel("level1", formData) + 
-               getTotalHoursForLevel("level2", formData) + 
-               getTotalHoursForLevel("level3", formData)
+        personalCare: Math.round(calculations.level1.monthlyHours),
+        homeManagement: Math.round(calculations.level2.monthlyHours), 
+        communityAccess: Math.round(calculations.level3.monthlyHours),
+        total: Math.round(calculations.summary.totalMonthlyHours)
+      },
+      assessment: {
+        date: formData.summary?.reviewDate,
+        notes: formData.summary?.notes,
+        totalCost: calculations.summary.totalMonthlyCost
       }
     };
     
@@ -212,17 +211,6 @@ export function AttendantCareSection({ initialData, onDataChange }: AttendantCar
     updateSection('attendantCare', attendantCareData);
   };
   
-  // Helper function to calculate total hours for a level
-  const getTotalHoursForLevel = (level: "level1" | "level2" | "level3", formData: AttendantCareFormData): number => {
-    const calculations = calculateSummary(formData);
-    
-    // Convert weekly hours to monthly (approximately 4 weeks per month)
-    const monthlyHours = calculations[level]?.monthlyHours || 0;
-    
-    // Round to nearest whole number
-    return Math.round(monthlyHours);
-  };
-
   return (
     <div className="space-y-6">
       <div className="mb-4">

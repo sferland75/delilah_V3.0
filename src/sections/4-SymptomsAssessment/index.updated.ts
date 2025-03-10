@@ -1,18 +1,8 @@
-// Export the legacy components for backward compatibility
+// Export components
 export { SymptomsAssessment } from './components/SymptomsAssessment';
+export { default as SimpleSymptomsAssessment } from './SimpleSymptomsAssessment';
+export { default as SymptomsAssessmentSection } from './SymptomsAssessmentSection';
+
+// Export types and schemas
 export type { Symptoms } from './schema.updated';
 export { symptomsSchema } from './schema.updated';
-
-// Export the updated components
-export { SymptomsAssessmentUpdated } from './components/SymptomsAssessment.updated';
-export type { 
-  SymptomsUpdated, 
-  PhysicalSymptom, 
-  CognitiveSymptom, 
-  EmotionalSymptom 
-} from './schema.updated';
-export { 
-  symptomsSchemaUpdated, 
-  migrateToUpdatedSchema, 
-  migrateToLegacySchema 
-} from './schema.updated';

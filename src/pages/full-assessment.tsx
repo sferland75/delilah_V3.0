@@ -9,6 +9,7 @@ import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { InfoIcon, Home, LayoutDashboard, Save, FileText } from 'lucide-react';
 import { useAssessmentContext } from '@/contexts/AssessmentContext';
 import SaveAssessment from '@/components/SaveAssessment';
+import { createBackup } from '@/utils/simpleBackup';
 
 // Define fallback components in case loading fails
 const FallbackComponent = ({ name }) => (
@@ -145,19 +146,57 @@ export default function FullAssessment() {
   // Start with medical history as the default tab
   const [activeTab, setActiveTab] = useState('medical');
   
-  // Get assessment context
-  const { data, currentAssessmentId, hasUnsavedChanges, saveCurrentAssessment } = useAssessmentContext();
+  // Get assessment context - use only standard context
+  const { 
+    data, 
+    currentAssessmentId, 
+    hasUnsavedChanges, 
+    saveCurrentAssessment 
+  } = useAssessmentContext();
+  
+  // Add autosave with a simple, direct approach
+  useEffect(() => {
+    let autosaveInterval;
+    
+    if (typeof window !== 'undefined') {
+      // Create backup immediately on load
+      if (currentAssessmentId && data) {
+        createBackup(currentAssessmentId, data);
+        console.log("Initial backup created");
+      }
+      
+      // Set up autosave
+      autosaveInterval = setInterval(() => {
+        if (hasUnsavedChanges) {
+          console.log("Autosaving...");
+          saveCurrentAssessment();
+          
+          // Create a backup after saving
+          if (currentAssessmentId && data) {
+            createBackup(currentAssessmentId, data);
+            console.log("Autosave backup created");
+          }
+        }
+      }, 10000); // 10 seconds
+    }
+    
+    return () => {
+      if (autosaveInterval) {
+        clearInterval(autosaveInterval);
+      }
+    };
+  }, [currentAssessmentId, data, hasUnsavedChanges, saveCurrentAssessment]);
   
   // Set the active tab based on the query parameter if provided
   useEffect(() => {
-    if (router.query.section && typeof router.query.section === 'string') {
+    if (router.query && router.query.section && typeof router.query.section === 'string') {
       const sectionParam = router.query.section;
       // Check if the section exists in our tabs
       if (sectionTabs.some(tab => tab.value === sectionParam)) {
         setActiveTab(sectionParam);
       }
     }
-  }, [router.query.section]);
+  }, [router.query]);
 
   // Generate columns based on window width
   const tabsColumns = sectionTabs.length > 6 ? 'grid-cols-3 md:grid-cols-4 lg:grid-cols-6' : 'grid-cols-3';
@@ -196,11 +235,27 @@ export default function FullAssessment() {
     router.push(`/report-drafting?assessment=${currentAssessmentId || 'current'}`);
   };
 
+  // Handle save with backup
+  const handleSave = () => {
+    console.log("Manual save triggered");
+    saveCurrentAssessment();
+    
+    // Create a backup after saving
+    setTimeout(() => {
+      if (currentAssessmentId && data) {
+        createBackup(currentAssessmentId, data);
+        console.log("Manual save backup created");
+      }
+    }, 500);
+  };
+
   return (
     <div className="container mx-auto py-6">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-2xl font-bold">Assessment: {getClientName()}</h1>
+          <h1 className="text-2xl font-bold">
+            Assessment: {getClientName()}
+          </h1>
           {data?.metadata?.created && (
             <p className="text-sm text-muted-foreground">
               Created {new Date(data.metadata.created).toLocaleDateString()}
@@ -211,7 +266,7 @@ export default function FullAssessment() {
           <Button 
             variant="outline" 
             className="flex items-center"
-            onClick={() => saveCurrentAssessment()}
+            onClick={handleSave}
             disabled={!hasUnsavedChanges}
           >
             <Save className="h-4 w-4 mr-2" />
@@ -253,7 +308,7 @@ export default function FullAssessment() {
       <Card className="mb-6">
         <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
           <CardTitle>Assessment Sections</CardTitle>
-          <div className="mt-2 sm:mt-0">
+          <div>
             <Button 
               variant="default" 
               className="flex items-center bg-blue-600 hover:bg-blue-700"

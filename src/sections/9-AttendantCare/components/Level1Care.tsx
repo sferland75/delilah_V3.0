@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import { LEVEL_DESCRIPTIONS, careCategories } from "../constants";
 import { CareActivity } from "./CareActivity";
+import { AttendantCareField } from "./AttendantCareField";
 
 interface Level1CareProps {
   form: UseFormReturn<any>;
@@ -37,15 +38,33 @@ export function Level1Care({ form }: Level1CareProps) {
               </div>
             </AccordionTrigger>
             <AccordionContent className="p-4 space-y-4">
-              {category.items.map((item) => (
-                <CareActivity
-                  key={item.id}
-                  form={form}
-                  path={`level1.${key}.${item.id}`}
-                  label={item.title}
-                  description={item.description}
-                />
-              ))}
+              {category.items.map((item) => {
+                // Use the new enhanced field for specific categories like dressing and grooming
+                if (['dressing', 'grooming', 'feeding', 'mobility'].includes(key)) {
+                  return (
+                    <AttendantCareField
+                      key={item.id}
+                      form={form}
+                      path={`level1.${key}.${item.id}`}
+                      label={item.title}
+                      description={item.description}
+                      includeHoursPerWeek={true}
+                      assistanceLevels={['none', 'minimal', 'moderate', 'maximal', 'setup', 'standby']}
+                    />
+                  );
+                }
+                
+                // Use the standard activity component for others
+                return (
+                  <CareActivity
+                    key={item.id}
+                    form={form}
+                    path={`level1.${key}.${item.id}`}
+                    label={item.title}
+                    description={item.description}
+                  />
+                );
+              })}
             </AccordionContent>
           </AccordionItem>
         ))}

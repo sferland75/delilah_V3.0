@@ -1,198 +1,112 @@
 'use client';
 
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Form } from '@/components/ui/form';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { InfoIcon } from 'lucide-react';
-import { PreExistingConditionsSection } from './PreExistingConditionsSection';
-import { InjuryDetailsSection } from './InjuryDetailsSection';
-import { TreatmentSection } from './TreatmentSection';
-import { MedicationsSection } from './MedicationsSection';
-import { medicalHistorySchema, defaultFormState } from '../original/schema';
-import { useFormPersistence } from '@/hooks/useFormPersistence';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { InfoIcon } from "lucide-react";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { useAssessment } from '@/contexts/AssessmentContext';
-import type { FormState } from '../original/types';
 
-export function MedicalHistoryIntegratedFinal() {
+// Import section components directly to avoid circular dependencies
+import { PreExistingConditionsSectionFixed } from './PreExistingConditionsSection.fixed';
+import { InjuryDetailsSectionFixed } from './InjuryDetailsSection.fixed';
+import { TreatmentSectionFixed } from './TreatmentSection.fixed';
+import { MedicationsSectionFixed } from './MedicationsSection.fixed';
+
+// Import schema (assuming it exists, otherwise we'll need to create it)
+import { medicalHistorySchema, defaultFormState } from '../schema';
+import type { FormState } from '../schema';
+
+export const MedicalHistory = () => {
   const { data, updateSection } = useAssessment();
-  const contextData = data || {}; // Ensure contextData is at least an empty object
   const [dataLoaded, setDataLoaded] = useState(false);
   
   // Create a function to map the context data to form structure with proper error handling
   const mapContextDataToForm = useCallback(() => {
-    // Create a deep copy of the default form state to avoid mutation issues
-    const formData = JSON.parse(JSON.stringify(defaultFormState));
-    let hasData = false;
-    
-    // Safely check if medicalHistory exists in contextData
-    if (!contextData.medicalHistory) {
-      console.log("No medical history data found in context");
-      return { formData, hasData };
-    }
-    
-    const medicalHistory = contextData.medicalHistory;
-    console.log("Mapping medical history data:", medicalHistory);
-    
     try {
+      // Ensure contextData is at least an empty object
+      const contextData = data || {};
+      
+      // If no medical history data, return defaults
+      if (!contextData.medicalHistory) {
+        console.log("No medical history data found in context");
+        return defaultFormState;
+      }
+      
+      const medicalHistory = contextData.medicalHistory;
+      console.log("Mapping medical history data:", medicalHistory);
+      
+      // Create a deep copy of the default form state to avoid mutation issues
+      const formData = JSON.parse(JSON.stringify(defaultFormState));
+      
       // Map the conditions array if it exists
-      if (medicalHistory.pastMedicalHistory?.conditions && Array.isArray(medicalHistory.pastMedicalHistory.conditions)) {
-        console.log("Found conditions:", medicalHistory.pastMedicalHistory.conditions);
-        // Initialize the conditions array if it doesn't exist
-        if (!formData.preExistingConditions) {
-          formData.preExistingConditions = {};
-        }
+      if (medicalHistory.pastMedicalHistory?.conditions) {
+        formData.preExistingConditions = formData.preExistingConditions || [];
         
-        formData.preExistingConditions.conditions = 
+        formData.preExistingConditions = 
           medicalHistory.pastMedicalHistory.conditions.map((condition) => ({
-            name: condition.condition || '',
+            condition: condition.condition || '',
+            status: condition.status || 'active',
             diagnosisDate: condition.diagnosisDate || '',
-            treatment: condition.treatment || ''
+            details: condition.treatment || ''
           }));
-        
-        // Flag that we found and loaded data
-        hasData = true;
-      }
-      
-      // Map the surgeries array if it exists
-      if (medicalHistory.pastMedicalHistory?.surgeries && Array.isArray(medicalHistory.pastMedicalHistory.surgeries)) {
-        console.log("Found surgeries:", medicalHistory.pastMedicalHistory.surgeries);
-        // Initialize the conditions object if it doesn't exist
-        if (!formData.preExistingConditions) {
-          formData.preExistingConditions = {};
-        }
-        
-        formData.preExistingConditions.surgeries = 
-          medicalHistory.pastMedicalHistory.surgeries.map((surgery) => ({
-            procedure: surgery.procedure || '',
-            date: surgery.date || '',
-            surgeon: surgery.surgeon || ''
-          }));
-        
-        // Flag that we found and loaded data
-        hasData = true;
-      }
-      
-      // Map allergies
-      if (medicalHistory.pastMedicalHistory?.allergies) {
-        console.log("Found allergies:", medicalHistory.pastMedicalHistory.allergies);
-        // Initialize the conditions object if it doesn't exist
-        if (!formData.preExistingConditions) {
-          formData.preExistingConditions = {};
-        }
-        
-        formData.preExistingConditions.allergies = medicalHistory.pastMedicalHistory.allergies;
-        
-        // Flag that we found and loaded data
-        hasData = true;
-      }
-      
-      // Map medications if they exist
-      if (medicalHistory.pastMedicalHistory?.medications && Array.isArray(medicalHistory.pastMedicalHistory.medications)) {
-        console.log("Found medications:", medicalHistory.pastMedicalHistory.medications);
-        // Initialize the medications object if it doesn't exist
-        if (!formData.medications) {
-          formData.medications = {};
-        }
-        
-        formData.medications.current = 
-          medicalHistory.pastMedicalHistory.medications.map((med) => ({
-            name: med.name || '',
-            dosage: med.dosage || '',
-            frequency: med.frequency || '',
-            reason: med.reason || ''
-          }));
-        
-        // Flag that we found and loaded data
-        hasData = true;
-      }
-      
-      // Map functional history if it exists
-      if (medicalHistory.functionalHistory) {
-        console.log("Found functional history:", medicalHistory.functionalHistory);
-        // Initialize the conditions object if it doesn't exist
-        if (!formData.preExistingConditions) {
-          formData.preExistingConditions = {};
-        }
-        
-        formData.preExistingConditions.functionalStatus = medicalHistory.functionalHistory.priorLevelOfFunction || '';
-        formData.preExistingConditions.recentChanges = medicalHistory.functionalHistory.recentChanges || '';
-        
-        // Map prior living arrangement and mobility status if they exist
-        if (medicalHistory.functionalHistory.priorLivingArrangement) {
-          formData.preExistingConditions.livingArrangement = medicalHistory.functionalHistory.priorLivingArrangement;
-        }
-        
-        if (medicalHistory.functionalHistory.priorMobilityStatus) {
-          formData.preExistingConditions.mobilityStatus = medicalHistory.functionalHistory.priorMobilityStatus;
-        }
-        
-        // Flag that we found and loaded data
-        hasData = true;
       }
       
       // Map injury details if they exist
       if (medicalHistory.injuryDetails) {
-        console.log("Found injury details:", medicalHistory.injuryDetails);
-        if (!formData.injuryDetails) {
-          formData.injuryDetails = {};
-        }
-        
-        formData.injuryDetails.diagnosisDate = medicalHistory.injuryDetails.diagnosisDate || '';
-        formData.injuryDetails.mechanism = medicalHistory.injuryDetails.mechanism || '';
-        formData.injuryDetails.primaryDiagnosis = medicalHistory.injuryDetails.primaryDiagnosis || '';
-        formData.injuryDetails.secondaryDiagnoses = medicalHistory.injuryDetails.secondaryDiagnoses || [];
-        formData.injuryDetails.complications = medicalHistory.injuryDetails.complications || [];
-        
-        // Flag that we found and loaded data
-        hasData = true;
+        formData.injury = {
+          date: medicalHistory.injuryDetails.diagnosisDate || '',
+          time: medicalHistory.injuryDetails.time || '',
+          position: medicalHistory.injuryDetails.position || '',
+          impactType: medicalHistory.injuryDetails.mechanism || '',
+          circumstance: medicalHistory.injuryDetails.description || '',
+          immediateSymptoms: Array.isArray(medicalHistory.injuryDetails.complications) ? 
+            medicalHistory.injuryDetails.complications.join(', ') : '',
+          initialTreatment: medicalHistory.injuryDetails.initialTreatment || ''
+        };
       }
       
-      // Map treatment information if it exists
-      if (medicalHistory.treatmentHistory) {
-        console.log("Found treatment history:", medicalHistory.treatmentHistory);
-        if (!formData.treatment) {
-          formData.treatment = {};
-        }
-        
-        if (medicalHistory.treatmentHistory.hospitalizations && Array.isArray(medicalHistory.treatmentHistory.hospitalizations)) {
-          formData.treatment.hospitalizations = medicalHistory.treatmentHistory.hospitalizations.map(hosp => ({
-            facility: hosp.facility || '',
-            admissionDate: hosp.admissionDate || '',
-            dischargeDate: hosp.dischargeDate || '',
-            reason: hosp.reason || '',
-            procedures: hosp.procedures || []
+      // Map treatments if they exist
+      if (medicalHistory.treatmentHistory?.rehabilitationServices) {
+        formData.currentTreatments = 
+          medicalHistory.treatmentHistory.rehabilitationServices.map((treatment) => ({
+            type: treatment.type || '',
+            provider: treatment.provider || '',
+            facility: treatment.facility || '',
+            startDate: treatment.startDate || '',
+            frequency: treatment.frequency || '',
+            status: treatment.status || 'ongoing',
+            notes: treatment.notes || ''
           }));
-        }
-        
-        if (medicalHistory.treatmentHistory.rehabilitationServices && Array.isArray(medicalHistory.treatmentHistory.rehabilitationServices)) {
-          formData.treatment.therapies = medicalHistory.treatmentHistory.rehabilitationServices.map(therapy => ({
-            type: therapy.type || '',
-            provider: therapy.provider || '',
-            frequency: therapy.frequency || '',
-            startDate: therapy.startDate || '',
-            endDate: therapy.endDate || '',
-            goals: therapy.goals || []
+      }
+      
+      // Map medications if they exist
+      if (medicalHistory.pastMedicalHistory?.medications) {
+        formData.currentMedications = 
+          medicalHistory.pastMedicalHistory.medications.map((med) => ({
+            name: med.name || '',
+            dosage: med.dosage || '',
+            frequency: med.frequency || '',
+            prescribedFor: med.reason || '',
+            prescribedBy: med.prescriber || '',
+            status: med.status || 'current'
           }));
-        }
-        
-        // Flag that we found and loaded data
-        hasData = true;
       }
       
       console.log("Mapped form data:", formData);
-      return { formData, hasData };
+      return formData;
     } catch (error) {
       console.error("Error mapping medical history data:", error);
-      return { formData: defaultFormState, hasData: false };
+      return defaultFormState;
     }
-  }, [contextData]);
+  }, [data]);
   
   // Define form with proper error handling for defaultValues
-  const form = useForm<FormState>({
+  const form = useForm({
     resolver: zodResolver(medicalHistorySchema),
     defaultValues: defaultFormState,
     mode: "onChange"
@@ -201,74 +115,58 @@ export function MedicalHistoryIntegratedFinal() {
   // Update form when context data changes with proper error handling
   useEffect(() => {
     try {
-      if (contextData && contextData.medicalHistory && Object.keys(contextData.medicalHistory).length > 0) {
-        console.log("Medical history context data changed:", contextData.medicalHistory);
-        const { formData, hasData } = mapContextDataToForm();
+      if (data?.medicalHistory && Object.keys(data.medicalHistory).length > 0) {
+        console.log("Medical history context data changed:", data.medicalHistory);
+        const formData = mapContextDataToForm();
         form.reset(formData);
-        
-        // Set dataLoaded flag in useEffect, not during render
-        setDataLoaded(hasData);
+        setDataLoaded(true);
       }
     } catch (error) {
       console.error("Error updating form from context:", error);
     }
-  }, [contextData, mapContextDataToForm, form]);
+  }, [data, mapContextDataToForm, form]);
 
-  useFormPersistence(form, 'medical-history');
-
-  const onSubmit = (formData: FormState) => {
+  const onSubmit = (formData) => {
     console.log('Form data:', formData);
     
     try {
       // Convert form data to the structure expected by the context
       const medicalHistoryData = {
         pastMedicalHistory: {
-          conditions: formData.preExistingConditions?.conditions?.map(condition => ({
-            condition: condition.name,
+          conditions: formData.preExistingConditions?.map(condition => ({
+            condition: condition.condition,
+            status: condition.status,
             diagnosisDate: condition.diagnosisDate,
-            treatment: condition.treatment
+            treatment: condition.details
           })) || [],
-          surgeries: formData.preExistingConditions?.surgeries?.map(surgery => ({
-            procedure: surgery.procedure,
-            date: surgery.date,
-            surgeon: surgery.surgeon
-          })) || [],
-          allergies: formData.preExistingConditions?.allergies || [],
-          medications: formData.medications?.current?.map(med => ({
+          medications: formData.currentMedications?.map(med => ({
             name: med.name,
             dosage: med.dosage,
             frequency: med.frequency,
-            reason: med.reason
+            reason: med.prescribedFor,
+            prescriber: med.prescribedBy,
+            status: med.status
           })) || []
         },
-        functionalHistory: {
-          priorLevelOfFunction: formData.preExistingConditions?.functionalStatus || '',
-          recentChanges: formData.preExistingConditions?.recentChanges || '',
-          priorLivingArrangement: formData.preExistingConditions?.livingArrangement || '',
-          priorMobilityStatus: formData.preExistingConditions?.mobilityStatus || ''
-        },
         injuryDetails: {
-          diagnosisDate: formData.injuryDetails?.diagnosisDate || '',
-          mechanism: formData.injuryDetails?.mechanism || '',
-          primaryDiagnosis: formData.injuryDetails?.primaryDiagnosis || '',
-          secondaryDiagnoses: formData.injuryDetails?.secondaryDiagnoses || [],
-          complications: formData.injuryDetails?.complications || []
+          diagnosisDate: formData.injury?.date,
+          time: formData.injury?.time,
+          position: formData.injury?.position,
+          mechanism: formData.injury?.impactType,
+          description: formData.injury?.circumstance,
+          complications: formData.injury?.immediateSymptoms ? 
+            formData.injury.immediateSymptoms.split(',').map(s => s.trim()) : [],
+          initialTreatment: formData.injury?.initialTreatment
         },
         treatmentHistory: {
-          hospitalizations: formData.treatment?.hospitalizations?.map(hosp => ({
-            facility: hosp.facility,
-            admissionDate: hosp.admissionDate,
-            dischargeDate: hosp.dischargeDate,
-            reason: hosp.reason,
-            procedures: hosp.procedures
-          })) || [],
-          rehabilitationServices: formData.treatment?.therapies?.map(therapy => ({
-            type: therapy.type,
-            provider: therapy.provider,
-            frequency: therapy.frequency,
-            startDate: therapy.startDate,
-            endDate: therapy.endDate,
-            goals: therapy.goals
+          rehabilitationServices: formData.currentTreatments?.map(treatment => ({
+            type: treatment.type,
+            provider: treatment.provider,
+            facility: treatment.facility,
+            startDate: treatment.startDate,
+            frequency: treatment.frequency,
+            status: treatment.status,
+            notes: treatment.notes
           })) || []
         }
       };
@@ -329,19 +227,27 @@ export function MedicalHistoryIntegratedFinal() {
               </TabsList>
 
               <TabsContent value="preExisting" className="p-6">
-                <PreExistingConditionsSection />
+                <ErrorBoundary>
+                  <PreExistingConditionsSectionFixed />
+                </ErrorBoundary>
               </TabsContent>
               
               <TabsContent value="injury" className="p-6">
-                <InjuryDetailsSection />
+                <ErrorBoundary>
+                  <InjuryDetailsSectionFixed />
+                </ErrorBoundary>
               </TabsContent>
               
               <TabsContent value="treatment" className="p-6">
-                <TreatmentSection />
+                <ErrorBoundary>
+                  <TreatmentSectionFixed />
+                </ErrorBoundary>
               </TabsContent>
               
               <TabsContent value="medications" className="p-6">
-                <MedicationsSection />
+                <ErrorBoundary>
+                  <MedicationsSectionFixed />
+                </ErrorBoundary>
               </TabsContent>
             </Tabs>
           </FormProvider>
@@ -349,7 +255,7 @@ export function MedicalHistoryIntegratedFinal() {
           <div className="flex justify-end space-x-2 mt-4">
             <Button 
               variant="outline" 
-              onClick={() => form.reset()}
+              onClick={() => form.reset(defaultFormState)}
               type="button"
             >
               Reset
@@ -364,4 +270,7 @@ export function MedicalHistoryIntegratedFinal() {
       </Form>
     </div>
   );
-}
+};
+
+// Add default export
+export default MedicalHistory;

@@ -1,5 +1,6 @@
-// Export the component with the expected name
-export { FunctionalStatus as FunctionalStatusSection } from './components/FunctionalStatus';
+// Export the main components
+export { default as SimpleFunctionalStatus } from './SimpleFunctionalStatus';
+export { default as FunctionalStatusSection } from './FunctionalStatusSection';
 
 // Export other components, types, and schemas
 export * from './components';

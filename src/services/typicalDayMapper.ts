@@ -7,35 +7,15 @@
  */
 
 import { nanoid } from 'nanoid';
+import { TypicalDay } from '@/sections/6-TypicalDay/schema';
+import { ContextTypicalDayData } from '@/sections/6-TypicalDay/types';
 
-// Default form values
-export const defaultValues = {
-  morning: {
-    wakeUpTime: '',
-    routines: [
-      { id: nanoid(), time: '', activity: '', independence: 'independent', notes: '' }
-    ]
-  },
-  afternoon: {
-    routines: [
-      { id: nanoid(), time: '', activity: '', independence: 'independent', notes: '' }
-    ]
-  },
-  evening: {
-    bedtime: '',
-    routines: [
-      { id: nanoid(), time: '', activity: '', independence: 'independent', notes: '' }
-    ]
-  },
-  night: {
-    sleepQuality: '',
-    routines: [
-      { id: nanoid(), time: '', activity: '', independence: 'independent', notes: '' }
-    ]
-  },
-  weekdayWeekendDifferences: '',
-  seasonalConsiderations: '',
-  summary: ''
+// Default activity for new entries
+const defaultActivity = { 
+  timeBlock: '', 
+  description: '', 
+  assistance: '', 
+  limitations: '' 
 };
 
 /**
@@ -44,13 +24,9 @@ export const defaultValues = {
  * @returns Array of activity objects
  */
 function textToActivities(text: string) {
-  if (!text || typeof text !== 'string') return [{ 
-    id: nanoid(), 
-    time: '', 
-    activity: '', 
-    independence: 'independent', 
-    notes: '' 
-  }];
+  if (!text || typeof text !== 'string') {
+    return [];
+  }
   
   try {
     // Split the text into lines or sentences
@@ -59,43 +35,58 @@ function textToActivities(text: string) {
       text.split(/\.\s*/).filter(line => line.trim().length > 0);
     
     if (lines.length === 0) {
-      return [{ id: nanoid(), time: '', activity: '', independence: 'independent', notes: '' }];
+      return [];
     }
     
     return lines.map(line => {
-      const activity: any = { id: nanoid(), activity: line.trim(), independence: 'independent', notes: '' };
+      const activity: any = { 
+        timeBlock: '', 
+        description: line.trim(), 
+        assistance: '', 
+        limitations: '' 
+      };
       
       // Try to extract time information
       const timePattern = /(\d{1,2}(?::\d{2})?\s*(?:am|pm|AM|PM)?)/;
       const timeMatch = line.match(timePattern);
       if (timeMatch && timeMatch[1]) {
-        activity.time = timeMatch[1].trim();
-        activity.activity = line.replace(timeMatch[1], '').trim();
-        if (activity.activity.startsWith('-')) {
-          activity.activity = activity.activity.substring(1).trim();
+        activity.timeBlock = timeMatch[1].trim();
+        activity.description = line.replace(timeMatch[1], '').trim();
+        if (activity.description.startsWith('-')) {
+          activity.description = activity.description.substring(1).trim();
         }
       }
       
-      // Try to determine independence level from keywords
-      if (line.includes('assistance') || line.includes('help') || line.includes('aided')) {
-        activity.independence = 'assisted';
-      } else if (line.includes('dependent') || line.includes('unable') || line.includes('requires full')) {
-        activity.independence = 'dependent';
+      // Extract assistance information
+      if (line.includes('Assistance:')) {
+        const parts = line.split('Assistance:');
+        activity.description = parts[0].trim();
+        activity.assistance = parts[1].trim();
+      } else if (line.toLowerCase().includes('requires assistance')) {
+        activity.assistance = 'Requires assistance';
+      } else if (line.toLowerCase().includes('with assistance')) {
+        activity.assistance = 'With assistance';
       }
       
-      // Extract notes from parentheses if present
-      const notesPattern = /\(([^)]+)\)/;
-      const notesMatch = line.match(notesPattern);
-      if (notesMatch && notesMatch[1]) {
-        activity.notes = notesMatch[1].trim();
-        activity.activity = activity.activity.replace(notesPattern, '').trim();
+      // Extract limitations information
+      if (line.includes('Limitations:')) {
+        const parts = line.split('Limitations:');
+        if (!activity.assistance) {
+          activity.description = parts[0].trim();
+        }
+        activity.limitations = parts[1].trim();
+      } else if (line.toLowerCase().includes('limited by')) {
+        const parts = line.split(/limited by/i);
+        if (parts.length > 1) {
+          activity.limitations = 'Limited by ' + parts[1].trim();
+        }
       }
       
       return activity;
     });
   } catch (error) {
     console.error("Typical Day Mapper - Error converting text to activities:", error);
-    return [{ id: nanoid(), time: '', activity: '', independence: 'independent', notes: '' }];
+    return [];
   }
 }
 
@@ -105,30 +96,30 @@ function textToActivities(text: string) {
  * @returns Descriptive text
  */
 function activitiesToText(activities: any[]) {
-  if (!activities || !Array.isArray(activities) || activities.length === 0) return '';
+  if (!activities || !Array.isArray(activities) || activities.length === 0) {
+    return '';
+  }
   
   try {
     return activities.map(activity => {
       let text = '';
       
       // Add time if available
-      if (activity.time) {
-        text += `${activity.time} - `;
+      if (activity.timeBlock) {
+        text += `${activity.timeBlock}: `;
       }
       
       // Add activity description
-      text += activity.activity || '';
+      text += activity.description || '';
       
-      // Add independence level if not independent
-      if (activity.independence === 'assisted') {
-        text += ' (requires assistance)';
-      } else if (activity.independence === 'dependent') {
-        text += ' (dependent)';
+      // Add assistance if available
+      if (activity.assistance) {
+        text += ` Assistance: ${activity.assistance}`;
       }
       
-      // Add notes if available
-      if (activity.notes && !text.includes(activity.notes)) {
-        text += ` (${activity.notes})`;
+      // Add limitations if available
+      if (activity.limitations) {
+        text += ` Limitations: ${activity.limitations}`;
       }
       
       return text;
@@ -144,12 +135,52 @@ function activitiesToText(activities: any[]) {
  * @param contextData Typical day data from the assessment context
  * @returns Object containing form data and hasData flag
  */
-export function mapContextToForm(contextData: any) {
+export function mapContextToForm(contextData: ContextTypicalDayData): { formData: TypicalDay, hasData: boolean } {
   try {
     console.log("Typical Day Mapper - Context Data:", contextData);
     
-    // Start with default values
-    const formData = JSON.parse(JSON.stringify(defaultValues));
+    // Start with default values from the schema
+    const formData: TypicalDay = {
+      config: {
+        activeTab: 'preAccident',
+        mode: 'edit'
+      },
+      data: {
+        preAccident: {
+          dailyRoutine: {
+            morning: [],
+            afternoon: [],
+            evening: [],
+            night: []
+          },
+          sleepSchedule: {
+            type: 'regular',
+            regularSchedule: {
+              wakeTime: '',
+              bedTime: '',
+              sleepQuality: ''
+            }
+          }
+        },
+        postAccident: {
+          dailyRoutine: {
+            morning: [],
+            afternoon: [],
+            evening: [],
+            night: []
+          },
+          sleepSchedule: {
+            type: 'regular',
+            regularSchedule: {
+              wakeTime: '',
+              bedTime: '',
+              sleepQuality: ''
+            }
+          }
+        }
+      }
+    };
+    
     let hasData = false;
     
     // Early return if no data
@@ -157,123 +188,117 @@ export function mapContextToForm(contextData: any) {
       return { formData, hasData };
     }
 
-    // Map Morning data
-    try {
-      if (contextData.morning) {
-        hasData = true;
-        
-        // Map wake-up time
-        formData.morning.wakeUpTime = contextData.morning.wakeUpTime || '';
-        
-        // Map morning routines
-        if (contextData.morning.routines && Array.isArray(contextData.morning.routines)) {
-          formData.morning.routines = contextData.morning.routines;
-        } else if (contextData.morning.description) {
-          // Convert text description to activities
-          formData.morning.routines = textToActivities(contextData.morning.description);
-        } else if (typeof contextData.morning === 'string') {
-          // Convert text description to activities
-          formData.morning.routines = textToActivities(contextData.morning);
+    // Map data for both pre and post accident
+    for (const timeframe of ['preAccident', 'postAccident'] as const) {
+      try {
+        if (contextData[timeframe]?.dailyRoutine) {
+          const dailyRoutine = contextData[timeframe].dailyRoutine;
+
+          // Map morning activities
+          if (dailyRoutine.morningActivities) {
+            formData.data[timeframe].dailyRoutine.morning = textToActivities(dailyRoutine.morningActivities);
+            hasData = true;
+          }
+
+          // Map afternoon activities
+          if (dailyRoutine.afternoonActivities) {
+            formData.data[timeframe].dailyRoutine.afternoon = textToActivities(dailyRoutine.afternoonActivities);
+            hasData = true;
+          }
+
+          // Map evening activities
+          if (dailyRoutine.eveningActivities) {
+            formData.data[timeframe].dailyRoutine.evening = textToActivities(dailyRoutine.eveningActivities);
+            hasData = true;
+          }
+
+          // Map night activities
+          if (dailyRoutine.nightActivities) {
+            formData.data[timeframe].dailyRoutine.night = textToActivities(dailyRoutine.nightActivities);
+            hasData = true;
+          }
+
+          // Map sleep schedule
+          if (dailyRoutine.sleepSchedule) {
+            hasData = true;
+
+            // Check for irregular schedule
+            if (dailyRoutine.sleepSchedule.irregularScheduleDetails) {
+              formData.data[timeframe].sleepSchedule = {
+                type: 'irregular',
+                irregularScheduleDetails: dailyRoutine.sleepSchedule.irregularScheduleDetails
+              };
+            } else {
+              // Regular schedule
+              formData.data[timeframe].sleepSchedule = {
+                type: 'regular',
+                regularSchedule: {
+                  wakeTime: dailyRoutine.sleepSchedule.wakeTime || '',
+                  bedTime: dailyRoutine.sleepSchedule.bedTime || '',
+                  sleepQuality: dailyRoutine.sleepSchedule.sleepQuality || ''
+                }
+              };
+            }
+          }
         }
+      } catch (error) {
+        console.error(`Typical Day Mapper - Error mapping ${timeframe} data:`, error);
       }
-    } catch (error) {
-      console.error("Typical Day Mapper - Error mapping morning routines:", error);
     }
-    
-    // Map Afternoon data
-    try {
-      if (contextData.afternoon) {
-        hasData = true;
-        
-        // Map afternoon routines
-        if (contextData.afternoon.routines && Array.isArray(contextData.afternoon.routines)) {
-          formData.afternoon.routines = contextData.afternoon.routines;
-        } else if (contextData.afternoon.description) {
-          // Convert text description to activities
-          formData.afternoon.routines = textToActivities(contextData.afternoon.description);
-        } else if (typeof contextData.afternoon === 'string') {
-          // Convert text description to activities
-          formData.afternoon.routines = textToActivities(contextData.afternoon);
-        }
-      }
-    } catch (error) {
-      console.error("Typical Day Mapper - Error mapping afternoon routines:", error);
-    }
-    
-    // Map Evening data
-    try {
-      if (contextData.evening) {
-        hasData = true;
-        
-        // Map bedtime
-        formData.evening.bedtime = contextData.evening.bedtime || '';
-        
-        // Map evening routines
-        if (contextData.evening.routines && Array.isArray(contextData.evening.routines)) {
-          formData.evening.routines = contextData.evening.routines;
-        } else if (contextData.evening.description) {
-          // Convert text description to activities
-          formData.evening.routines = textToActivities(contextData.evening.description);
-        } else if (typeof contextData.evening === 'string') {
-          // Convert text description to activities
-          formData.evening.routines = textToActivities(contextData.evening);
-        }
-      }
-    } catch (error) {
-      console.error("Typical Day Mapper - Error mapping evening routines:", error);
-    }
-    
-    // Map Night data
-    try {
-      if (contextData.night) {
-        hasData = true;
-        
-        // Map sleep quality
-        formData.night.sleepQuality = contextData.night.sleepQuality || '';
-        
-        // Map night routines
-        if (contextData.night.routines && Array.isArray(contextData.night.routines)) {
-          formData.night.routines = contextData.night.routines;
-        } else if (contextData.night.description) {
-          // Convert text description to activities
-          formData.night.routines = textToActivities(contextData.night.description);
-        } else if (typeof contextData.night === 'string') {
-          // Convert text description to activities
-          formData.night.routines = textToActivities(contextData.night);
-        }
-      }
-    } catch (error) {
-      console.error("Typical Day Mapper - Error mapping night routines:", error);
-    }
-    
-    // Map additional information
-    try {
-      // Map weekday/weekend differences
-      if (contextData.weekdayWeekendDifferences) {
-        formData.weekdayWeekendDifferences = contextData.weekdayWeekendDifferences;
-        hasData = true;
-      }
-      
-      // Map seasonal considerations
-      if (contextData.seasonalConsiderations) {
-        formData.seasonalConsiderations = contextData.seasonalConsiderations;
-        hasData = true;
-      }
-      
-      // Map summary
-      if (contextData.summary) {
-        formData.summary = contextData.summary;
-        hasData = true;
-      }
-    } catch (error) {
-      console.error("Typical Day Mapper - Error mapping additional information:", error);
+
+    // Set active tab if specified in context
+    if (contextData.config?.activeTab) {
+      formData.config.activeTab = contextData.config.activeTab;
     }
     
     console.log("Typical Day Mapper - Mapped Form Data:", formData);
     return { formData, hasData };
   } catch (error) {
     console.error("Typical Day Mapper - Error mapping context data:", error);
-    return { formData: defaultValues, hasData: false };
+    // Return default form data in case of error
+    return { 
+      formData: {
+        config: {
+          activeTab: 'preAccident',
+          mode: 'edit'
+        },
+        data: {
+          preAccident: {
+            dailyRoutine: {
+              morning: [],
+              afternoon: [],
+              evening: [],
+              night: []
+            },
+            sleepSchedule: {
+              type: 'regular',
+              regularSchedule: {
+                wakeTime: '',
+                bedTime: '',
+                sleepQuality: ''
+              }
+            }
+          },
+          postAccident: {
+            dailyRoutine: {
+              morning: [],
+              afternoon: [],
+              evening: [],
+              night: []
+            },
+            sleepSchedule: {
+              type: 'regular',
+              regularSchedule: {
+                wakeTime: '',
+                bedTime: '',
+                sleepQuality: ''
+              }
+            }
+          }
+        }
+      }, 
+      hasData: false 
+    };
   }
 }
 
@@ -282,33 +307,68 @@ export function mapContextToForm(contextData: any) {
  * @param formData Form data from React Hook Form
  * @returns Context-structured data
  */
-export function mapFormToContext(formData: any) {
+export function mapFormToContext(formData: TypicalDay): ContextTypicalDayData {
   try {
     // Convert form data to the structure expected by the context
-    const contextData = {
-      morning: {
-        wakeUpTime: formData.morning.wakeUpTime || '',
-        routines: formData.morning.routines,
-        description: activitiesToText(formData.morning.routines)
+    const contextData: ContextTypicalDayData = {
+      config: {
+        activeTab: formData.config.activeTab
       },
-      afternoon: {
-        routines: formData.afternoon.routines,
-        description: activitiesToText(formData.afternoon.routines)
+      preAccident: {
+        dailyRoutine: {
+          morningActivities: activitiesToText(formData.data.preAccident.dailyRoutine.morning),
+          afternoonActivities: activitiesToText(formData.data.preAccident.dailyRoutine.afternoon),
+          eveningActivities: activitiesToText(formData.data.preAccident.dailyRoutine.evening),
+          nightActivities: activitiesToText(formData.data.preAccident.dailyRoutine.night)
+        }
       },
-      evening: {
-        bedtime: formData.evening.bedtime || '',
-        routines: formData.evening.routines,
-        description: activitiesToText(formData.evening.routines)
-      },
-      night: {
-        sleepQuality: formData.night.sleepQuality || '',
-        routines: formData.night.routines,
-        description: activitiesToText(formData.night.routines)
-      },
-      weekdayWeekendDifferences: formData.weekdayWeekendDifferences || '',
-      seasonalConsiderations: formData.seasonalConsiderations || '',
-      summary: formData.summary || ''
+      postAccident: {
+        dailyRoutine: {
+          morningActivities: activitiesToText(formData.data.postAccident.dailyRoutine.morning),
+          afternoonActivities: activitiesToText(formData.data.postAccident.dailyRoutine.afternoon),
+          eveningActivities: activitiesToText(formData.data.postAccident.dailyRoutine.evening),
+          nightActivities: activitiesToText(formData.data.postAccident.dailyRoutine.night)
+        }
+      }
     };
+    
+    // Map sleep schedule for pre-accident
+    if (formData.data.preAccident.sleepSchedule) {
+      const sleepSchedule = formData.data.preAccident.sleepSchedule;
+      
+      if (sleepSchedule.type === 'irregular') {
+        contextData.preAccident.dailyRoutine.sleepSchedule = {
+          type: 'irregular',
+          irregularScheduleDetails: sleepSchedule.irregularScheduleDetails
+        };
+      } else {
+        contextData.preAccident.dailyRoutine.sleepSchedule = {
+          type: 'regular',
+          wakeTime: sleepSchedule.regularSchedule?.wakeTime,
+          bedTime: sleepSchedule.regularSchedule?.bedTime,
+          sleepQuality: sleepSchedule.regularSchedule?.sleepQuality
+        };
+      }
+    }
+    
+    // Map sleep schedule for post-accident
+    if (formData.data.postAccident.sleepSchedule) {
+      const sleepSchedule = formData.data.postAccident.sleepSchedule;
+      
+      if (sleepSchedule.type === 'irregular') {
+        contextData.postAccident.dailyRoutine.sleepSchedule = {
+          type: 'irregular',
+          irregularScheduleDetails: sleepSchedule.irregularScheduleDetails
+        };
+      } else {
+        contextData.postAccident.dailyRoutine.sleepSchedule = {
+          type: 'regular',
+          wakeTime: sleepSchedule.regularSchedule?.wakeTime,
+          bedTime: sleepSchedule.regularSchedule?.bedTime,
+          sleepQuality: sleepSchedule.regularSchedule?.sleepQuality
+        };
+      }
+    }
     
     console.log("Typical Day Mapper - Mapped Context Data:", contextData);
     return contextData;

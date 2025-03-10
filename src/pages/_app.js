@@ -1,13 +1,30 @@
 import '../styles/globals.css';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from '../store';
 import { AssessmentProvider } from '../contexts/AssessmentContext';
+import { Toaster } from '../components/ui/toaster';
+import { ReduxToastProvider } from '../components/ui/ReduxToastProvider';
 
-// A simplified version that only adds the assessment context
+// No imports for field trial components - we'll add them conditionally
+
 function MyApp({ Component, pageProps }) {
+  // Check if we're in field trial mode
+  const isFieldTrial = process.env.NEXT_PUBLIC_FIELD_TRIAL === 'true';
+  
   try {
+    // Use standard providers regardless of field trial mode
+    // This ensures we only have one version of the context in use
     return (
-      <AssessmentProvider>
-        <Component {...pageProps} />
-      </AssessmentProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <AssessmentProvider>
+            <Component {...pageProps} />
+            <Toaster />
+            <ReduxToastProvider />
+          </AssessmentProvider>
+        </PersistGate>
+      </Provider>
     );
   } catch (error) {
     console.error("Error in MyApp:", error);

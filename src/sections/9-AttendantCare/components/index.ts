@@ -1,6 +1,7 @@
 // Export all components
 export { AttendantCareSection } from './AttendantCareSection';
 export { AttendantCareSectionIntegrated } from './AttendantCareSection.integrated';
+export { AttendantCareField } from './AttendantCareField'; 
 export { CareActivity } from './CareActivity';
 export { Level1Care } from './Level1Care';
 export { Level2Care } from './Level2Care';

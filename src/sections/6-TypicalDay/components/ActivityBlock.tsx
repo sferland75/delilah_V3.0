@@ -2,13 +2,6 @@
 
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
@@ -24,9 +17,9 @@ interface ActivityBlockProps {
 }
 
 export function ActivityBlock({ period, timeframe, index, onRemove }: ActivityBlockProps) {
-  const { control } = useFormContext<TypicalDay>();
+  const { register, formState: { errors } } = useFormContext<TypicalDay>();
   const basePath = `data.${timeframe}.dailyRoutine.${period}.${index}`;
-
+  
   return (
     <Card className="relative p-4">
       <Button
@@ -40,69 +33,45 @@ export function ActivityBlock({ period, timeframe, index, onRemove }: ActivityBl
       </Button>
 
       <div className="grid grid-cols-2 gap-4">
-        <FormField
-          control={control}
-          name={`${basePath}.timeBlock`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Time</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="e.g., 8:00 AM" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div>
+          <label className="block text-sm font-medium mb-1">Time</label>
+          <Input 
+            {...register(`${basePath}.timeBlock`)} 
+            placeholder="e.g., 8:00 AM" 
+          />
+        </div>
 
-        <FormField
-          control={control}
-          name={`${basePath}.description`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Activity</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Describe the activity" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div>
+          <label className="block text-sm font-medium mb-1">Activity</label>
+          <Input 
+            {...register(`${basePath}.description`)} 
+            placeholder="Describe the activity" 
+          />
+        </div>
 
-        <FormField
-          control={control}
-          name={`${basePath}.assistance`}
-          render={({ field }) => (
-            <FormItem className="col-span-2">
-              <FormLabel>Assistance Needed</FormLabel>
-              <FormControl>
-                <Textarea 
-                  {...field} 
-                  placeholder="Describe any assistance required..."
-                  className="resize-none"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {timeframe === 'postAccident' && (
+          <>
+            <div className="col-span-2">
+              <label className="block text-sm font-medium mb-1">Assistance Needed</label>
+              <Textarea
+                {...register(`${basePath}.assistance`)}
+                placeholder="Describe any assistance required..."
+                className="resize-none"
+                rows={2}
+              />
+            </div>
 
-        <FormField
-          control={control}
-          name={`${basePath}.limitations`}
-          render={({ field }) => (
-            <FormItem className="col-span-2">
-              <FormLabel>Limitations/Challenges</FormLabel>
-              <FormControl>
-                <Textarea 
-                  {...field} 
-                  placeholder="Describe any limitations or challenges..."
-                  className="resize-none"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <div className="col-span-2">
+              <label className="block text-sm font-medium mb-1">Limitations/Challenges</label>
+              <Textarea
+                {...register(`${basePath}.limitations`)}
+                placeholder="Describe any limitations or challenges..."
+                className="resize-none"
+                rows={2}
+              />
+            </div>
+          </>
+        )}
       </div>
     </Card>
   );

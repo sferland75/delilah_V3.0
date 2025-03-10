@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { InfoIcon, Download, Upload } from 'lucide-react';
-import { PreExistingConditionsSection } from './PreExistingConditionsSection';
+// Import the simplified component
+import { SimplePreExisting } from './SimplePreExisting';
 import { InjuryDetailsSection } from './InjuryDetailsSection';
 import { TreatmentSection } from './TreatmentSection';
 import { MedicationsSection } from './MedicationsSection';
@@ -246,7 +247,7 @@ export function MedicalHistoryIntegrated() {
               </TabsList>
               
               <TabsContent value="preExisting" className="p-6">
-                <PreExistingConditionsSection />
+                <SimplePreExisting />
               </TabsContent>
               
               <TabsContent value="injury" className="p-6">

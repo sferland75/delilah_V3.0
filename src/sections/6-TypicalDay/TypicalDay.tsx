@@ -56,6 +56,9 @@ const typicalDaySchema = z.object({
       sleepSchedule: {},
     }),
   }),
+  config: z.object({
+    activeTab: z.string().optional().default('preAccident')
+  }).optional().default({ activeTab: 'preAccident' }),
 });
 
 const emptyRoutineData = {
@@ -93,6 +96,9 @@ const defaultValues: TypicalDayFormData = {
       },
     },
   },
+  config: {
+    activeTab: 'preAccident'
+  }
 };
 
 const TypicalDay: React.FC = () => {

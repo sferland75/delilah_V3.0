@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import LoadAssessment from '@/components/LoadAssessment';
 import SaveAssessment from '@/components/SaveAssessment';
+import { ProgressIndicator } from '@/components/ProgressIndicator';
 import { 
   FileText, 
   Clipboard, 
@@ -17,12 +18,75 @@ import {
   Clock, 
   Calendar,
   Users,
-  FileOutput
+  FileOutput,
+  Download
 } from "lucide-react";
 import { useAssessmentContext } from "@/contexts/AssessmentContext";
+import { useEnhancedAssessment } from "@/contexts/EnhancedAssessmentContext";
+
+// Function to export field trial data
+function exportFieldTrialData() {
+  try {
+    // Get feedback data
+    const feedback = localStorage.getItem('delilah_feedback') || '[]';
+    
+    // Get analytics data
+    const events = localStorage.getItem('delilah_analytics_events') || '[]';
+    const errors = localStorage.getItem('delilah_analytics_errors') || '[]';
+    
+    // Combine into one object
+    const exportData = {
+      feedback: JSON.parse(feedback),
+      analytics: {
+        events: JSON.parse(events),
+        errors: JSON.parse(errors)
+      },
+      exportDate: new Date().toISOString(),
+      userAgent: navigator.userAgent
+    };
+    
+    // Create downloadable file
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", `delilah_field_trial_data_${Date.now()}.json`);
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  } catch (error) {
+    console.error("Error exporting field trial data:", error);
+    alert("An error occurred while exporting field trial data. Please try again.");
+  }
+}
 
 export default function Dashboard() {
-  const { currentAssessmentId, data } = useAssessmentContext();
+  // Check if we're in field trial mode
+  const isFieldTrial = process.env.NEXT_PUBLIC_FIELD_TRIAL === 'true';
+  
+  // Use either the regular or enhanced assessment context based on the mode
+  const { currentAssessmentId: regularId, data: regularData } = useAssessmentContext();
+  const [enhancedAssessment, setEnhancedAssessment] = useState<any>(null);
+  
+  // Try to get the enhanced assessment context if in field trial mode
+  useEffect(() => {
+    if (isFieldTrial) {
+      try {
+        const { currentAssessmentId, data } = useEnhancedAssessment();
+        setEnhancedAssessment({ currentAssessmentId, data });
+      } catch (error) {
+        console.error("Error accessing enhanced assessment context:", error);
+      }
+    }
+  }, [isFieldTrial]);
+  
+  // Use the appropriate context data
+  const currentAssessmentId = isFieldTrial && enhancedAssessment 
+    ? enhancedAssessment.currentAssessmentId 
+    : regularId;
+    
+  const data = isFieldTrial && enhancedAssessment 
+    ? enhancedAssessment.data 
+    : regularData;
 
   // Get client name from assessment data
   const getClientName = () => {
@@ -40,7 +104,10 @@ export default function Dashboard() {
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="text-center mb-12">
-        <h1 className="text-3xl font-bold mb-2">Delilah V3.0</h1>
+        <h1 className="text-3xl font-bold mb-2">
+          Delilah V3.0
+          {isFieldTrial && <span className="ml-2 text-sm bg-blue-500 text-white px-2 py-1 rounded">Field Trial</span>}
+        </h1>
         <p className="text-xl text-muted-foreground">
           Comprehensive Assessment Platform for Occupational Therapists
         </p>
@@ -62,6 +129,21 @@ export default function Dashboard() {
           <div className="grid gap-6">
             <LoadAssessment />
             <SaveAssessment />
+            
+            {/* Progress tracking (Only shown in field trial) */}
+            {isFieldTrial && currentAssessmentId && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Assessment Progress</CardTitle>
+                  <CardDescription>
+                    Track your progress through the assessment
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ProgressIndicator showDetailedBreakdown={true} />
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
 
@@ -249,7 +331,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div>
+      <div className="mb-12">
         <h2 className="text-2xl font-semibold mb-6">Intelligence Features</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card>
@@ -309,6 +391,29 @@ export default function Dashboard() {
           </Card>
         </div>
       </div>
+      
+      {/* Field Trial Export Button - Only in field trial mode */}
+      {isFieldTrial && (
+        <div className="mt-12 border-t pt-8">
+          <h2 className="text-2xl font-semibold mb-6">Field Trial Tools</h2>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center text-base">
+                <Download className="h-5 w-5 text-blue-600 mr-2" />
+                Export Field Trial Data
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-4">
+                Export all feedback and analytics data collected during the field trial for analysis.
+              </p>
+              <Button onClick={exportFieldTrialData}>
+                Export Data
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

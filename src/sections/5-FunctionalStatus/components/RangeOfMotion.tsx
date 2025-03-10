@@ -1,10 +1,15 @@
 'use client';
 
 import React from 'react';
-import DebugROM from './DebugROM';
+import { SimpleRangeOfMotion } from './SimpleRangeOfMotion.fixed';
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 
 export function RangeOfMotion() {
-  return <DebugROM />;
+  return (
+    <ErrorBoundary>
+      <SimpleRangeOfMotion />
+    </ErrorBoundary>
+  );
 }
 
 export default RangeOfMotion;

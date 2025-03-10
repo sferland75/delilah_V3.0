@@ -19,16 +19,21 @@ export function CognitiveSymptoms() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-6">
+      <h3 className="text-lg font-medium">Cognitive Symptoms</h3>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <FormField
           control={control}
           name="cognitive.type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Type of Issue</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
+              <FormLabel htmlFor={field.name} className="text-sm font-medium mb-1">Type of Issue *</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value}
+              >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger id={field.name} className="w-full p-2 border rounded-md">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                 </FormControl>
@@ -51,10 +56,13 @@ export function CognitiveSymptoms() {
           name="cognitive.frequency"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Frequency</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
+              <FormLabel htmlFor={field.name} className="text-sm font-medium mb-1">Frequency *</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value}
+              >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger id={field.name} className="w-full p-2 border rounded-md">
                     <SelectValue placeholder="Select frequency" />
                   </SelectTrigger>
                 </FormControl>
@@ -70,43 +78,45 @@ export function CognitiveSymptoms() {
             </FormItem>
           )}
         />
-
-        <FormField
-          control={control}
-          name="cognitive.impact"
-          render={({ field }) => (
-            <FormItem className="col-span-2">
-              <FormLabel>Impact on Daily Life</FormLabel>
-              <FormControl>
-                <Textarea 
-                  {...field} 
-                  placeholder="Describe how these issues affect daily activities..."
-                  className="min-h-[100px]"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="cognitive.management"
-          render={({ field }) => (
-            <FormItem className="col-span-2">
-              <FormLabel>Management Strategies</FormLabel>
-              <FormControl>
-                <Textarea 
-                  {...field} 
-                  placeholder="Current coping strategies and management techniques..."
-                  className="min-h-[100px]"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
       </div>
+
+      <FormField
+        control={control}
+        name="cognitive.impact"
+        render={({ field }) => (
+          <FormItem className="mb-6">
+            <FormLabel htmlFor={field.name} className="text-sm font-medium mb-1">Impact on Daily Life *</FormLabel>
+            <FormControl>
+              <Textarea
+                {...field}
+                id={field.name}
+                placeholder="Describe how these issues affect daily activities..."
+                className="min-h-[100px] w-full p-2 border rounded-md"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="cognitive.management"
+        render={({ field }) => (
+          <FormItem className="mb-6">
+            <FormLabel htmlFor={field.name} className="text-sm font-medium mb-1">Management Strategies</FormLabel>
+            <FormControl>
+              <Textarea
+                {...field}
+                id={field.name}
+                placeholder="Current coping strategies and management techniques..."
+                className="min-h-[100px] w-full p-2 border rounded-md"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   );
 }

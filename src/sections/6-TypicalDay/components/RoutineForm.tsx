@@ -3,7 +3,7 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { TypicalDayFormData } from '../types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, AlertCircle, Moon } from 'lucide-react';
 
 interface RoutineFormProps {
   routineType: 'preAccident' | 'postAccident';
@@ -85,25 +85,137 @@ const addHourOptions = (hour, options) => {
   });
 };
 
+// Generate all time options for sleep schedule
+const generateAllTimeOptions = () => {
+  const options = [];
+  for (let hour = 0; hour < 24; hour++) {
+    addHourOptions(hour, options);
+  }
+  return options;
+};
+
+const ALL_TIME_OPTIONS = generateAllTimeOptions();
+
 const RoutineForm: React.FC<RoutineFormProps> = ({ routineType }) => {
-  const { register, formState: { errors } } = useFormContext<TypicalDayFormData>();
+  const { register, formState: { errors }, setValue, watch } = useFormContext<TypicalDayFormData>();
+  const sleepPath = `typicalDay.${routineType}.sleepSchedule`;
+  
+  // Watch for irregular schedule details
+  const irregularDetails = watch(`${sleepPath}.irregularScheduleDetails`) || '';
+  const hasIrregularSchedule = irregularDetails.trim() !== '';
+  
+  // Handle irregular schedule button click
+  const toggleIrregularSchedule = () => {
+    if (!hasIrregularSchedule) {
+      // Show prompt for details when enabling irregular schedule
+      const details = window.prompt("Enter details about the irregular sleep schedule (shift work, varying patterns, etc.):");
+      if (details) {
+        setValue(`${sleepPath}.irregularScheduleDetails`, details);
+      }
+      
+      // Clear regular schedule fields
+      setValue(`${sleepPath}.wakeTime`, '');
+      setValue(`${sleepPath}.bedTime`, '');
+    } else {
+      // Clear irregular schedule details when disabling
+      setValue(`${sleepPath}.irregularScheduleDetails`, '');
+    }
+  };
   
   return (
-    <Card className="mb-6">
-      <CardContent className="pt-6">
-        <div className="space-y-6">
-          <h3 className="text-lg font-semibold mb-4">Daily Activities</h3>
-          
-          {TIME_BLOCKS.map((timeBlock) => (
-            <TimeBlockSection 
-              key={timeBlock.value} 
-              timeBlock={timeBlock} 
-              routineType={routineType} 
-            />
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+    <>
+      <Card className="mb-6">
+        <CardContent className="pt-6">
+          <div className="space-y-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold">Daily Activities</h3>
+              <div>
+                <Button 
+                  onClick={toggleIrregularSchedule}
+                  variant="outline"
+                  size="sm"
+                  className={`flex items-center gap-2 ${
+                    hasIrregularSchedule 
+                      ? 'bg-amber-100 text-amber-800 border-amber-300' 
+                      : ''
+                  }`}
+                >
+                  <Moon className="h-4 w-4" />
+                  {hasIrregularSchedule ? 'Irregular Sleep Schedule' : 'Mark Irregular Sleep'}
+                </Button>
+              </div>
+            </div>
+            
+            {hasIrregularSchedule && (
+              <div className="bg-amber-50 border border-amber-200 p-3 rounded-md mb-4">
+                <div className="flex items-start">
+                  <AlertCircle className="h-4 w-4 text-amber-500 mr-2 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-amber-800">Irregular Sleep Schedule:</p>
+                    <p className="text-sm text-amber-700">{irregularDetails}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {!hasIrregularSchedule && (
+              <div className="grid grid-cols-2 gap-4 mb-4 border p-4 rounded-md">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Wake Time</label>
+                  <select
+                    {...register(`${sleepPath}.wakeTime`)}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2"
+                    data-testid={`${routineType}-wake-time`}
+                  >
+                    <option value="">Select Wake Time</option>
+                    {ALL_TIME_OPTIONS.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-1">Bed Time</label>
+                  <select
+                    {...register(`${sleepPath}.bedTime`)}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2"
+                    data-testid={`${routineType}-bed-time`}
+                  >
+                    <option value="">Select Bed Time</option>
+                    {ALL_TIME_OPTIONS.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
+            
+            <div className="border p-4 rounded-md mb-4">
+              <label className="block text-sm font-medium mb-1">Sleep Quality</label>
+              <textarea
+                {...register(`${sleepPath}.sleepQuality`)}
+                className="w-full rounded-md border border-gray-300 px-3 py-2"
+                rows={2}
+                data-testid={`${routineType}-sleep-quality`}
+                placeholder="Describe sleep quality, any issues or disturbances..."
+              />
+            </div>
+            
+            {TIME_BLOCKS.map((timeBlock) => (
+              <TimeBlockSection 
+                key={timeBlock.value} 
+                timeBlock={timeBlock} 
+                routineType={routineType} 
+              />
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </>
   );
 };
 
@@ -119,7 +231,7 @@ interface TimeBlockSectionProps {
 }
 
 const TimeBlockSection: React.FC<TimeBlockSectionProps> = ({ timeBlock, routineType }) => {
-  const { register, formState: { errors } } = useFormContext<TypicalDayFormData>();
+  const { register, control, formState: { errors } } = useFormContext<TypicalDayFormData>();
   const path = `typicalDay.${routineType}.dailyRoutine.${timeBlock.value}`;
   
   // Generate time options specific to this time block
@@ -130,6 +242,7 @@ const TimeBlockSection: React.FC<TimeBlockSectionProps> = ({ timeBlock, routineT
   );
   
   const { fields, append, remove } = useFieldArray({
+    control, // Add the control parameter
     name: path
   });
 

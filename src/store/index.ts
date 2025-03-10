@@ -3,9 +3,27 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import rootReducer from './rootReducer';
 
+// Create a storage fallback for when window is not available (server-side rendering)
+const createNoopStorage = () => {
+  return {
+    getItem(_key) {
+      return Promise.resolve(null);
+    },
+    setItem(_key, value) {
+      return Promise.resolve(value);
+    },
+    removeItem(_key) {
+      return Promise.resolve();
+    }
+  };
+};
+
+// Use actual storage for client-side, noop storage for server-side
+const storageSystem = typeof window !== 'undefined' ? storage : createNoopStorage();
+
 const persistConfig = {
   key: 'delilah',
-  storage,
+  storage: storageSystem,
   whitelist: ['assessments'], // Only persist assessment data
 };
 

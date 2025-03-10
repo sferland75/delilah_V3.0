@@ -1,9 +1,6 @@
-'use client';
+// Export components
+export { default as SimpleMedicalHistory } from './SimpleMedicalHistory';
+export { default as MedicalHistorySection } from './MedicalHistorySection';
 
-import { MedicalHistory, MedicalHistoryIntegrated } from './components';
-
-// Export both versions
-export { MedicalHistory, MedicalHistoryIntegrated };
-
-// Default export is the integrated version
-export default MedicalHistoryIntegrated;
+// Export types and schemas
+export { medicalHistorySchema, defaultFormState, type FormState } from './schema';

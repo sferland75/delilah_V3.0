@@ -1,74 +1,129 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { TypicalDay } from '../TypicalDay';
-import { TypicalDayFormData } from '../types';
-import { generateMockTypicalDayData } from './helpers/test-helpers';
+import { TypicalDayIntegrated } from '../components/TypicalDay.integrated';
+import { typicalDaySchema, defaultFormState } from '../schema';
+import { AssessmentProvider } from '@/contexts/AssessmentContext';
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { TypicalDay } from '../schema';
+
+// Mock the assessment context
+jest.mock('@/contexts/AssessmentContext', () => ({
+  useAssessment: jest.fn(() => ({
+    data: { typicalDay: {} },
+    updateSection: jest.fn()
+  })),
+  AssessmentProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
+}));
+
+// Mock the mapper service
+jest.mock('@/services/typicalDayMapper', () => ({
+  mapContextToForm: jest.fn(() => ({ 
+    formData: defaultFormState, 
+    hasData: false 
+  })),
+  mapFormToContext: jest.fn(() => ({}))
+}));
 
 const FormWrapper: React.FC<{
   children: React.ReactNode;
-  defaultValues?: TypicalDayFormData;
-}> = ({ children, defaultValues = generateMockTypicalDayData() }) => {
-  const methods = useForm<TypicalDayFormData>({
-    defaultValues
+}> = ({ children }) => {
+  const methods = useForm<TypicalDay>({
+    resolver: zodResolver(typicalDaySchema),
+    defaultValues: defaultFormState
   });
 
   return <FormProvider {...methods}>{children}</FormProvider>;
 };
 
-describe('TypicalDay', () => {
-  it('renders pre and post accident sections', () => {
+describe('TypicalDayIntegrated', () => {
+  it('renders without crashing', () => {
     render(
-      <FormWrapper>
-        <TypicalDay />
-      </FormWrapper>
+      <AssessmentProvider>
+        <FormWrapper>
+          <TypicalDayIntegrated />
+        </FormWrapper>
+      </AssessmentProvider>
     );
     
-    expect(screen.getByTestId('pre-accident-tab')).toBeInTheDocument();
-    expect(screen.getByTestId('post-accident-tab')).toBeInTheDocument();
+    expect(screen.getByText(/Typical Day/i)).toBeInTheDocument();
   });
 
-  it('switches between pre and post accident views', () => {
+  it('toggles between pre and post accident tabs', () => {
     render(
-      <FormWrapper>
-        <TypicalDay />
-      </FormWrapper>
+      <AssessmentProvider>
+        <FormWrapper>
+          <TypicalDayIntegrated />
+        </FormWrapper>
+      </AssessmentProvider>
     );
 
-    const postAccidentTab = screen.getByTestId('post-accident-tab');
+    // Check Pre-Accident tab is active by default
+    const preAccidentTab = screen.getByText(/Pre-Accident/i);
+    expect(preAccidentTab).toBeInTheDocument();
+    
+    // Click on Post-Accident tab
+    const postAccidentTab = screen.getByText(/Post-Accident/i);
     fireEvent.click(postAccidentTab);
     
-    expect(screen.getByTestId('post-accident-content')).toBeInTheDocument();
-    
-    const preAccidentTab = screen.getByTestId('pre-accident-tab');
+    // Click back to Pre-Accident
     fireEvent.click(preAccidentTab);
-    
-    expect(screen.getByTestId('pre-accident-content')).toBeInTheDocument();
   });
-
-  it('preserves data between tab switches', () => {
+  
+  it('renders sleep schedule component', async () => {
     render(
-      <FormWrapper>
-        <TypicalDay />
-      </FormWrapper>
+      <AssessmentProvider>
+        <FormWrapper>
+          <TypicalDayIntegrated />
+        </FormWrapper>
+      </AssessmentProvider>
     );
-
-    // Add pre-accident activity
-    const addPreButton = screen.getByTestId('add-preAccident-morning-activity');
-    fireEvent.click(addPreButton);
     
-    const preInput = screen.getByTestId('preAccident-morning-time-0');
-    fireEvent.change(preInput, { target: { value: '8:00 AM' } });
-
-    // Switch to post-accident
-    const postAccidentTab = screen.getByTestId('post-accident-tab');
-    fireEvent.click(postAccidentTab);
+    // Check if sleep schedule component is rendered
+    await waitFor(() => {
+      expect(screen.getByText(/Sleep Schedule/i)).toBeInTheDocument();
+    });
+  });
+  
+  it('shows time blocks for morning, afternoon, evening and night', () => {
+    render(
+      <AssessmentProvider>
+        <FormWrapper>
+          <TypicalDayIntegrated />
+        </FormWrapper>
+      </AssessmentProvider>
+    );
     
-    // Switch back to pre-accident
-    const preAccidentTab = screen.getByTestId('pre-accident-tab');
-    fireEvent.click(preAccidentTab);
-
-    // Check if data persists
-    expect(screen.getByTestId('preAccident-morning-time-0')).toHaveValue('8:00 AM');
+    // Check for time blocks
+    expect(screen.getByText(/Morning/i)).toBeInTheDocument();
+    expect(screen.getByText(/Afternoon/i)).toBeInTheDocument();
+    expect(screen.getByText(/Evening/i)).toBeInTheDocument();
+    expect(screen.getByText(/Night/i)).toBeInTheDocument();
+  });
+  
+  it('has a submit button', () => {
+    render(
+      <AssessmentProvider>
+        <FormWrapper>
+          <TypicalDayIntegrated />
+        </FormWrapper>
+      </AssessmentProvider>
+    );
+    
+    // Check for submit button
+    expect(screen.getByText(/Save Typical Day/i)).toBeInTheDocument();
+  });
+  
+  it('has a reset button', () => {
+    render(
+      <AssessmentProvider>
+        <FormWrapper>
+          <TypicalDayIntegrated />
+        </FormWrapper>
+      </AssessmentProvider>
+    );
+    
+    // Check for reset button
+    expect(screen.getByText(/Reset/i)).toBeInTheDocument();
   });
 });

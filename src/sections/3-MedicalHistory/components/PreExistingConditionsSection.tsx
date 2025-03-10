@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
@@ -14,10 +12,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, MinusCircle } from 'lucide-react';
-import type { FormState } from '../original/types';
 
-export function PreExistingConditionsSection() {
-  const { control, watch, setValue } = useFormContext<FormState>();
+// Directly define component without exports or imports
+const PreExistingConditionsSection = () => {
+  const { control, watch, setValue } = useFormContext();
   
   const preExistingConditions = watch('data.preExistingConditions') || [];
   
@@ -28,7 +26,7 @@ export function PreExistingConditionsSection() {
     ], { shouldValidate: true });
   };
   
-  const removeCondition = (index: number) => {
+  const removeCondition = (index) => {
     const updatedConditions = [...preExistingConditions];
     updatedConditions.splice(index, 1);
     setValue('data.preExistingConditions', updatedConditions, { shouldValidate: true });
@@ -158,4 +156,8 @@ export function PreExistingConditionsSection() {
       ))}
     </div>
   );
-}
+};
+
+// Export both as default and named export
+export { PreExistingConditionsSection };
+export default PreExistingConditionsSection;
