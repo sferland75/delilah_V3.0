@@ -27,16 +27,16 @@ const MedicalHistory = dynamic(
   { ssr: false, loading: () => <div>Loading Medical History...</div> }
 );
 
-// **CHANGED: Import the direct components from pages directory**
+// **CHANGED: Import the advanced symptoms component from pages directory**
 const SymptomsAssessment = dynamic(
-  () => import('./direct-components/SymptomsComponent'),
-  { ssr: false, loading: () => <div>Loading Symptoms Assessment...</div> }
+  () => import('./direct-components/AdvancedSymptomsComponent'),
+  { ssr: false, loading: () => <div>Loading Advanced Symptoms Assessment...</div> }
 );
 
-// Import directly from the components directory for FunctionalStatus
+// Import the enhanced functional status component from pages directory
 const FunctionalStatus = dynamic(
-  () => import('@/sections/5-FunctionalStatus/components/FunctionalStatus.redux').then(mod => mod.FunctionalStatusRedux),
-  { ssr: false }
+  () => import('./direct-components/EnhancedFunctionalStatus'),
+  { ssr: false, loading: () => <div>Loading Functional Status Assessment...</div> }
 );
 
 const TypicalDay = dynamic(
@@ -287,7 +287,11 @@ function FullAssessmentContent() {
             
             {activeTab === 'functionalStatus' && (
               <ErrorBoundary fallback={<PlaceholderSection title="Functional Status (Error Loading)" />}>
-                <FunctionalStatus />
+                <FunctionalStatus formData={data} updateFormData={(section, sectionData) => {
+                  // This is a simplified version of the updateFormData function
+                  // In a real implementation, this would update the assessment context
+                  console.log(`Updating ${section} with:`, sectionData);
+                }} />
               </ErrorBoundary>
             )}
             
